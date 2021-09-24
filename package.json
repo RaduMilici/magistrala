@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rollup -c",
+    "start": "rollup -c rollup_configs/rollup.dev.config.js",
+    "build": "rollup -c rollup_configs/rollup.prod.config.js",
     "format": "prettier --write .",
     "prepare": "husky install"
   },
