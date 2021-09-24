@@ -1,3 +1,7 @@
+import { terser } from 'rollup-plugin-terser';
+import merge from 'deepmerge';
 import { rollupBaseConfig } from './rollup.base.config';
 
-export default rollupBaseConfig;
+export default merge(rollupBaseConfig, {
+  plugins: [terser()],
+});
