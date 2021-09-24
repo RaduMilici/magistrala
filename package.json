@@ -20,6 +20,8 @@
   "devDependencies": {
     "@rollup/plugin-html": "^0.2.3",
     "@rollup/plugin-typescript": "^8.2.5",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
     "prettier": "2.4.1",
     "rollup": "^2.57.0",
     "rollup-plugin-serve": "^1.1.0",
