@@ -5,5 +5,5 @@ import clean from 'rollup-plugin-clean';
 import { rollupBaseConfig } from './rollup.base.config';
 
 export default merge(rollupBaseConfig, {
-  plugins: [html({}), serve('dist'), clean()],
+  plugins: [clean(), html({}), serve('dist')],
 });
