@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rollup -c rollup_configs/rollup.dev.config.js",
+    "start": "rollup -c rollup_configs/rollup.dev.config.js -w",
     "build": "rollup -c rollup_configs/rollup.prod.config.js",
     "format": "prettier --write .",
     "prepare": "husky install"
@@ -27,6 +27,7 @@
     "lint-staged": "^11.1.2",
     "prettier": "2.4.1",
     "rollup": "^2.57.0",
+    "rollup-plugin-clean": "^1.0.0",
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.3.1",
