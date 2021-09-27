@@ -16,8 +16,10 @@ export class Canvas {
     this.setSize(size);
   }
 
-  public setSize(size: size) {
-    this.HTMLElement.width = size.width;
-    this.HTMLElement.height = size.height;
+  public setSize({ width, height }: size) {
+    this.HTMLElement.width = width;
+    this.HTMLElement.height = height;
+    this.HTMLElement.style.width = `${width}px`;
+    this.HTMLElement.style.height = `${height}px`;
   }
 }
