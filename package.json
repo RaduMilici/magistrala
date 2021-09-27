@@ -7,6 +7,7 @@
     "start": "rollup -c rollup_configs/rollup.dev.config.js -w",
     "build": "rollup -c rollup_configs/rollup.prod.config.js",
     "format": "prettier --write .",
+    "circularDependencies": "node scripts/circular_dependencies/circularDependencies.js",
     "prepare": "husky install"
   },
   "repository": {
@@ -25,6 +26,7 @@
     "deepmerge": "^4.2.2",
     "husky": "^7.0.2",
     "lint-staged": "^11.1.2",
+    "madge": "^5.0.1",
     "prettier": "2.4.1",
     "rollup": "^2.57.0",
     "rollup-plugin-clean": "^1.0.0",
