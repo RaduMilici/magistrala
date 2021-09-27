@@ -1,4 +1,5 @@
 import typescript from '@rollup/plugin-typescript';
+import glsl from 'rollup-plugin-glsl';
 
 export const rollupBaseConfig = {
   input: 'src/index.ts',
@@ -6,5 +7,5 @@ export const rollupBaseConfig = {
     dir: 'dist',
     format: 'esm',
   },
-  plugins: [typescript()],
+  plugins: [typescript(), glsl({ include: '**/**/*.glsl' })],
 };
