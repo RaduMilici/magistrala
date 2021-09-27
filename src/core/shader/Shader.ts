@@ -1,10 +1,10 @@
-import { shaderConfig } from './shader_config';
+import { shaderBaseConfig } from './shader_configs';
 import { Errors } from '../errors';
 
 export class Shader {
   private readonly glShader: WebGLShader | null;
 
-  constructor(config: shaderConfig) {
+  constructor(config: shaderBaseConfig) {
     this.glShader = Shader.createGlShader(config);
     Shader.verify(config.context, this.glShader);
   }
@@ -18,7 +18,7 @@ export class Shader {
     context.deleteShader(this.glShader);
   }
 
-  private static createGlShader(config: shaderConfig): WebGLShader {
+  private static createGlShader(config: shaderBaseConfig): WebGLShader {
     const glShader = config.context.createShader(config.type);
 
     if (glShader === null) {

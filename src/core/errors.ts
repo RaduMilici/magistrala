@@ -4,4 +4,7 @@ export enum Errors {
   COULD_NOT_CREATE_SHADER = 'Could not create shader',
   COULD_NOT_COMPILE_SHADER = 'Could not compile shader',
   COULD_NOT_DELETE_SHADER = 'Could not delete shader',
+  COULD_NOT_CREATE_PROGRAM = 'Could not create program',
+  COULD_NOT_LINK_PROGRAM = 'Could not link program',
+  COULD_NOT_VALIDATE_PROGRAM = 'Could not validate program',
 }
