@@ -1,7 +1,7 @@
 import { rendererConfig } from './renderer_config';
 import { Canvas } from '../Canvas';
 import { Errors } from '../errors';
-import { size } from '../common/size';
+import { size } from '../../common/size';
 import {
   DEFAULT_RENDERER_CONTAINER,
   DEFAULT_RENDERER_SIZE,
@@ -21,6 +21,10 @@ export class Renderer {
     this.canvas = new Canvas(size);
     this.setSize(size);
     container.appendChild(this.canvas.HTMLElement);
+  }
+
+  get context(): WebGL2RenderingContext {
+    return this.canvas.context;
   }
 
   setSize(size: size) {

@@ -1,4 +1,4 @@
-import { size } from './common/size';
+import { size } from '../common/size';
 import { Errors } from './errors';
 
 export class Canvas {
