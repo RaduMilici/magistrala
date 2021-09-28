@@ -1,6 +1,7 @@
 import { Renderer } from './core/renderer/Renderer';
 import { VertexShader } from './core/shader/VertexShader';
 import { FragmentShader } from './core/shader/FragmentShader';
+import { Program } from './core/program/Program';
 import vertexShaderSource from './shaders/vertex_shader.glsl';
 import fragmentShaderSource from './shaders/fragment_shader.glsl';
 
@@ -19,4 +20,11 @@ const fragmentShader = new FragmentShader({
   source: fragmentShaderSource,
 });
 
-console.log(renderer, vertexShader, fragmentShader);
+const program = new Program({
+  context: renderer.context,
+  vertexShader,
+  fragmentShader,
+  debug: true,
+});
+
+console.log(renderer, vertexShader, fragmentShader, program);
