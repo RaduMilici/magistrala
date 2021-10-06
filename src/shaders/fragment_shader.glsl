@@ -1,8 +1,8 @@
 #version 300 es
-precision highp float;
+precision mediump float;
 
-out vec4 outColor;
+out vec4 color;
 
 void main() {
-    outColor = vec4(1., 0., 0., 1.);
+  color = vec4(0., 0., 1., 1.);
 }

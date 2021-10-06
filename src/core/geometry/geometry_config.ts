@@ -1,5 +1,5 @@
 import { Triangle } from '../Triangle';
 
 export type geometryConfig = {
-  triangles: Triangle[];
+  triangles: Array<Triangle>;
 };

@@ -1,6 +1,7 @@
 import { UniformNames, AttributeNames } from './location_names';
 import { Errors } from '../errors';
 import { uniformLocations, attributeLocations } from './locations_types';
+import { Program } from '../program/Program';
 
 export class Locations {
   readonly uniformLocations: uniformLocations;
@@ -8,7 +9,7 @@ export class Locations {
 
   constructor(
     private readonly context: WebGL2RenderingContext,
-    private readonly program: WebGLProgram
+    private readonly program: Program
   ) {
     this.uniformLocations = this.getUniformLocations();
     this.attributeLocations = this.getAttributeLocations();
@@ -24,7 +25,10 @@ export class Locations {
   }
 
   private getUniformLocation(name: string): WebGLUniformLocation {
-    const location = this.context.getUniformLocation(this.program, name);
+    const location = this.context.getUniformLocation(
+      this.program.glProgram,
+      name
+    );
 
     if (location === null) {
       throw new Error(`${Errors.COULD_NOT_GET_UNIFORM_LOCATION} - ${name}`);
@@ -41,7 +45,10 @@ export class Locations {
   }
 
   private getAttributeLocation(name: string): GLint {
-    const location = this.context.getAttribLocation(this.program, name);
+    const location = this.context.getAttribLocation(
+      this.program.glProgram,
+      name
+    );
 
     if (location === -1) {
       throw new Error(`${Errors.COULD_NOT_GET_ATTRIBUTE_LOCATION} - ${name}`);

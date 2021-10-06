@@ -9,7 +9,9 @@ export class Geometry {
     this.vertexCoordinates = Geometry.getVertexCoordinates(config.triangles);
   }
 
-  private static getVertexCoordinates(triangles: Triangle[]): Float32Array {
+  private static getVertexCoordinates(
+    triangles: Array<Triangle>
+  ): Float32Array {
     const points = Triangle.getPoints(triangles);
     const coordinates = Vector2.getCoordinates(points);
     return new Float32Array(coordinates);

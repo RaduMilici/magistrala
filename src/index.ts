@@ -7,11 +7,15 @@ import vertexShaderSource from './shaders/vertex_shader.glsl';
 import fragmentShaderSource from './shaders/fragment_shader.glsl';
 import { Triangle } from './core/Triangle';
 import { Vector2 } from './core/Vector2';
+import { Scene } from './core/scene/Scene';
+import { Color } from './core/color/Color';
 
 const renderer = new Renderer({
   container: document.getElementById('magistrala-app'),
   size: { width: 800, height: 600 },
 });
+
+renderer.setClearColor(new Color({ r: 0, g: 1, b: 0, a: 1 }));
 
 const vertexShader = new VertexShader({
   context: renderer.context,
@@ -25,8 +29,8 @@ const fragmentShader = new FragmentShader({
 
 const triangle = new Triangle(
   new Vector2(0, 0),
-  new Vector2(1, 0),
-  new Vector2(0, 1)
+  new Vector2(0, 1),
+  new Vector2(1, 0)
 );
 
 const geometry = new Geometry({ triangles: [triangle] });
@@ -38,4 +42,7 @@ const mesh = new Mesh({
   geometry,
 });
 
-console.log(renderer, mesh);
+const scene = new Scene();
+scene.add(mesh);
+
+renderer.render(scene);
