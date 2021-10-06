@@ -73,7 +73,7 @@ export class Mesh {
     const location = this.context.getUniformLocation(this.program, name);
 
     if (location === null) {
-      throw new Error(`${Errors.COULD_NOT_GET_UNIFORM_LOCATION} ${name}`);
+      throw new Error(`${Errors.COULD_NOT_GET_UNIFORM_LOCATION} - ${name}`);
     }
 
     return location;
