@@ -48,6 +48,5 @@ export class Renderer {
   render(scene: Scene) {
     this.clear();
     scene.render(this.context);
-    this.context.useProgram(null);
   }
 }

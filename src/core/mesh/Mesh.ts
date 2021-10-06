@@ -28,7 +28,7 @@ export class Mesh {
     return this.geometry.vertexCoordinates.length / 2;
   }
 
-  public render() {
+  public prepareForRender() {
     this.program.use();
     this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
     this.context.bufferData(
@@ -36,7 +36,6 @@ export class Mesh {
       this.geometry.vertexCoordinates,
       this.context.STATIC_DRAW
     );
-    //this.context.bindBuffer(this.context.ARRAY_BUFFER, null);
     this.enableAttributes();
     this.setValues();
   }
@@ -78,7 +77,6 @@ export class Mesh {
   }
 
   private setValues() {
-    this.program.use();
     this.context.uniform2fv(
       this.locations.uniformLocations.scale,
       new Float32Array([1, 1])
