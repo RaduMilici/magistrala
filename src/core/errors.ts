@@ -7,4 +7,6 @@ export enum Errors {
   COULD_NOT_CREATE_PROGRAM = 'Could not create program',
   COULD_NOT_LINK_PROGRAM = 'Could not link program',
   COULD_NOT_VALIDATE_PROGRAM = 'Could not validate program',
+  COULD_NOT_CREATE_BUFFER = 'Could not create buffer',
+  COULD_NOT_GET_UNIFORM_LOCATION = 'Could not get uniform location',
 }
