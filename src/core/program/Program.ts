@@ -5,7 +5,8 @@ export class Program {
   private readonly glProgram: WebGLProgram;
 
   constructor(config: programConfig) {
-    this.glProgram = this.createGlProgram(config);
+    this.glProgram = Program.createGlProgram(config);
+    Program.attachShaders(config, this.glProgram);
     Program.verify(config.context, this.glProgram);
 
     if (config.debug) {
@@ -13,20 +14,19 @@ export class Program {
     }
   }
 
-  private createGlProgram(config: programConfig): WebGLProgram {
+  private static createGlProgram(config: programConfig): WebGLProgram {
     const glProgram = config.context.createProgram();
 
     if (glProgram === null) {
       throw new Error(Errors.COULD_NOT_CREATE_PROGRAM);
     }
 
-    Program.attachShaders(config, this.glProgram);
     return glProgram;
   }
 
   private static attachShaders(config: programConfig, program: WebGLProgram) {
-    config.context.attachShader(program, config.vertexShader);
-    config.context.attachShader(program, config.fragmentShader);
+    config.context.attachShader(program, config.vertexShader.glShader);
+    config.context.attachShader(program, config.fragmentShader.glShader);
   }
 
   private static verify(

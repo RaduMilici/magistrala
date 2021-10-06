@@ -2,7 +2,7 @@ import { shaderBaseConfig } from './shader_configs';
 import { Errors } from '../errors';
 
 export class Shader {
-  private readonly glShader: WebGLShader | null;
+  readonly glShader: WebGLShader;
 
   constructor(config: shaderBaseConfig) {
     this.glShader = Shader.createGlShader(config);
