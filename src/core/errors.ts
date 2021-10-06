@@ -9,4 +9,5 @@ export enum Errors {
   COULD_NOT_VALIDATE_PROGRAM = 'Could not validate program',
   COULD_NOT_CREATE_BUFFER = 'Could not create buffer',
   COULD_NOT_GET_UNIFORM_LOCATION = 'Could not get uniform location',
+  COULD_NOT_GET_ATTRIBUTE_LOCATION = 'Could not get attribute location',
 }
