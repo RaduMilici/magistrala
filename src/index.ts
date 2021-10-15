@@ -1,1 +1,1 @@
-import './sandbox/two_triangles';
+import './sandbox/app';
