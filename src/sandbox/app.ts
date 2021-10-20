@@ -12,18 +12,7 @@ const fragmentShader = app.createFragmentShader({
   source: fragmentShaderSource,
 });
 const geometry = new app.Geometry({
-  triangles: [
-    new app.Triangle(
-      new app.Vector2(0, 0),
-      new app.Vector2(0, 1),
-      new app.Vector2(1, 0)
-    ),
-    new app.Triangle(
-      new app.Vector2(0, 0),
-      new app.Vector2(0, -1),
-      new app.Vector2(-1, 0)
-    ),
-  ],
+  triangles: app.Triangle.randomMultiple(5),
 });
 const mesh = app.createMesh({ vertexShader, fragmentShader, geometry });
 
