@@ -1,4 +1,5 @@
 import { App } from '../app/App';
+import { Triangle } from '../core/Triangle';
 import vertexShaderSource from '../shaders/vertex_shader.glsl';
 import fragmentShaderSource from '../shaders/fragment_shader.glsl';
 
@@ -11,11 +12,11 @@ const vertexShader = app.newVertexShader({ source: vertexShaderSource });
 const fragmentShader = app.newFragmentShader({
   source: fragmentShaderSource,
 });
-const geometry = new app.Geometry({
-  triangles: app.Triangle.randomMultiple(5),
+const geometry = app.newGeometry({
+  triangles: Triangle.randomMultiple(5),
 });
 const mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
 
-const scene = new app.Scene();
+const scene = app.newScene();
 scene.add(mesh);
 app.render(scene);

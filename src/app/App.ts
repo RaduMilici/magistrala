@@ -4,6 +4,7 @@ import { VertexShader } from '../core/shader/VertexShader';
 import { FragmentShader } from '../core/shader/FragmentShader';
 import { shaderConfig } from '../core/shader/shader_configs';
 import { Geometry } from '../core/geometry/Geometry';
+import { geometryConfig } from '../core/geometry/geometry_config';
 import { Triangle } from '../core/Triangle';
 import { Vector2 } from '../core/Vector2';
 import { Mesh } from '../core/mesh/Mesh';
@@ -37,12 +38,23 @@ export class App {
     });
   }
 
+  newGeometry(config: geometryConfig): Geometry {
+    return new Geometry(config);
+  }
+
+  newTriangle(a: Vector2, b: Vector2, c: Vector2): Triangle {
+    return new Triangle(a, b, c);
+  }
+
+  newScene(): Scene {
+    return new Scene();
+  }
+
+  newVector2(x: number, y: number): Vector2 {
+    return new Vector2(x, y);
+  }
+
   render(scene: Scene) {
     this.renderer.render(scene);
   }
-
-  Geometry = Geometry;
-  Triangle = Triangle;
-  Vector2 = Vector2;
-  Scene = Scene;
 }
