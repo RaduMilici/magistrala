@@ -1,6 +1,6 @@
 import { AttributeNames, UniformNames } from '../../mesh/location_names';
 
-export const VERSION = '#version 300 es\n';
+export const VERSION = '#version 300 es';
 
 export const POSITION_ATTRIBUTE = `in vec2 ${AttributeNames.POSITION};`;
 export const VERT_COLOR_ATTRIBUTE = `in vec3 ${AttributeNames.VERTEX_COLOR};`;
