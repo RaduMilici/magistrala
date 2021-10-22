@@ -89,5 +89,10 @@ export class Mesh {
       this.locations.uniformLocations.rotation,
       new Float32Array([0, 1])
     );
+    this.context.uniform2f(
+      this.locations.uniformLocations.resolution,
+      this.context.canvas.width,
+      this.context.canvas.height
+    );
   }
 }

@@ -1,15 +1,15 @@
 import { App } from '../app/App';
 import { Triangle } from '../core/Triangle';
 import fragmentShaderSource from '../shaders/fragment_shader.glsl';
-import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
+// import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
+import { vertexShaderPixelPosition } from '../shaders/vertex_shader_pixel_position';
 
-console.log(vertexShaderChunks);
 const app = new App({
   container: document.getElementById('magistrala-app'),
   size: { width: 800, height: 800 },
 });
 
-const vertexShader = app.newVertexShader({ source: vertexShaderChunks });
+const vertexShader = app.newVertexShader({ source: vertexShaderPixelPosition });
 const fragmentShader = app.newFragmentShader({
   source: fragmentShaderSource,
 });

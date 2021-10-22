@@ -3,6 +3,7 @@ export type uniformLocations = {
   translation: WebGLUniformLocation;
   scale: WebGLUniformLocation;
   rotation: WebGLUniformLocation;
+  resolution: WebGLUniformLocation;
 };
 
 export type attributeLocations = {

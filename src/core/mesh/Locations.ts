@@ -20,8 +20,9 @@ export class Locations {
     const translation = this.getUniformLocation(UniformNames.TRANSLATION);
     const scale = this.getUniformLocation(UniformNames.SCALE);
     const rotation = this.getUniformLocation(UniformNames.ROTATION);
+    const resolution = this.getUniformLocation(UniformNames.RESOLUTION);
 
-    return { pointSize, translation, scale, rotation };
+    return { pointSize, translation, scale, rotation, resolution };
   }
 
   private getUniformLocation(name: string): WebGLUniformLocation {

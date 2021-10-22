@@ -3,6 +3,7 @@ export enum UniformNames {
   TRANSLATION = 'u_translation',
   SCALE = 'u_scale',
   ROTATION = 'u_rotation',
+  RESOLUTION = 'u_resolution',
 }
 
 export enum AttributeNames {
