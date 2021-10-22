@@ -24,13 +24,12 @@ app.render(scene);
 
 const Component = defineComponent({
   methods: {
-    onChange(e: Event) {
+    onInput(e: Event) {
       const { value } = <HTMLInputElement>e.target;
       console.log(value);
     },
   },
-  template:
-    '<input @change="onChange" type="range" min="0" max="100" value="0">',
+  template: '<input @input="onInput" type="range" min="0" max="100" value="0">',
 });
 
 createApp(Component).mount('#magistrala-app-ui');
