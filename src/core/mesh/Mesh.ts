@@ -3,8 +3,11 @@ import { meshConfig } from './mesh_config';
 import { Errors } from '../errors';
 import { Program } from '../program/Program';
 import { Locations } from './Locations';
+import { Vector2 } from '../Vector2';
 
 export class Mesh {
+  translation: Vector2 = new Vector2();
+
   private readonly context: WebGL2RenderingContext;
   private readonly buffer: WebGLBuffer;
   private readonly program: Program;
@@ -83,7 +86,7 @@ export class Mesh {
     );
     this.context.uniform2fv(
       this.locations.uniformLocations.translation,
-      new Float32Array([0, 0])
+      new Float32Array(this.translation.values)
     );
     this.context.uniform2fv(
       this.locations.uniformLocations.rotation,
