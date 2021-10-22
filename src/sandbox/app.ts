@@ -7,17 +7,15 @@ const app = new App({
   size: { width: 800, height: 800 },
 });
 
-const vertexShader = app.createVertexShader({ source: vertexShaderSource });
-const fragmentShader = app.createFragmentShader({
+const vertexShader = app.newVertexShader({ source: vertexShaderSource });
+const fragmentShader = app.newFragmentShader({
   source: fragmentShaderSource,
 });
 const geometry = new app.Geometry({
   triangles: app.Triangle.randomMultiple(5),
 });
-const mesh = app.createMesh({ vertexShader, fragmentShader, geometry });
+const mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
 
 const scene = new app.Scene();
 scene.add(mesh);
-
 app.render(scene);
-console.log({ vertexShader, fragmentShader });

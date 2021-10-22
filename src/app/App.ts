@@ -16,17 +16,15 @@ export class App {
     this.renderer = new Renderer(rendererConfig);
   }
 
-  createVertexShader({ source }: Omit<shaderConfig, 'context'>): VertexShader {
+  newVertexShader({ source }: Omit<shaderConfig, 'context'>): VertexShader {
     return new VertexShader({ source, context: this.renderer.context });
   }
 
-  createFragmentShader({
-    source,
-  }: Omit<shaderConfig, 'context'>): FragmentShader {
+  newFragmentShader({ source }: Omit<shaderConfig, 'context'>): FragmentShader {
     return new FragmentShader({ source, context: this.renderer.context });
   }
 
-  createMesh({
+  newMesh({
     fragmentShader,
     vertexShader,
     geometry,
