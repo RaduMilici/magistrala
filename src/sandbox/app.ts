@@ -1,8 +1,9 @@
 import { App } from '../app/App';
-import { Triangle } from '../core/Triangle';
+//import { Triangle } from '../core/Triangle';
 import fragmentShaderSource from '../shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
 import { GUI } from 'dat.gui';
+import { square } from './assets/square';
 
 const app = new App({
   container: document.getElementById('magistrala-app'),
@@ -14,7 +15,7 @@ const fragmentShader = app.newFragmentShader({
   source: fragmentShaderSource,
 });
 const geometry = app.newGeometry({
-  triangles: Triangle.randomMultiple(5),
+  triangles: square, //Triangle.randomMultiple(5),
 });
 const mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
 
