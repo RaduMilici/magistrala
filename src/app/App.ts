@@ -76,8 +76,8 @@ export class App {
   }
 
   startRendering = () => {
-    this.requestAnimationFrameId = requestAnimationFrame(this.startRendering);
     this.renderOnce();
+    this.requestAnimationFrameId = requestAnimationFrame(this.startRendering);
   };
 
   stopRendering() {

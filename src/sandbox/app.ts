@@ -25,5 +25,6 @@ app.addScene(scene);
 app.startRendering();
 const gui = new GUI();
 const positionFolder = gui.addFolder('position');
-positionFolder.add(mesh.translation, 'x', 0, 1).step(0.01);
+positionFolder.add(mesh.translation, 'x', -1, 1).step(0.001);
+positionFolder.add(mesh.translation, 'y', -1, 1).step(0.001);
 positionFolder.open();
