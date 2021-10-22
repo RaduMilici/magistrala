@@ -1,6 +1,8 @@
 import { Mesh } from '../mesh/Mesh';
+import { UniqueID } from '../../common/unique_id';
 
 export class Scene {
+  readonly id: number = UniqueID.get();
   readonly children: Array<Mesh> = [];
 
   add(child: Mesh) {

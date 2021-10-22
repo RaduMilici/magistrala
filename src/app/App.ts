@@ -12,7 +12,11 @@ import { meshConfig } from '../core/mesh/mesh_config';
 import { Scene } from '../core/scene/Scene';
 
 export class App {
+  public readonly scenes: Array<Scene> = [];
   public readonly renderer: Renderer;
+
+  private requestAnimationFrameId: number = 0;
+
   constructor(private rendererConfig: rendererConfig) {
     this.renderer = new Renderer(rendererConfig);
   }
@@ -54,7 +58,29 @@ export class App {
     return new Vector2(x, y);
   }
 
-  render(scene: Scene) {
-    this.renderer.render(scene);
+  addScene(scene: Scene) {
+    this.scenes.push(scene);
+  }
+
+  removeScene(scene: Scene) {
+    const index = this.scenes.findIndex(
+      (activeScene) => activeScene.id === scene.id
+    );
+    if (index !== -1) {
+      this.scenes.splice(index, 1);
+    }
+  }
+
+  renderOnce() {
+    this.scenes.forEach((scene) => this.renderer.render(scene));
+  }
+
+  startRendering = () => {
+    this.requestAnimationFrameId = requestAnimationFrame(this.startRendering);
+    this.renderOnce();
+  };
+
+  stopRendering() {
+    cancelAnimationFrame(this.requestAnimationFrameId);
   }
 }
