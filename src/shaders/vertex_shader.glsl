@@ -10,13 +10,16 @@ uniform float u_pointSize;
 
 out vec3 fragColor;
 
+vec2 getRotatedPosition(vec2 position, vec2 rotation) {
+  float rotatedX = position.x * rotation.y + position.y * rotation.x;
+  float rotatedY = position.y * rotation.y - position.x * rotation.x;
+
+  return vec2(rotatedX, rotatedY);
+}
+
 void main() {
   fragColor = a_vertColor;
-
-  float rotatedX = a_position.x * u_rotation.y + a_position.y * u_rotation.x;
-  float rotatedY = a_position.y * u_rotation.y - a_position.x * u_rotation.x;
-
-  vec2 rotatedPosition = vec2(rotatedX, rotatedY);
+  vec2 rotatedPosition = getRotatedPosition(a_position, u_rotation);
 
   gl_PointSize = u_pointSize;
   gl_Position = vec4(rotatedPosition * u_scale + u_translation, 0., 1.);
