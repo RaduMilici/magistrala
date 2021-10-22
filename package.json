@@ -21,7 +21,9 @@
   },
   "homepage": "https://github.com/RaduMilici/magistrala#readme",
   "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.8",
     "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-replace": "^3.0.0",
     "@rollup/plugin-typescript": "^8.2.5",
     "deepmerge": "^4.2.2",
     "husky": "^7.0.2",
