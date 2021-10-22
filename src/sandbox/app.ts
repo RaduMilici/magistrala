@@ -3,7 +3,6 @@ import { Triangle } from '../core/Triangle';
 import fragmentShaderSource from '../shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
 
-console.log(vertexShaderChunks);
 const app = new App({
   container: document.getElementById('magistrala-app'),
   size: { width: 800, height: 800 },
