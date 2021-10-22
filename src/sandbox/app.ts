@@ -2,7 +2,6 @@ import { App } from '../app/App';
 import { Triangle } from '../core/Triangle';
 import fragmentShaderSource from '../shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
-//import { createApp, defineComponent } from 'vue';
 import { GUI } from 'dat.gui';
 
 const app = new App({
@@ -30,14 +29,3 @@ gui
     //splines.uniform.tension = value;
     //updateSplineOutline();
   });
-/*const Component = defineComponent({
-  methods: {
-    onInput(e: Event) {
-      const { value } = <HTMLInputElement>e.target;
-      console.log(value);
-    },
-  },
-  template: '<input @input="onInput" type="range" min="0" max="100" value="0">',
-});
-
-createApp(Component).mount('#magistrala-app-ui');*/
