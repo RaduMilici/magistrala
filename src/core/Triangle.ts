@@ -1,5 +1,5 @@
 import { Vector2 } from './Vector2';
-import { randomFloat } from '../common/random';
+import { randomFloat } from 'pulsar-pathfinding';
 
 export class Triangle {
   constructor(public a: Vector2, public b: Vector2, public c: Vector2) {}

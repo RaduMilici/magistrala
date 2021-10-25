@@ -2,7 +2,7 @@ import { rendererConfig } from './renderer_config';
 import { Canvas } from '../Canvas';
 import { Color } from '../color/Color';
 import { Errors } from '../errors';
-import { size } from '../../common/size';
+import { size } from 'pulsar-pathfinding';
 import {
   DEFAULT_RENDERER_CONTAINER,
   DEFAULT_RENDERER_SIZE,
