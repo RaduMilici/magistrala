@@ -4,6 +4,7 @@ import fragmentShaderSource from '../shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
 import { square } from './assets/square';
 import { makeTranslationSlider } from './ui/translation_slider';
+import { deg2rad } from '../common/angles';
 
 const app = new App({
   container: document.getElementById('magistrala-app'),
@@ -18,6 +19,7 @@ const geometry = app.newGeometry({
   triangles: square, //Triangle.randomMultiple(5),
 });
 const mesh1 = app.newMesh({ vertexShader, fragmentShader, geometry });
+mesh1.rotation = deg2rad(45);
 
 const scene = app.newScene();
 scene.add(mesh1);

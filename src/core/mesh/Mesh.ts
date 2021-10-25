@@ -7,6 +7,7 @@ import { Vector2 } from '../Vector2';
 
 export class Mesh {
   translation: Vector2 = new Vector2();
+  rotation: number = 0;
   scale: Vector2 = new Vector2(1, 1);
 
   private readonly context: WebGL2RenderingContext;
@@ -91,7 +92,7 @@ export class Mesh {
     );
     this.context.uniform2fv(
       this.locations.uniformLocations.rotation,
-      new Float32Array([0, 1])
+      new Float32Array([Math.sin(this.rotation), Math.cos(this.rotation)])
     );
   }
 }
