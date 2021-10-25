@@ -25,6 +25,13 @@ export class Mesh {
       debug: true,
     });
     this.locations = new Locations(this.context, this.program);
+    this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+    this.context.bufferData(
+      WebGL2RenderingContext.ARRAY_BUFFER,
+      this.geometry.vertexCoordinates,
+      WebGL2RenderingContext.STATIC_DRAW
+    );
+    this.enableAttributes();
   }
 
   get vertCount(): number {
@@ -34,12 +41,6 @@ export class Mesh {
   public prepareForRender() {
     this.program.use();
     this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
-    this.context.bufferData(
-      this.context.ARRAY_BUFFER,
-      this.geometry.vertexCoordinates,
-      this.context.STATIC_DRAW
-    );
-    this.enableAttributes();
     this.setValues();
   }
 

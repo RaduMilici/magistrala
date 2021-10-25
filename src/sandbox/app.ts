@@ -2,8 +2,8 @@ import { App } from '../app/App';
 //import { Triangle } from '../core/Triangle';
 import fragmentShaderSource from '../shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
-import { GUI } from 'dat.gui';
 import { square } from './assets/square';
+import { makeTranslationSlider } from './ui/translation_slider';
 
 const app = new App({
   container: document.getElementById('magistrala-app'),
@@ -17,14 +17,14 @@ const fragmentShader = app.newFragmentShader({
 const geometry = app.newGeometry({
   triangles: square, //Triangle.randomMultiple(5),
 });
-const mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
+const mesh1 = app.newMesh({ vertexShader, fragmentShader, geometry });
+const mesh2 = app.newMesh({ vertexShader, fragmentShader, geometry });
 
 const scene = app.newScene();
-scene.add(mesh);
+scene.add(mesh1);
+scene.add(mesh2);
 app.addScene(scene);
 app.startRendering();
-const gui = new GUI();
-const positionFolder = gui.addFolder('position');
-positionFolder.add(mesh.translation, 'x', -1, 1).step(0.001);
-positionFolder.add(mesh.translation, 'y', -1, 1).step(0.001);
-positionFolder.open();
+
+makeTranslationSlider('mesh1', mesh1);
+makeTranslationSlider('mesh2', mesh2);
