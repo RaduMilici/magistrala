@@ -7,6 +7,7 @@ import { Vector2 } from '../Vector2';
 
 export class Mesh {
   translation: Vector2 = new Vector2();
+  scale: Vector2 = new Vector2(1, 1);
 
   private readonly context: WebGL2RenderingContext;
   private readonly buffer: WebGLBuffer;
@@ -40,7 +41,7 @@ export class Mesh {
 
   public prepareForRender() {
     this.program.use();
-    this.setValues();
+    this.setUniformValues();
   }
 
   private static createBuffer(context: WebGL2RenderingContext): WebGLBuffer {
@@ -63,7 +64,7 @@ export class Mesh {
     this.context.vertexAttribPointer(
       this.locations.attributeLocations.position,
       2,
-      this.context.FLOAT,
+      WebGL2RenderingContext.FLOAT,
       false,
       0,
       0
@@ -79,10 +80,10 @@ export class Mesh {
     // );
   }
 
-  private setValues() {
+  private setUniformValues() {
     this.context.uniform2fv(
       this.locations.uniformLocations.scale,
-      new Float32Array([1, 1])
+      new Float32Array(this.scale.values)
     );
     this.context.uniform2fv(
       this.locations.uniformLocations.translation,
