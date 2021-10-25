@@ -25,7 +25,7 @@ export class Mesh {
       debug: true,
     });
     this.locations = new Locations(this.context, this.program);
-    this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
+    this.context.bindBuffer(WebGL2RenderingContext.ARRAY_BUFFER, this.buffer);
     this.context.bufferData(
       WebGL2RenderingContext.ARRAY_BUFFER,
       this.geometry.vertexCoordinates,
@@ -40,7 +40,6 @@ export class Mesh {
 
   public prepareForRender() {
     this.program.use();
-    this.context.bindBuffer(this.context.ARRAY_BUFFER, this.buffer);
     this.setValues();
   }
 
