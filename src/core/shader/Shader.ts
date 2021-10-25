@@ -32,7 +32,10 @@ export class Shader {
   }
 
   private static verify(context: WebGL2RenderingContext, shader: WebGLShader) {
-    const success = context.getShaderParameter(shader, context.COMPILE_STATUS);
+    const success = context.getShaderParameter(
+      shader,
+      WebGL2RenderingContext.COMPILE_STATUS
+    );
 
     if (!success) {
       const infoLog = context.getShaderInfoLog(shader);

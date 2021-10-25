@@ -12,7 +12,7 @@ export class Scene {
   render(context: WebGL2RenderingContext) {
     this.children.forEach((child) => {
       child.prepareForRender();
-      context.drawArrays(context.TRIANGLES, 0, child.vertCount);
+      context.drawArrays(WebGL2RenderingContext.TRIANGLES, 0, child.vertCount);
     });
   }
 }

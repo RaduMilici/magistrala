@@ -45,7 +45,10 @@ export class Program {
     context: WebGL2RenderingContext,
     program: WebGLProgram
   ) {
-    const success = context.getProgramParameter(program, context.LINK_STATUS);
+    const success = context.getProgramParameter(
+      program,
+      WebGL2RenderingContext.LINK_STATUS
+    );
 
     if (!success) {
       const infoLog = context.getProgramInfoLog(program);
@@ -61,7 +64,7 @@ export class Program {
     context.validateProgram(program);
     const success = context.getProgramParameter(
       program,
-      context.VALIDATE_STATUS
+      WebGL2RenderingContext.VALIDATE_STATUS
     );
 
     if (!success) {

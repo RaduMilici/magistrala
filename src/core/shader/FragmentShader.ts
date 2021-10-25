@@ -6,7 +6,7 @@ export class FragmentShader extends Shader {
     super({
       context,
       source,
-      type: context.FRAGMENT_SHADER,
+      type: WebGL2RenderingContext.FRAGMENT_SHADER,
     });
   }
 }

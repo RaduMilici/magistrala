@@ -6,7 +6,7 @@ export class VertexShader extends Shader {
     super({
       context,
       source,
-      type: context.VERTEX_SHADER,
+      type: WebGL2RenderingContext.VERTEX_SHADER,
     });
   }
 }

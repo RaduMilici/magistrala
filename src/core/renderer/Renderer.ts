@@ -41,7 +41,8 @@ export class Renderer {
 
   clear() {
     this.context.clear(
-      this.context.COLOR_BUFFER_BIT | this.context.DEPTH_BUFFER_BIT
+      WebGL2RenderingContext.COLOR_BUFFER_BIT |
+        WebGL2RenderingContext.DEPTH_BUFFER_BIT
     );
   }
 
