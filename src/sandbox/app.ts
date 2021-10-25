@@ -40,7 +40,6 @@ class Square extends GameObject {
     this.mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
     this.mesh.rotation = DegToRad(45);
     scene.add(this.mesh);
-    makeTranslationSlider('mesh1', this.mesh);
   }
 }
 
@@ -68,7 +67,7 @@ class RenderGameObject extends GameObject {
 
 class RenderLoop extends Component {
   constructor() {
-    super({ name: 'render loop' });
+    super({ name: 'render loop component' });
   }
   update() {
     app.renderOnce();
@@ -85,3 +84,5 @@ renderLoopGameObject.addComponent(new RenderLoop());
 updater.add(square);
 updater.add(renderLoopGameObject);
 updater.start();
+
+makeTranslationSlider('mesh1', square.mesh);
