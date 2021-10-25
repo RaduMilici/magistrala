@@ -26,4 +26,13 @@ export class Color {
   get a(): number {
     return this.value.a;
   }
+
+  public static from255({ r, g, b, a }: colorValues): Color {
+    return new Color({
+      r: r / 255,
+      g: g / 255,
+      b: b / 255,
+      a: a / 255,
+    });
+  }
 }
