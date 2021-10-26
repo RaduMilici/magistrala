@@ -3,12 +3,11 @@ import { meshConfig } from './mesh_config';
 import { Errors } from '../errors';
 import { Program } from '../program/Program';
 import { Locations } from './Locations';
-import { Vector2 } from '../Vector2';
+import { Transforms } from './Transforms';
+import { Vector } from 'pulsar-pathfinding';
 
 export class Mesh {
-  translation: Vector2 = new Vector2();
-  rotation: number = 0;
-  scale: Vector2 = new Vector2(1, 1);
+  readonly transforms: Transforms;
 
   private readonly context: WebGL2RenderingContext;
   private readonly buffer: WebGLBuffer;
@@ -19,6 +18,11 @@ export class Mesh {
   constructor(config: meshConfig) {
     this.context = config.context;
     this.geometry = config.geometry;
+    this.transforms = new Transforms({
+      translation: new Vector({ x: 0, y: 0 }),
+      rotation: 0,
+      scale: new Vector({ x: 1, y: 1 }),
+    });
     this.buffer = Mesh.createBuffer(this.context);
     this.program = new Program({
       context: this.context,
@@ -59,9 +63,7 @@ export class Mesh {
     this.context.enableVertexAttribArray(
       this.locations.attributeLocations.position
     );
-    // this.context.enableVertexAttribArray(
-    //   this.locations.attributeLocations.vertColor
-    // );
+
     this.context.vertexAttribPointer(
       this.locations.attributeLocations.position,
       2,
@@ -70,29 +72,16 @@ export class Mesh {
       0,
       0
     );
-
-    // this.context.vertexAttribPointer(
-    //   this.locations.attributeLocations.vertColor,
-    //   3,
-    //   this.context.FLOAT,
-    //   false,
-    //   0,
-    //   2 * Float32Array.BYTES_PER_ELEMENT
-    // );
   }
 
   private setUniformValues() {
-    this.context.uniform2fv(
-      this.locations.uniformLocations.scale,
-      new Float32Array(this.scale.values)
-    );
-    this.context.uniform2fv(
-      this.locations.uniformLocations.translation,
-      new Float32Array(this.translation.values)
-    );
-    this.context.uniform2fv(
-      this.locations.uniformLocations.rotation,
-      new Float32Array([Math.sin(this.rotation), Math.cos(this.rotation)])
+    const { elements } = this.transforms.translationMatrix
+      .multiply(this.transforms.rotationMatrix)
+      .multiply(this.transforms.scaleMatrix);
+    this.context.uniformMatrix3fv(
+      this.locations.uniformLocations.matrix,
+      false,
+      elements
     );
   }
 }

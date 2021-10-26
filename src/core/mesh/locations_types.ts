@@ -1,8 +1,6 @@
 export type uniformLocations = {
   pointSize: WebGLUniformLocation;
-  translation: WebGLUniformLocation;
-  scale: WebGLUniformLocation;
-  rotation: WebGLUniformLocation;
+  matrix: WebGLUniformLocation;
 };
 
 export type attributeLocations = {

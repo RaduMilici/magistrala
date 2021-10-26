@@ -4,13 +4,7 @@ import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
 import { squarePoints } from './assets/squarePoints';
 import { makeTranslationSlider } from './ui/translation_slider';
 import { Color } from '../core/color/Color';
-import {
-  DegToRad,
-  Updater,
-  GameObject,
-  Component,
-  tickData,
-} from 'pulsar-pathfinding';
+import { Updater, GameObject, Component, tickData } from 'pulsar-pathfinding';
 import { Mesh } from '../core/mesh/Mesh';
 
 const app = new App({
@@ -38,7 +32,7 @@ class Square extends GameObject {
       triangles: squarePoints,
     });
     this.mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
-    this.mesh.rotation = DegToRad(45);
+    //this.mesh.transforms.rotation = DegToRad(45);
     scene.add(this.mesh);
   }
 }
@@ -54,8 +48,13 @@ class Rotate extends Component {
   }
 
   update({ deltaTimeMS, elapsedTime }: tickData) {
-    this.parent.mesh.rotation += deltaTimeMS * this.rotationSpeed;
-    this.parent.mesh.translation.y = Math.sin(elapsedTime * this.movementSpeed);
+    // this.parent.mesh.transforms.rotation += deltaTimeMS * this.rotationSpeed;
+    // this.parent.mesh.transforms.translation.y = Math.sin(
+    //   elapsedTime * this.movementSpeed
+    // );
+    // this.parent.mesh.transforms.scale.y = Math.sin(
+    //   elapsedTime * this.movementSpeed
+    // );
   }
 }
 
@@ -85,4 +84,9 @@ updater.add(square);
 updater.add(renderLoopGameObject);
 updater.start();
 
+//square.mesh.transforms.translation = new Vector({ x: 1, y: 1 });
+// square.mesh.transforms.translation.x = 0;
+// square.mesh.transforms.scale.x = 2;
+// square.mesh.transforms.scale = new Vector({ x: 1, y: 2 });
+//square.mesh.transforms.translation = new Vector({ x: 1, y: -1 });
 makeTranslationSlider('mesh1', square.mesh);
