@@ -6,7 +6,7 @@ import { Geometry } from '../core/geometry/Geometry';
 import vertexShaderSource from '../shaders/vertex_shader.glsl';
 import fragmentShaderSource from '../shaders/fragment_shader.glsl';
 import { Triangle } from '../core/Triangle';
-import { Vector2 } from '../core/Vector2';
+import { Vector } from 'pulsar-pathfinding';
 import { Scene } from '../core/scene/Scene';
 import { Color } from '../core/color/Color';
 
@@ -29,8 +29,16 @@ const fragmentShader = new FragmentShader({
 
 const geometry = new Geometry({
   triangles: [
-    new Triangle(new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 0)),
-    new Triangle(new Vector2(0, 0), new Vector2(0, -1), new Vector2(-1, 0)),
+    new Triangle(
+      new Vector({ x: 0, y: 0 }),
+      new Vector({ x: 0, y: 1 }),
+      new Vector({ x: 1, y: 0 })
+    ),
+    new Triangle(
+      new Vector({ x: 0, y: 0 }),
+      new Vector({ x: 0, y: -1 }),
+      new Vector({ x: -1, y: 0 })
+    ),
   ],
 });
 

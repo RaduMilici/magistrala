@@ -1,15 +1,15 @@
 import { Triangle } from '../../core/Triangle';
-import { Vector2 } from '../../core/Vector2';
+import { Vector } from 'pulsar-pathfinding';
 
 export const squarePoints = [
   new Triangle(
-    new Vector2(-0.5, -0.5),
-    new Vector2(-0.5, 0.5),
-    new Vector2(0.5, 0.5)
+    new Vector({ x: -0.5, y: -0.5 }),
+    new Vector({ x: -0.5, y: 0.5 }),
+    new Vector({ x: 0.5, y: 0.5 })
   ),
   new Triangle(
-    new Vector2(0.5, 0.5),
-    new Vector2(0.5, -0.5),
-    new Vector2(-0.5, -0.5)
+    new Vector({ x: 0.5, y: 0.5 }),
+    new Vector({ x: 0.5, y: -0.5 }),
+    new Vector({ x: -0.5, y: -0.5 })
   ),
 ];

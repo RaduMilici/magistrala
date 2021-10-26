@@ -6,7 +6,7 @@ import { shaderConfig } from '../core/shader/shader_configs';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
 import { Triangle } from '../core/Triangle';
-import { Vector2 } from '../core/Vector2';
+import { Vector } from 'pulsar-pathfinding';
 import { Mesh } from '../core/mesh/Mesh';
 import { meshConfig } from '../core/mesh/mesh_config';
 import { Scene } from '../core/scene/Scene';
@@ -46,7 +46,7 @@ export class App {
     return new Geometry(config);
   }
 
-  newTriangle(a: Vector2, b: Vector2, c: Vector2): Triangle {
+  newTriangle(a: Vector, b: Vector, c: Vector): Triangle {
     return new Triangle(a, b, c);
   }
 
@@ -54,8 +54,8 @@ export class App {
     return new Scene();
   }
 
-  newVector2(x: number, y: number): Vector2 {
-    return new Vector2(x, y);
+  newVector2(x: number, y: number): Vector {
+    return new Vector({ x, y });
   }
 
   addScene(scene: Scene) {

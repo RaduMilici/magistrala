@@ -1,14 +1,13 @@
-import { Vector2 } from './Vector2';
-import { randomFloat } from 'pulsar-pathfinding';
+import { randomFloat, Vector } from 'pulsar-pathfinding';
 
 export class Triangle {
-  constructor(public a: Vector2, public b: Vector2, public c: Vector2) {}
+  constructor(public a: Vector, public b: Vector, public c: Vector) {}
 
-  get points(): Array<Vector2> {
+  get points(): Array<Vector> {
     return [this.a, this.b, this.c];
   }
 
-  public static getPoints(triangles: Array<Triangle>): Array<Vector2> {
+  public static getPoints(triangles: Array<Triangle>): Array<Vector> {
     return triangles.map((triangle) => triangle.points).flat();
   }
 
@@ -20,9 +19,9 @@ export class Triangle {
   }
 
   public static random(): Triangle {
-    const a = new Vector2(randomFloat(-1, 1), randomFloat(-1, 1));
-    const b = new Vector2(randomFloat(-1, 1), randomFloat(-1, 1));
-    const c = new Vector2(randomFloat(-1, 1), randomFloat(-1, 1));
+    const a = new Vector({ x: randomFloat(-1, 1), y: randomFloat(-1, 1) });
+    const b = new Vector({ x: randomFloat(-1, 1), y: randomFloat(-1, 1) });
+    const c = new Vector({ x: randomFloat(-1, 1), y: randomFloat(-1, 1) });
     return new Triangle(a, b, c);
   }
 
