@@ -1,5 +1,4 @@
 import { geometryConfig } from './geometry_config';
-import { Vector } from 'pulsar-pathfinding';
 import { Triangle } from '../Triangle';
 
 export class Geometry {
@@ -9,15 +8,12 @@ export class Geometry {
     this.vertexCoordinates = Geometry.getVertexCoordinates(config.triangles);
   }
 
-  public static getCoordinates(vectors: Array<Vector>): number[] {
-    return vectors.map((vector) => [vector.x, vector.y]).flat();
-  }
-
   private static getVertexCoordinates(
     triangles: Array<Triangle>
   ): Float32Array {
-    const points = Triangle.getPoints(triangles);
-    const coordinates = Geometry.getCoordinates(points);
+    const coordinates = Triangle.getPoints(triangles)
+      .map(({ x, y }) => [x, y])
+      .flat();
     return new Float32Array(coordinates);
   }
 }
