@@ -17,11 +17,9 @@ export class Locations {
 
   private getUniformLocations(): uniformLocations {
     const pointSize = this.getUniformLocation(UniformNames.POINT_SIZE);
-    const translation = this.getUniformLocation(UniformNames.TRANSLATION);
-    const scale = this.getUniformLocation(UniformNames.SCALE);
-    const rotation = this.getUniformLocation(UniformNames.ROTATION);
+    const matrix = this.getUniformLocation(UniformNames.MATRIX);
 
-    return { pointSize, translation, scale, rotation };
+    return { pointSize, matrix };
   }
 
   private getUniformLocation(name: string): WebGLUniformLocation {

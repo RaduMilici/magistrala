@@ -5,9 +5,7 @@ export const VERSION = '#version 300 es';
 export const POSITION_ATTRIBUTE = `in vec2 ${AttributeNames.POSITION};`;
 export const VERT_COLOR_ATTRIBUTE = `in vec3 ${AttributeNames.VERTEX_COLOR};`;
 
-export const TRANSLATION_UNIFORMS = `uniform vec2 ${UniformNames.TRANSLATION};
-uniform vec2 ${UniformNames.ROTATION};
-uniform vec2 ${UniformNames.SCALE};`;
+export const TRANSLATION_UNIFORMS = `uniform mat3 ${UniformNames.MATRIX};`;
 export const PONT_SIZE_UNIFORM = `uniform float ${UniformNames.POINT_SIZE};`;
 
 export const OUT_COLOR = 'out vec3 fragColor;';
