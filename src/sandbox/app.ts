@@ -5,9 +5,10 @@ import { fPoints } from './assets/f_points';
 // import { makeTranslationSlider } from './ui/translation_slider';
 import { Color } from '../core/color/Color';
 import { Updater, GameObject, Component, tickData } from 'pulsar-pathfinding';
-import { Mesh } from '../core/mesh/Mesh';
 import { Vector3 } from '../core/Vector3';
 import { Triangle } from '../core/Triangle';
+import { GameObject3D } from '../core/ecs/GameObject3D';
+import { Component3D } from '../core/ecs/Component3D';
 
 const app = new App({
   container: document.getElementById('magistrala-app'),
@@ -21,11 +22,9 @@ const scene = app.newScene();
 
 const updater = new Updater();
 
-class Square extends GameObject {
-  mesh: Mesh;
-
+class FShape extends GameObject3D {
   constructor() {
-    super({ name: 'square' });
+    super({ name: 'f shape' });
     const vertexShader = app.newVertexShader({ source: vertexShaderChunks });
     const fragmentShader = app.newFragmentShader({
       source: fragmentShaderSource,
@@ -34,16 +33,12 @@ class Square extends GameObject {
       triangles: Triangle.multipleFromCoordinates(fPoints),
     });
     this.mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
-    scene.add(this.mesh);
   }
 }
 
-class Rotate extends Component {
-  parent: Square;
-
-  constructor(parent: Square) {
+class Rotate extends Component3D {
+  constructor() {
     super({ name: 'Rotate' });
-    this.parent = parent;
   }
 
   update({ deltaTimeMS, elapsedTime }: tickData) {
@@ -70,16 +65,17 @@ class RenderLoop extends Component {
   }
 }
 
-const square = new Square();
-const rotate = new Rotate(square);
-square.addComponent(rotate);
+const fShape = new FShape();
+const rotate = new Rotate();
+fShape.addComponent(rotate);
+scene.add(fShape.mesh);
+app.addScene(scene);
 
 const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
 
-app.addScene(scene);
-updater.add(square);
+updater.add(fShape);
 updater.add(renderGameObject);
 updater.start();
 
-square.mesh.transforms.translation = new Vector3({ x: 1, y: -1, z: 0 });
+fShape.mesh.transforms.translation = new Vector3({ x: 1, y: -1, z: 0 });
