@@ -6,22 +6,27 @@ import { size } from 'pulsar-pathfinding';
 import {
   DEFAULT_RENDERER_CONTAINER,
   DEFAULT_RENDERER_SIZE,
+  DEFAULT_RENDERER_DEPTH,
 } from './renderer_default_values';
 import { Scene } from '../scene/Scene';
+import { ProjectionMatrix } from '../mesh/transforms/matrices/projection/ProjectionMatrix';
 
 export class Renderer {
   readonly canvas: Canvas;
+  readonly projectionMatrix: ProjectionMatrix;
   private size: size = DEFAULT_RENDERER_SIZE;
 
   constructor({
-    size = DEFAULT_RENDERER_SIZE,
+    size: { width, height } = DEFAULT_RENDERER_SIZE,
     container = DEFAULT_RENDERER_CONTAINER,
+    depth = DEFAULT_RENDERER_DEPTH,
   }: rendererConfig) {
     if (container === null) {
       throw new Error(Errors.NULL_RENDERER_CONTAINER);
     }
-    this.canvas = new Canvas(size);
-    this.setSize(size);
+    this.canvas = new Canvas({ width, height });
+    this.setSize({ width, height });
+    this.projectionMatrix = new ProjectionMatrix({ width, height, depth });
     container.appendChild(this.canvas.HTMLElement);
   }
 

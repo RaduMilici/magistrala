@@ -12,7 +12,7 @@ export class Geometry {
     triangles: Array<Triangle>
   ): Float32Array {
     const coordinates = Triangle.getPoints(triangles)
-      .map(({ x, y }) => [x, y])
+      .map(({ x, y, z }) => [x, y, z])
       .flat();
     return new Float32Array(coordinates);
   }

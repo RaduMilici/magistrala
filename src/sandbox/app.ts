@@ -1,21 +1,23 @@
 import { App } from '../app/App';
 import fragmentShaderSource from '../shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
-import { squarePoints } from './assets/squarePoints';
-import { makeTranslationSlider } from './ui/translation_slider';
+import { fPoints } from './assets/f_points';
+// import { makeTranslationSlider } from './ui/translation_slider';
 import { Color } from '../core/color/Color';
 import { Updater, GameObject, Component, tickData } from 'pulsar-pathfinding';
 import { Mesh } from '../core/mesh/Mesh';
+import { Vector3 } from '../core/Vector3';
+import { Triangle } from '../core/Triangle';
 
 const app = new App({
   container: document.getElementById('magistrala-app'),
   size: { width: 800, height: 800 },
+  depth: 1000,
 });
 
 app.renderer.setClearColor(new Color({ r: 0, g: 1, b: 0, a: 1 }));
 
 const scene = app.newScene();
-app.addScene(scene);
 
 const updater = new Updater();
 
@@ -29,18 +31,15 @@ class Square extends GameObject {
       source: fragmentShaderSource,
     });
     const geometry = app.newGeometry({
-      triangles: squarePoints,
+      triangles: Triangle.multipleFromCoordinates(fPoints),
     });
     this.mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
-    //this.mesh.transforms.rotation = DegToRad(45);
     scene.add(this.mesh);
   }
 }
 
 class Rotate extends Component {
   parent: Square;
-  rotationSpeed: number = 0.002;
-  movementSpeed: number = 2;
 
   constructor(parent: Square) {
     super({ name: 'Rotate' });
@@ -48,13 +47,11 @@ class Rotate extends Component {
   }
 
   update({ deltaTimeMS, elapsedTime }: tickData) {
-    // this.parent.mesh.transforms.rotation += deltaTimeMS * this.rotationSpeed;
-    // this.parent.mesh.transforms.translation.y = Math.sin(
-    //   elapsedTime * this.movementSpeed
-    // );
-    // this.parent.mesh.transforms.scale.y = Math.sin(
-    //   elapsedTime * this.movementSpeed
-    // );
+    this.parent.mesh.transforms.rotation = new Vector3({
+      x: elapsedTime,
+      y: elapsedTime,
+      z: elapsedTime,
+    });
   }
 }
 
@@ -80,13 +77,9 @@ const renderLoopGameObject = new RenderGameObject();
 square.addComponent(rotate);
 renderLoopGameObject.addComponent(new RenderLoop());
 
+// TODO: projection matrix only happens here
+app.addScene(scene);
+square.mesh.transforms.translation = new Vector3({ x: 1, y: -1, z: 0 });
 updater.add(square);
 updater.add(renderLoopGameObject);
 updater.start();
-
-//square.mesh.transforms.translation = new Vector({ x: 1, y: 1 });
-// square.mesh.transforms.translation.x = 0;
-// square.mesh.transforms.scale.x = 2;
-// square.mesh.transforms.scale = new Vector({ x: 1, y: 2 });
-//square.mesh.transforms.translation = new Vector({ x: 1, y: -1 });
-makeTranslationSlider('mesh1', square.mesh);

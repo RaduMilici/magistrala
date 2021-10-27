@@ -3,11 +3,14 @@ import { meshConfig } from './mesh_config';
 import { Errors } from '../errors';
 import { Program } from '../program/Program';
 import { Locations } from './Locations';
-import { Transforms } from './Transforms';
-import { Vector } from 'pulsar-pathfinding';
+import { Transforms } from './transforms/Transforms';
+import { Vector3 } from '../Vector3';
+import { ProjectionMatrix } from './transforms/matrices/projection/ProjectionMatrix';
 
 export class Mesh {
-  readonly transforms: Transforms;
+  public projectionMatrix: ProjectionMatrix = new ProjectionMatrix();
+
+  public readonly transforms: Transforms;
 
   private readonly context: WebGL2RenderingContext;
   private readonly buffer: WebGLBuffer;
@@ -19,9 +22,9 @@ export class Mesh {
     this.context = config.context;
     this.geometry = config.geometry;
     this.transforms = new Transforms({
-      translation: new Vector({ x: 0, y: 0 }),
-      rotation: 0,
-      scale: new Vector({ x: 1, y: 1 }),
+      translation: new Vector3(),
+      rotation: new Vector3({ x: 0, y: 0, z: 0 }),
+      scale: new Vector3({ x: 1, y: 1, z: 1 }),
     });
     this.buffer = Mesh.createBuffer(this.context);
     this.program = new Program({
@@ -37,11 +40,12 @@ export class Mesh {
       this.geometry.vertexCoordinates,
       WebGL2RenderingContext.STATIC_DRAW
     );
+    //console.log(this.geometry.vertexCoordinates)
     this.enableAttributes();
   }
 
   get vertCount(): number {
-    return this.geometry.vertexCoordinates.length / 2;
+    return this.geometry.vertexCoordinates.length / 3;
   }
 
   public prepareForRender() {
@@ -66,7 +70,7 @@ export class Mesh {
 
     this.context.vertexAttribPointer(
       this.locations.attributeLocations.position,
-      2,
+      3,
       WebGL2RenderingContext.FLOAT,
       false,
       0,
@@ -75,10 +79,13 @@ export class Mesh {
   }
 
   private setUniformValues() {
-    const { elements } = this.transforms.translationMatrix
-      .multiply(this.transforms.rotationMatrix)
+    const { elements } = this.projectionMatrix
+      .multiply(this.transforms.translationMatrix)
+      .multiply(this.transforms.xRotationMatrix)
+      .multiply(this.transforms.yRotationMatrix)
+      .multiply(this.transforms.zRotationMatrix)
       .multiply(this.transforms.scaleMatrix);
-    this.context.uniformMatrix3fv(
+    this.context.uniformMatrix4fv(
       this.locations.uniformLocations.matrix,
       false,
       elements
