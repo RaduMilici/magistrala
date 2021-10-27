@@ -6,7 +6,7 @@ import { shaderConfig } from '../core/shader/shader_configs';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
 import { Triangle } from '../core/Triangle';
-import { Vector2 } from '../core/Vector2';
+import { Vector3 } from '../core/Vector3';
 import { Mesh } from '../core/mesh/Mesh';
 import { meshConfig } from '../core/mesh/mesh_config';
 import { Scene } from '../core/scene/Scene';
@@ -33,12 +33,13 @@ export class App {
     fragmentShader,
     vertexShader,
     geometry,
-  }: Omit<meshConfig, 'context'>): Mesh {
+  }: Omit<meshConfig, 'context' | 'projectionMatrix'>): Mesh {
     return new Mesh({
       vertexShader,
       fragmentShader,
       geometry,
       context: this.renderer.context,
+      projectionMatrix: this.renderer.projectionMatrix,
     });
   }
 
@@ -46,7 +47,7 @@ export class App {
     return new Geometry(config);
   }
 
-  newTriangle(a: Vector2, b: Vector2, c: Vector2): Triangle {
+  newTriangle(a: Vector3, b: Vector3, c: Vector3): Triangle {
     return new Triangle(a, b, c);
   }
 
@@ -54,8 +55,8 @@ export class App {
     return new Scene();
   }
 
-  newVector2(x: number, y: number): Vector2 {
-    return new Vector2(x, y);
+  newVector2(x: number, y: number, z: number): Vector3 {
+    return new Vector3({ x, y, z });
   }
 
   addScene(scene: Scene) {

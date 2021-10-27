@@ -1,5 +1,4 @@
 import { geometryConfig } from './geometry_config';
-import { Vector2 } from '../Vector2';
 import { Triangle } from '../Triangle';
 
 export class Geometry {
@@ -12,8 +11,9 @@ export class Geometry {
   private static getVertexCoordinates(
     triangles: Array<Triangle>
   ): Float32Array {
-    const points = Triangle.getPoints(triangles);
-    const coordinates = Vector2.getCoordinates(points);
+    const coordinates = Triangle.getPoints(triangles)
+      .map(({ x, y, z }) => [x, y, z])
+      .flat();
     return new Float32Array(coordinates);
   }
 }
