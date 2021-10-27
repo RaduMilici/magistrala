@@ -57,7 +57,7 @@ class Rotate extends Component {
 
 class RenderGameObject extends GameObject {
   constructor() {
-    super({ name: 'render loop object' });
+    super({ name: 'render loop game object' });
   }
 }
 
@@ -72,14 +72,14 @@ class RenderLoop extends Component {
 
 const square = new Square();
 const rotate = new Rotate(square);
-const renderLoopGameObject = new RenderGameObject();
-
 square.addComponent(rotate);
-renderLoopGameObject.addComponent(new RenderLoop());
 
-// TODO: projection matrix only happens here
+const renderGameObject = new RenderGameObject();
+renderGameObject.addComponent(new RenderLoop());
+
 app.addScene(scene);
-square.mesh.transforms.translation = new Vector3({ x: 1, y: -1, z: 0 });
 updater.add(square);
-updater.add(renderLoopGameObject);
+updater.add(renderGameObject);
 updater.start();
+
+square.mesh.transforms.translation = new Vector3({ x: 1, y: -1, z: 0 });
