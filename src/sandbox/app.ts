@@ -15,11 +15,8 @@ const app = new App({
   size: { width: 800, height: 800 },
   depth: 1000,
 });
-
 app.renderer.setClearColor(new Color({ r: 0, g: 1, b: 0, a: 1 }));
-
 const scene = app.newScene();
-
 const updater = new Updater();
 
 class FShape extends GameObject3D {
