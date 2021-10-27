@@ -33,12 +33,13 @@ export class App {
     fragmentShader,
     vertexShader,
     geometry,
-  }: Omit<meshConfig, 'context'>): Mesh {
+  }: Omit<meshConfig, 'context' | 'projectionMatrix'>): Mesh {
     return new Mesh({
       vertexShader,
       fragmentShader,
       geometry,
       context: this.renderer.context,
+      projectionMatrix: this.renderer.projectionMatrix,
     });
   }
 
@@ -59,9 +60,6 @@ export class App {
   }
 
   addScene(scene: Scene) {
-    scene.children.forEach(
-      (mesh: Mesh) => (mesh.projectionMatrix = this.renderer.projectionMatrix)
-    );
     this.scenes.push(scene);
   }
 

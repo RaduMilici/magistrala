@@ -21,6 +21,7 @@ export class Mesh {
   constructor(config: meshConfig) {
     this.context = config.context;
     this.geometry = config.geometry;
+    this.projectionMatrix = config.projectionMatrix;
     this.transforms = new Transforms({
       translation: new Vector3(),
       rotation: new Vector3({ x: 0, y: 0, z: 0 }),
@@ -40,7 +41,6 @@ export class Mesh {
       this.geometry.vertexCoordinates,
       WebGL2RenderingContext.STATIC_DRAW
     );
-    //console.log(this.geometry.vertexCoordinates)
     this.enableAttributes();
   }
 
