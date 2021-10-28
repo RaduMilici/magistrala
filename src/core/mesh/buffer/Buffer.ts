@@ -3,21 +3,21 @@ import { bufferConfig } from './buffer_configs';
 import { Locations } from '../Locations';
 
 export abstract class Buffer {
-  glBuffer: WebGLBuffer;
+  readonly glBuffer: WebGLBuffer;
   protected context: WebGL2RenderingContext;
   protected locations: Locations;
 
   protected constructor({ context, locations }: bufferConfig) {
     this.context = context;
     this.locations = locations;
-    this.glBuffer = Buffer.createBuffer(this.context);
+    this.glBuffer = Buffer.createGlBuffer(this.context);
   }
 
-  public enableAttributes() {}
+  public abstract enableAttributes(): void;
 
-  protected setBufferData() {}
+  protected abstract setBufferData(): void;
 
-  private static createBuffer(context: WebGL2RenderingContext): WebGLBuffer {
+  private static createGlBuffer(context: WebGL2RenderingContext): WebGLBuffer {
     const buffer = context.createBuffer();
 
     if (buffer === null) {
