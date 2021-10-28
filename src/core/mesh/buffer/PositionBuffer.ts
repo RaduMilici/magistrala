@@ -13,15 +13,7 @@ export class PositionBuffer extends Buffer {
     this.enableAttributes();
   }
 
-  protected setBufferData() {
-    this.context.bufferData(
-      WebGL2RenderingContext.ARRAY_BUFFER,
-      this.geometry.vertexCoordinates,
-      WebGL2RenderingContext.STATIC_DRAW
-    );
-  }
-
-  enableAttributes() {
+  public enableAttributes() {
     this.context.enableVertexAttribArray(
       this.locations.attributeLocations.position
     );
@@ -33,6 +25,14 @@ export class PositionBuffer extends Buffer {
       false,
       0,
       0
+    );
+  }
+
+  protected setBufferData() {
+    this.context.bufferData(
+      WebGL2RenderingContext.ARRAY_BUFFER,
+      this.geometry.vertexCoordinates,
+      WebGL2RenderingContext.STATIC_DRAW
     );
   }
 }
