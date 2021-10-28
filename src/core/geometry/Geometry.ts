@@ -2,12 +2,19 @@ import { geometryConfig } from './geometry_config';
 import { Triangle } from '../triangle/Triangle';
 
 export class Geometry {
+  public readonly hasTriangleColors: boolean;
   public readonly triangles: Array<Triangle>;
   public readonly vertexCoordinates: Float32Array;
 
   constructor({ triangles }: geometryConfig) {
     this.triangles = triangles;
     this.vertexCoordinates = Geometry.getVertexCoordinates(triangles);
+    this.hasTriangleColors = this.getHasTriangleColors();
+  }
+
+  // TODO: find out both this and getVertexCoordinates in one loop
+  private getHasTriangleColors(): boolean {
+    return this.triangles.findIndex((triangle) => triangle.color) !== -1;
   }
 
   private static getVertexCoordinates(

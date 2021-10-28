@@ -1,6 +1,5 @@
 import { Geometry } from '../geometry/Geometry';
 import { meshConfig } from './mesh_config';
-import { Errors } from '../errors';
 import { Program } from '../program/Program';
 import { Locations } from './Locations';
 import { Transforms } from './transforms/Transforms';
@@ -14,7 +13,6 @@ export class Mesh {
   public readonly transforms: Transforms;
 
   private readonly context: WebGL2RenderingContext;
-  private readonly buffer: WebGLBuffer;
   private readonly program: Program;
   private readonly locations: Locations;
   private readonly geometry: Geometry;
@@ -35,7 +33,6 @@ export class Mesh {
       rotation: new Vector3(),
       scale: new Vector3({ x: 1, y: 1, z: 1 }),
     });
-    this.buffer = Mesh.createBuffer(context);
     this.program = new Program({
       context,
       vertexShader,
@@ -57,16 +54,6 @@ export class Mesh {
   public prepareForRender() {
     this.program.use();
     this.setUniformValues();
-  }
-
-  private static createBuffer(context: WebGL2RenderingContext): WebGLBuffer {
-    const buffer = context.createBuffer();
-
-    if (buffer === null) {
-      throw new Error(Errors.COULD_NOT_CREATE_BUFFER);
-    }
-
-    return buffer;
   }
 
   private setUniformValues() {

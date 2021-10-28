@@ -4,7 +4,13 @@ import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
 import { fPoints } from './assets/f_points';
 // import { makeTranslationSlider } from './ui/translation_slider';
 import { Color } from '../core/color/Color';
-import { Updater, GameObject, Component, tickData } from 'pulsar-pathfinding';
+import {
+  Updater,
+  GameObject,
+  Component,
+  tickData,
+  randomFloat,
+} from 'pulsar-pathfinding';
 import { Vector3 } from '../core/Vector3';
 import { Triangle } from '../core/triangle/Triangle';
 import { GameObject3D } from '../core/ecs/GameObject3D';
@@ -62,17 +68,25 @@ class RenderLoop extends Component {
   }
 }
 
-const fShape = new FShape();
-const rotate = new Rotate();
-fShape.addComponent(rotate);
-scene.add(fShape.mesh);
+for (let i = 0; i < 15; i++) {
+  const fShape = new FShape();
+  fShape.addComponent(new Rotate());
+  scene.add(fShape.mesh);
+  updater.add(fShape);
+  fShape.mesh.transforms.translation = new Vector3({
+    x: randomFloat(0, 2),
+    y: randomFloat(-2, 0),
+    z: 0,
+  });
+}
+
 app.addScene(scene);
 
 const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
 
-updater.add(fShape);
 updater.add(renderGameObject);
 updater.start();
 
-fShape.mesh.transforms.translation = new Vector3({ x: 1, y: -1, z: 0 });
+// fShape.mesh.transforms.translation = new Vector3({ x: 1, y: -1, z: 0 });
+// fShape2.mesh.transforms.translation = new Vector3({ x: 0, y: -1, z: 0 });
