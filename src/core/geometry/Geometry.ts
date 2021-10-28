@@ -2,10 +2,12 @@ import { geometryConfig } from './geometry_config';
 import { Triangle } from '../triangle/Triangle';
 
 export class Geometry {
+  public readonly triangles: Array<Triangle>;
   public readonly vertexCoordinates: Float32Array;
 
-  constructor(config: geometryConfig) {
-    this.vertexCoordinates = Geometry.getVertexCoordinates(config.triangles);
+  constructor({ triangles }: geometryConfig) {
+    this.triangles = triangles;
+    this.vertexCoordinates = Geometry.getVertexCoordinates(triangles);
   }
 
   private static getVertexCoordinates(

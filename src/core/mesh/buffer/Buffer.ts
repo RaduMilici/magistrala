@@ -1,0 +1,29 @@
+import { Errors } from '../../errors';
+import { bufferConfig } from './buffer_configs';
+import { Locations } from '../Locations';
+
+export abstract class Buffer {
+  glBuffer: WebGLBuffer;
+  protected context: WebGL2RenderingContext;
+  protected locations: Locations;
+
+  protected constructor({ context, locations }: bufferConfig) {
+    this.context = context;
+    this.locations = locations;
+    this.glBuffer = Buffer.createBuffer(this.context);
+  }
+
+  public enableAttributes() {}
+
+  protected setBufferData() {}
+
+  private static createBuffer(context: WebGL2RenderingContext): WebGLBuffer {
+    const buffer = context.createBuffer();
+
+    if (buffer === null) {
+      throw new Error(Errors.COULD_NOT_CREATE_BUFFER);
+    }
+
+    return buffer;
+  }
+}

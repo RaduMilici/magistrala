@@ -6,6 +6,7 @@ import { Locations } from './Locations';
 import { Transforms } from './transforms/Transforms';
 import { Vector3 } from '../Vector3';
 import { ProjectionMatrix } from './transforms/matrices/projection/ProjectionMatrix';
+import { PositionBuffer } from './buffer/PositionBuffer';
 
 export class Mesh {
   public projectionMatrix: ProjectionMatrix = new ProjectionMatrix();
@@ -17,6 +18,7 @@ export class Mesh {
   private readonly program: Program;
   private readonly locations: Locations;
   private readonly geometry: Geometry;
+  private readonly positionBuffer: PositionBuffer;
 
   constructor(config: meshConfig) {
     this.context = config.context;
@@ -35,13 +37,11 @@ export class Mesh {
       debug: true,
     });
     this.locations = new Locations(this.context, this.program);
-    this.context.bindBuffer(WebGL2RenderingContext.ARRAY_BUFFER, this.buffer);
-    this.context.bufferData(
-      WebGL2RenderingContext.ARRAY_BUFFER,
-      this.geometry.vertexCoordinates,
-      WebGL2RenderingContext.STATIC_DRAW
-    );
-    this.enableAttributes();
+    this.positionBuffer = new PositionBuffer({
+      context: config.context,
+      geometry: config.geometry,
+      locations: this.locations,
+    });
   }
 
   get vertCount(): number {
@@ -61,21 +61,6 @@ export class Mesh {
     }
 
     return buffer;
-  }
-
-  private enableAttributes() {
-    this.context.enableVertexAttribArray(
-      this.locations.attributeLocations.position
-    );
-
-    this.context.vertexAttribPointer(
-      this.locations.attributeLocations.position,
-      3,
-      WebGL2RenderingContext.FLOAT,
-      false,
-      0,
-      0
-    );
   }
 
   private setUniformValues() {
