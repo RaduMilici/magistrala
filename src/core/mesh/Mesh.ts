@@ -20,26 +20,32 @@ export class Mesh {
   private readonly geometry: Geometry;
   private readonly positionBuffer: PositionBuffer;
 
-  constructor(config: meshConfig) {
-    this.context = config.context;
-    this.geometry = config.geometry;
-    this.projectionMatrix = config.projectionMatrix;
+  constructor({
+    context,
+    geometry,
+    projectionMatrix,
+    vertexShader,
+    fragmentShader,
+  }: meshConfig) {
+    this.context = context;
+    this.geometry = geometry;
+    this.projectionMatrix = projectionMatrix;
     this.transforms = new Transforms({
       translation: new Vector3(),
-      rotation: new Vector3({ x: 0, y: 0, z: 0 }),
+      rotation: new Vector3(),
       scale: new Vector3({ x: 1, y: 1, z: 1 }),
     });
-    this.buffer = Mesh.createBuffer(this.context);
+    this.buffer = Mesh.createBuffer(context);
     this.program = new Program({
-      context: this.context,
-      vertexShader: config.vertexShader,
-      fragmentShader: config.fragmentShader,
+      context,
+      vertexShader,
+      fragmentShader,
       debug: true,
     });
-    this.locations = new Locations(this.context, this.program);
+    this.locations = new Locations(context, this.program);
     this.positionBuffer = new PositionBuffer({
-      context: config.context,
-      geometry: config.geometry,
+      context,
+      geometry,
       locations: this.locations,
     });
   }
