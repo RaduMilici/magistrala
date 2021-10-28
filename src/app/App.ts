@@ -5,7 +5,7 @@ import { FragmentShader } from '../core/shader/FragmentShader';
 import { shaderConfig } from '../core/shader/shader_configs';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
-import { Triangle } from '../core/Triangle';
+import { Triangle } from '../core/triangle/Triangle';
 import { Vector3 } from '../core/Vector3';
 import { Mesh } from '../core/mesh/Mesh';
 import { meshConfig } from '../core/mesh/mesh_config';
@@ -48,7 +48,7 @@ export class App {
   }
 
   newTriangle(a: Vector3, b: Vector3, c: Vector3): Triangle {
-    return new Triangle(a, b, c);
+    return new Triangle({ a, b, c });
   }
 
   newScene(): Scene {

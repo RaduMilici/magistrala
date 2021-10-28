@@ -1,5 +1,5 @@
 import { geometryConfig } from './geometry_config';
-import { Triangle } from '../Triangle';
+import { Triangle } from '../triangle/Triangle';
 
 export class Geometry {
   public readonly vertexCoordinates: Float32Array;

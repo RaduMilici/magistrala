@@ -6,7 +6,7 @@ import { fPoints } from './assets/f_points';
 import { Color } from '../core/color/Color';
 import { Updater, GameObject, Component, tickData } from 'pulsar-pathfinding';
 import { Vector3 } from '../core/Vector3';
-import { Triangle } from '../core/Triangle';
+import { Triangle } from '../core/triangle/Triangle';
 import { GameObject3D } from '../core/ecs/GameObject3D';
 import { Component3D } from '../core/ecs/Component3D';
 
