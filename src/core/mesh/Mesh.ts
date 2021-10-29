@@ -7,10 +7,10 @@ import { ColorLocations } from './locations/ColorLocations';
 import { PositionLocations } from './locations/PositionLocations';
 import { meshConfig } from './mesh_config';
 import { Transforms } from './transforms/Transforms';
-import { ProjectionMatrix } from './transforms/matrices/projection/ProjectionMatrix';
+import { PerspectiveMatrix } from './transforms/matrices/perspective/PerspectiveMatrix';
 
 export class Mesh {
-  public projectionMatrix: ProjectionMatrix = new ProjectionMatrix();
+  public perspectiveMatrix: PerspectiveMatrix;
 
   public readonly transforms: Transforms;
 
@@ -27,13 +27,13 @@ export class Mesh {
   constructor({
     context,
     geometry,
-    projectionMatrix,
+    perspectiveMatrix,
     vertexShader,
     fragmentShader,
   }: meshConfig) {
     this.context = context;
     this.geometry = geometry;
-    this.projectionMatrix = projectionMatrix;
+    this.perspectiveMatrix = perspectiveMatrix;
     const vao = this.context.createVertexArray();
     this.context.bindVertexArray(vao);
     this.transforms = new Transforms({
@@ -72,7 +72,7 @@ export class Mesh {
   }
 
   private setUniformValues() {
-    const { elements } = this.projectionMatrix
+    const { elements } = this.perspectiveMatrix
       .multiply(this.transforms.translationMatrix)
       .multiply(this.transforms.xRotationMatrix)
       .multiply(this.transforms.yRotationMatrix)

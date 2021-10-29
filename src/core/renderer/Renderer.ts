@@ -1,32 +1,34 @@
-import { size } from 'pulsar-pathfinding';
+import { RadToDeg, size } from 'pulsar-pathfinding';
 import { Canvas } from '../Canvas';
 import { Color } from '../color/Color';
 import { Errors } from '../errors';
-import { ProjectionMatrix } from '../mesh/transforms/matrices/projection/ProjectionMatrix';
+import { PerspectiveMatrix } from '../mesh/transforms/matrices/perspective/PerspectiveMatrix';
 import { Scene } from '../scene/Scene';
 import { rendererConfig } from './renderer_config';
 import {
   DEFAULT_RENDERER_CONTAINER,
-  DEFAULT_RENDERER_DEPTH,
   DEFAULT_RENDERER_SIZE,
 } from './renderer_default_values';
 
 export class Renderer {
   readonly canvas: Canvas;
-  readonly projectionMatrix: ProjectionMatrix;
+  readonly perspectiveMatrix: PerspectiveMatrix;
   private size: size = DEFAULT_RENDERER_SIZE;
 
   constructor({
     size: { width, height } = DEFAULT_RENDERER_SIZE,
     container = DEFAULT_RENDERER_CONTAINER,
-    depth = DEFAULT_RENDERER_DEPTH,
+    fov = RadToDeg(60),
+    aspect,
+    near = 1,
+    far = 1000,
   }: rendererConfig) {
     if (container === null) {
       throw new Error(Errors.NULL_RENDERER_CONTAINER);
     }
     this.canvas = new Canvas({ width, height });
     this.setSize({ width, height });
-    this.projectionMatrix = new ProjectionMatrix({ width, height, depth });
+    this.perspectiveMatrix = new PerspectiveMatrix({ fov, aspect, near, far });
     container.appendChild(this.canvas.HTMLElement);
     this.context.enable(WebGL2RenderingContext.CULL_FACE);
     this.context.enable(WebGL2RenderingContext.DEPTH_TEST);

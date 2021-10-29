@@ -1,13 +1,13 @@
 import {
   Component,
+  DegToRad,
   GameObject,
   Updater,
-  tickData, //randomFloat,
+  size,
+  tickData,
 } from 'pulsar-pathfinding';
 import { App } from '../app/App';
 import { Vector3 } from '../core/Vector3';
-//import { fColors } from './assets/f/f_colors';
-//import { makeTranslationSlider } from './ui/translation_slider';
 import { Color } from '../core/color/Color';
 import { Component3D } from '../core/ecs/Component3D';
 import { GameObject3D } from '../core/ecs/GameObject3D';
@@ -16,12 +16,19 @@ import { fPoints } from './assets/f/f_points';
 import fragmentShaderSource from './shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from './shaders/vertex_shader_chunks';
 
+const rendererSize: size = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
 const app = new App({
   container: document.getElementById('magistrala-app'),
-  size: { width: 800, height: 800 },
-  depth: 1000,
+  size: rendererSize,
+  fov: DegToRad(60),
+  aspect: rendererSize.width / rendererSize.height,
+  near: 1,
+  far: 1000,
 });
-app.renderer.setClearColor(new Color({ r: 0, g: 1, b: 0, a: 1 }));
+app.renderer.setClearColor(Color.from255({ r: 40, g: 44, b: 52 }));
 const scene = app.newScene();
 const updater = new Updater();
 
@@ -34,9 +41,7 @@ class FShape extends GameObject3D {
     });
 
     const triangles = Triangle.multipleFromCoordinates(fPoints);
-    //const colors = Color.multipleFrom255(fColors);
     for (let i = 0; i < triangles.length; i++) {
-      //triangles[i].color = colors[i];
       triangles[i].color = Color.random();
     }
     const geometry = app.newGeometry({ triangles });
@@ -51,8 +56,8 @@ class Rotate extends Component3D {
 
   update({ elapsedTime }: tickData) {
     this.parent.mesh.transforms.rotation = new Vector3({
-      x: 0,
-      y: -elapsedTime,
+      x: DegToRad(180),
+      y: elapsedTime,
       z: 0,
     });
   }
@@ -73,20 +78,15 @@ class RenderLoop extends Component {
   }
 }
 
-for (let i = 0; i < 1; i++) {
+for (let i = 0; i < 10; i++) {
   const fShape = new FShape();
   fShape.addComponent(new Rotate());
   scene.add(fShape.mesh);
   updater.add(fShape);
-  // fShape.mesh.transforms.translation = new Vector3({
-  //   x: randomFloat(0, 2),
-  //   y: randomFloat(-2, 0),
-  //   z: 0,
-  // });
   fShape.mesh.transforms.translation = new Vector3({
-    x: 1,
-    y: -1,
-    z: 0,
+    x: 0,
+    y: 0,
+    z: -500,
   });
 }
 
@@ -94,6 +94,5 @@ app.addScene(scene);
 
 const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
-
 updater.add(renderGameObject);
 updater.start();

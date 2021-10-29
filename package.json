@@ -45,6 +45,6 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "pulsar-pathfinding": "^2.0.0"
+    "pulsar-pathfinding": "^2.0.2"
   }
 }
