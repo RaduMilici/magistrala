@@ -1,5 +1,5 @@
-import { colorValues } from './color_values';
 import { randomFloat } from 'pulsar-pathfinding';
+import { colorValues } from './color_values';
 
 export class Color {
   public static readonly VALUE_COUNT = 4;

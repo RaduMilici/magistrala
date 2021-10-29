@@ -1,13 +1,13 @@
-import { Geometry } from '../geometry/Geometry';
-import { meshConfig } from './mesh_config';
-import { Program } from '../program/Program';
-import { Transforms } from './transforms/Transforms';
 import { Vector3 } from '../Vector3';
-import { ProjectionMatrix } from './transforms/matrices/projection/ProjectionMatrix';
+import { Geometry } from '../geometry/Geometry';
+import { Program } from '../program/Program';
 import { PositionBuffer } from './buffer/PositionBuffer';
 import { TriangleColorBuffer } from './buffer/TriangleColorBuffer';
-import { PositionLocations } from './locations/PositionLocations';
 import { ColorLocations } from './locations/ColorLocations';
+import { PositionLocations } from './locations/PositionLocations';
+import { meshConfig } from './mesh_config';
+import { Transforms } from './transforms/Transforms';
+import { ProjectionMatrix } from './transforms/matrices/projection/ProjectionMatrix';
 
 export class Mesh {
   public projectionMatrix: ProjectionMatrix = new ProjectionMatrix();
@@ -81,7 +81,7 @@ export class Mesh {
     this.context.uniformMatrix4fv(
       this.positionLocations.matrixUniformLocation,
       false,
-      elements
+      elements,
     );
   }
 

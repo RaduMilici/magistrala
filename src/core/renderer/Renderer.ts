@@ -1,15 +1,15 @@
-import { rendererConfig } from './renderer_config';
+import { size } from 'pulsar-pathfinding';
 import { Canvas } from '../Canvas';
 import { Color } from '../color/Color';
 import { Errors } from '../errors';
-import { size } from 'pulsar-pathfinding';
+import { ProjectionMatrix } from '../mesh/transforms/matrices/projection/ProjectionMatrix';
+import { Scene } from '../scene/Scene';
+import { rendererConfig } from './renderer_config';
 import {
   DEFAULT_RENDERER_CONTAINER,
-  DEFAULT_RENDERER_SIZE,
   DEFAULT_RENDERER_DEPTH,
+  DEFAULT_RENDERER_SIZE,
 } from './renderer_default_values';
-import { Scene } from '../scene/Scene';
-import { ProjectionMatrix } from '../mesh/transforms/matrices/projection/ProjectionMatrix';
 
 export class Renderer {
   readonly canvas: Canvas;
@@ -49,7 +49,7 @@ export class Renderer {
   clear() {
     this.context.clear(
       WebGL2RenderingContext.COLOR_BUFFER_BIT |
-        WebGL2RenderingContext.DEPTH_BUFFER_BIT
+        WebGL2RenderingContext.DEPTH_BUFFER_BIT,
     );
   }
 

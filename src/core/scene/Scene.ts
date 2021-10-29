@@ -1,5 +1,5 @@
-import { Mesh } from '../mesh/Mesh';
 import { uniqueId } from 'pulsar-pathfinding';
+import { Mesh } from '../mesh/Mesh';
 
 export class Scene {
   readonly id: string = uniqueId();

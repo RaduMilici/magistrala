@@ -1,21 +1,20 @@
+import {
+  Component,
+  GameObject,
+  Updater,
+  tickData, //randomFloat,
+} from 'pulsar-pathfinding';
 import { App } from '../app/App';
-import fragmentShaderSource from './shaders/fragment_shader.glsl';
-import { vertexShaderChunks } from './shaders/vertex_shader_chunks';
-import { fPoints } from './assets/f/f_points';
+import { Vector3 } from '../core/Vector3';
 //import { fColors } from './assets/f/f_colors';
 //import { makeTranslationSlider } from './ui/translation_slider';
 import { Color } from '../core/color/Color';
-import {
-  Updater,
-  GameObject,
-  Component,
-  tickData,
-  //randomFloat,
-} from 'pulsar-pathfinding';
-import { Vector3 } from '../core/Vector3';
-import { Triangle } from '../core/triangle/Triangle';
-import { GameObject3D } from '../core/ecs/GameObject3D';
 import { Component3D } from '../core/ecs/Component3D';
+import { GameObject3D } from '../core/ecs/GameObject3D';
+import { Triangle } from '../core/triangle/Triangle';
+import { fPoints } from './assets/f/f_points';
+import fragmentShaderSource from './shaders/fragment_shader.glsl';
+import { vertexShaderChunks } from './shaders/vertex_shader_chunks';
 
 const app = new App({
   container: document.getElementById('magistrala-app'),

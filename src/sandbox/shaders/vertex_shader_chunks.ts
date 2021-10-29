@@ -1,12 +1,12 @@
 import {
-  COLOR_VARYING,
-  VERTEX_SHADER_BOILERPLATE,
-} from '../../core/shader/chunks/variables';
-import {
   AttributeNames,
   UniformNames,
   VaryingNames,
 } from '../../core/mesh/location_names';
+import {
+  COLOR_VARYING,
+  VERTEX_SHADER_BOILERPLATE,
+} from '../../core/shader/chunks/variables';
 
 export const vertexShaderChunks = `${VERTEX_SHADER_BOILERPLATE}
 

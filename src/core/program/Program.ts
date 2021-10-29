@@ -1,7 +1,7 @@
-import { programConfig } from './program_config';
 import { Errors } from '../errors';
-import { VertexShader } from '../shader/VertexShader';
 import { FragmentShader } from '../shader/FragmentShader';
+import { VertexShader } from '../shader/VertexShader';
+import { programConfig } from './program_config';
 
 export class Program {
   public readonly glProgram: WebGLProgram;
@@ -35,7 +35,7 @@ export class Program {
 
   private attachShaders(
     vertexShader: VertexShader,
-    fragmentShader: FragmentShader
+    fragmentShader: FragmentShader,
   ) {
     this.context.attachShader(this.glProgram, vertexShader.glShader);
     this.context.attachShader(this.glProgram, fragmentShader.glShader);
@@ -43,11 +43,11 @@ export class Program {
 
   private static verify(
     context: WebGL2RenderingContext,
-    program: WebGLProgram
+    program: WebGLProgram,
   ) {
     const success = context.getProgramParameter(
       program,
-      WebGL2RenderingContext.LINK_STATUS
+      WebGL2RenderingContext.LINK_STATUS,
     );
 
     if (!success) {
@@ -59,12 +59,12 @@ export class Program {
 
   private static validate(
     context: WebGL2RenderingContext,
-    program: WebGLProgram
+    program: WebGLProgram,
   ) {
     context.validateProgram(program);
     const success = context.getProgramParameter(
       program,
-      WebGL2RenderingContext.VALIDATE_STATUS
+      WebGL2RenderingContext.VALIDATE_STATUS,
     );
 
     if (!success) {

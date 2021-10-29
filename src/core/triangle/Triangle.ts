@@ -1,7 +1,7 @@
-import { Vector3 } from '../Vector3';
 import { randomFloat } from 'pulsar-pathfinding';
-import { triangle_config } from './triangle_config';
+import { Vector3 } from '../Vector3';
 import { Color } from '../color/Color';
+import { triangle_config } from './triangle_config';
 
 export class Triangle {
   public static readonly VERTEX_COUNT = 3;
@@ -46,7 +46,7 @@ export class Triangle {
   }
 
   public static multipleFromCoordinates(
-    coordinates: Array<number>
+    coordinates: Array<number>,
   ): Array<Triangle> {
     const triangles: Array<Triangle> = [];
     for (let i = 0; i < coordinates.length; i += 9) {

@@ -1,11 +1,11 @@
 import { Matrix4 } from 'pulsar-pathfinding';
 import { Vector3 } from '../../Vector3';
-import { XRotationMatrix } from './matrices/rotation/XRotationMatrix';
-import { YRotationMatrix } from './matrices/rotation/YRotationMatrix';
-import { ZRotationMatrix } from './matrices/rotation/ZRotationMatrix';
 import { transformsConfig } from '../transforms_config';
 import { ScaleMatrix } from './matrices/ScaleMatrix';
 import { TranslationMatrix } from './matrices/TranslationMatrix';
+import { XRotationMatrix } from './matrices/rotation/XRotationMatrix';
+import { YRotationMatrix } from './matrices/rotation/YRotationMatrix';
+import { ZRotationMatrix } from './matrices/rotation/ZRotationMatrix';
 
 export class Transforms {
   translationMatrix: Matrix4 = new Matrix4();

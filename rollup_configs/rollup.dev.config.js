@@ -1,7 +1,7 @@
 import merge from 'deepmerge';
-import serve from 'rollup-plugin-serve';
 import clean from 'rollup-plugin-clean';
 import htmlTemplate from 'rollup-plugin-generate-html-template';
+import serve from 'rollup-plugin-serve';
 import { rollupBaseConfig } from './rollup.base.config';
 
 export default merge(rollupBaseConfig, {

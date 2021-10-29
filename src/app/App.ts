@@ -1,16 +1,16 @@
-import { Renderer } from '../core/renderer/Renderer';
-import { rendererConfig } from '../core/renderer/renderer_config';
-import { VertexShader } from '../core/shader/VertexShader';
-import { FragmentShader } from '../core/shader/FragmentShader';
-import { shaderConfig } from '../core/shader/shader_configs';
+import { Vector3 } from '../core/Vector3';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
-import { Triangle } from '../core/triangle/Triangle';
-import { triangle_config } from '../core/triangle/triangle_config';
-import { Vector3 } from '../core/Vector3';
 import { Mesh } from '../core/mesh/Mesh';
 import { meshConfig } from '../core/mesh/mesh_config';
+import { Renderer } from '../core/renderer/Renderer';
+import { rendererConfig } from '../core/renderer/renderer_config';
 import { Scene } from '../core/scene/Scene';
+import { FragmentShader } from '../core/shader/FragmentShader';
+import { VertexShader } from '../core/shader/VertexShader';
+import { shaderConfig } from '../core/shader/shader_configs';
+import { Triangle } from '../core/triangle/Triangle';
+import { triangle_config } from '../core/triangle/triangle_config';
 
 export class App {
   public readonly scenes: Array<Scene> = [];
@@ -66,7 +66,7 @@ export class App {
 
   removeScene(scene: Scene) {
     const index = this.scenes.findIndex(
-      (activeScene) => activeScene.id === scene.id
+      (activeScene) => activeScene.id === scene.id,
     );
     if (index !== -1) {
       this.scenes.splice(index, 1);

@@ -14,7 +14,7 @@ export abstract class Locations {
   protected getUniformLocation(name: string): WebGLUniformLocation {
     const location = this.context.getUniformLocation(
       this.program.glProgram,
-      name
+      name,
     );
 
     if (location === null) {
@@ -27,7 +27,7 @@ export abstract class Locations {
   protected getAttributeLocation(name: string): GLint {
     const location = this.context.getAttribLocation(
       this.program.glProgram,
-      name
+      name,
     );
 
     if (location === -1) {

@@ -1,7 +1,7 @@
+import { Triangle } from '../../triangle/Triangle';
+import { PositionLocations } from '../locations/PositionLocations';
 import { Buffer } from './Buffer';
 import { positionBufferConfig } from './buffer_configs';
-import { PositionLocations } from '../locations/PositionLocations';
-import { Triangle } from '../../triangle/Triangle';
 
 export class PositionBuffer extends Buffer {
   readonly vertexCoordinates: Float32Array;
@@ -17,7 +17,7 @@ export class PositionBuffer extends Buffer {
 
   public enableAttributes() {
     this.context.enableVertexAttribArray(
-      this.locations.positionAttributeLocation
+      this.locations.positionAttributeLocation,
     );
 
     this.context.vertexAttribPointer(
@@ -26,7 +26,7 @@ export class PositionBuffer extends Buffer {
       WebGL2RenderingContext.FLOAT,
       Buffer.IS_NORMALIZED,
       Buffer.STRIDE,
-      Buffer.OFFSET
+      Buffer.OFFSET,
     );
   }
 
@@ -34,7 +34,7 @@ export class PositionBuffer extends Buffer {
     this.context.bufferData(
       WebGL2RenderingContext.ARRAY_BUFFER,
       this.vertexCoordinates,
-      WebGL2RenderingContext.STATIC_DRAW
+      WebGL2RenderingContext.STATIC_DRAW,
     );
   }
 }

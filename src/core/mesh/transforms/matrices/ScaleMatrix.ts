@@ -1,5 +1,5 @@
-import { Vector3 } from '../../../Vector3';
 import { Matrix4 } from 'pulsar-pathfinding';
+import { Vector3 } from '../../../Vector3';
 
 export class ScaleMatrix extends Matrix4 {
   constructor({ x, y, z }: Vector3) {

@@ -1,5 +1,5 @@
-import { Triangle } from '../../core/triangle/Triangle';
 import { Vector3 } from '../../core/Vector3';
+import { Triangle } from '../../core/triangle/Triangle';
 
 export const trianglePoints = [
   new Triangle({

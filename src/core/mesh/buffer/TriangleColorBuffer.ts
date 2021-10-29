@@ -1,7 +1,7 @@
+import { Color } from '../../color/Color';
+import { ColorLocations } from '../locations/ColorLocations';
 import { Buffer } from './Buffer';
 import { colorBufferConfig } from './buffer_configs';
-import { ColorLocations } from '../locations/ColorLocations';
-import { Color } from '../../color/Color';
 
 export class TriangleColorBuffer extends Buffer {
   triangleColors: Float32Array;
@@ -24,7 +24,7 @@ export class TriangleColorBuffer extends Buffer {
       WebGL2RenderingContext.FLOAT,
       Buffer.IS_NORMALIZED,
       Buffer.STRIDE,
-      Buffer.OFFSET
+      Buffer.OFFSET,
     );
   }
 
@@ -32,7 +32,7 @@ export class TriangleColorBuffer extends Buffer {
     this.context.bufferData(
       WebGL2RenderingContext.ARRAY_BUFFER,
       this.triangleColors,
-      WebGL2RenderingContext.STATIC_DRAW
+      WebGL2RenderingContext.STATIC_DRAW,
     );
   }
 }

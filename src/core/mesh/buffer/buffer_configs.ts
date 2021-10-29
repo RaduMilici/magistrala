@@ -1,6 +1,6 @@
+import { ColorLocations } from '../locations/ColorLocations';
 import { Locations } from '../locations/Locations';
 import { PositionLocations } from '../locations/PositionLocations';
-import { ColorLocations } from '../locations/ColorLocations';
 
 export type bufferConfig = {
   context: WebGL2RenderingContext;

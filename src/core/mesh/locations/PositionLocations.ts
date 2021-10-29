@@ -1,6 +1,6 @@
+import { AttributeNames, UniformNames } from '../location_names';
 import { Locations } from './Locations';
 import { locationsConfig } from './locations_config';
-import { AttributeNames, UniformNames } from '../location_names';
 
 export class PositionLocations extends Locations {
   matrixUniformLocation: WebGLUniformLocation;
@@ -10,7 +10,7 @@ export class PositionLocations extends Locations {
     super({ context, program });
     this.matrixUniformLocation = this.getUniformLocation(UniformNames.MATRIX);
     this.positionAttributeLocation = this.getAttributeLocation(
-      AttributeNames.POSITION
+      AttributeNames.POSITION,
     );
   }
 }

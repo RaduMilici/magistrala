@@ -1,6 +1,6 @@
 import { Errors } from '../../errors';
-import { bufferConfig } from './buffer_configs';
 import { Locations } from '../locations/Locations';
+import { bufferConfig } from './buffer_configs';
 
 export abstract class Buffer {
   public static readonly STRIDE = 0;

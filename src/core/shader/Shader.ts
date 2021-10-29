@@ -1,5 +1,5 @@
-import { shaderBaseConfig } from './shader_configs';
 import { Errors } from '../errors';
+import { shaderBaseConfig } from './shader_configs';
 
 export class Shader {
   readonly glShader: WebGLShader;
@@ -34,7 +34,7 @@ export class Shader {
   private static verify(context: WebGL2RenderingContext, shader: WebGLShader) {
     const success = context.getShaderParameter(
       shader,
-      WebGL2RenderingContext.COMPILE_STATUS
+      WebGL2RenderingContext.COMPILE_STATUS,
     );
 
     if (!success) {

@@ -1,5 +1,5 @@
-import { geometryConfig } from './geometry_config';
 import { Triangle } from '../triangle/Triangle';
+import { geometryConfig } from './geometry_config';
 
 export class Geometry {
   public readonly triangleColors: Float32Array;
@@ -27,7 +27,7 @@ export class Geometry {
   }
 
   private static getVertexCoordinates(
-    triangles: Array<Triangle>
+    triangles: Array<Triangle>,
   ): Float32Array {
     const coordinates = Triangle.getPoints(triangles)
       .map(({ x, y, z }) => [x, y, z])
