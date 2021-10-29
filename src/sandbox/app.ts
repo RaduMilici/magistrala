@@ -50,11 +50,11 @@ class Rotate extends Component3D {
     super({ name: 'Rotate' });
   }
 
-  update({ deltaTimeMS, elapsedTime }: tickData) {
+  update({ elapsedTime }: tickData) {
     this.parent.mesh.transforms.rotation = new Vector3({
-      x: elapsedTime,
-      y: elapsedTime,
-      z: elapsedTime,
+      x: 0,
+      y: -elapsedTime,
+      z: 0,
     });
   }
 }
