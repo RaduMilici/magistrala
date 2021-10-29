@@ -34,13 +34,13 @@ export class App {
     fragmentShader,
     vertexShader,
     geometry,
-  }: Omit<meshConfig, 'context' | 'projectionMatrix'>): Mesh {
+  }: Omit<meshConfig, 'context' | 'perspectiveMatrix'>): Mesh {
     return new Mesh({
       vertexShader,
       fragmentShader,
       geometry,
       context: this.renderer.context,
-      projectionMatrix: this.renderer.projectionMatrix,
+      perspectiveMatrix: this.renderer.perspectiveMatrix,
     });
   }
 
