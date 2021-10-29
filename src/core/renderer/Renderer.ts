@@ -28,6 +28,7 @@ export class Renderer {
     this.setSize({ width, height });
     this.projectionMatrix = new ProjectionMatrix({ width, height, depth });
     container.appendChild(this.canvas.HTMLElement);
+    this.context.enable(WebGL2RenderingContext.CULL_FACE);
   }
 
   get context(): WebGL2RenderingContext {

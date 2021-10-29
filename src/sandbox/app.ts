@@ -40,13 +40,6 @@ class FShape extends GameObject3D {
       triangles[i].color = colors[i];
       //triangles[i].color = Color.random();
     }
-    // const triangle = app.newTriangle({
-    //   a: new Vector3({ x: 0, y: 0, z: 0 }),
-    //   b: new Vector3({ x: 100, y: 100, z: 0 }),
-    //   c: new Vector3({ x: 0, y: -100, z: 0 }),
-    //   color: new Color({ r: 0, g: 0, b: 1, a: 1 })
-    // })
-
     const geometry = app.newGeometry({ triangles });
     this.mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
   }
