@@ -2,8 +2,8 @@ import { App } from '../app/App';
 import fragmentShaderSource from './shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from './shaders/vertex_shader_chunks';
 import { fPoints } from './assets/f/f_points';
-import { fColors } from './assets/f/f_colors';
-// import { makeTranslationSlider } from './ui/translation_slider';
+//import { fColors } from './assets/f/f_colors';
+//import { makeTranslationSlider } from './ui/translation_slider';
 import { Color } from '../core/color/Color';
 import {
   Updater,
@@ -35,10 +35,10 @@ class FShape extends GameObject3D {
     });
 
     const triangles = Triangle.multipleFromCoordinates(fPoints);
-    const colors = Color.multipleFrom255(fColors);
+    //const colors = Color.multipleFrom255(fColors);
     for (let i = 0; i < triangles.length; i++) {
-      triangles[i].color = colors[i];
-      //triangles[i].color = Color.random();
+      //triangles[i].color = colors[i];
+      triangles[i].color = Color.random();
     }
     const geometry = app.newGeometry({ triangles });
     this.mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
