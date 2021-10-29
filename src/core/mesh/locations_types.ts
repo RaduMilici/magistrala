@@ -1,9 +1,10 @@
-export type uniformLocations = {
-  pointSize: WebGLUniformLocation;
+export type positionUniformLocations = {
+  //pointSize: WebGLUniformLocation;
   matrix: WebGLUniformLocation;
 };
 
-export type attributeLocations = {
+export type positionAttributeLocations = {
   position: GLint;
+  color: GLint;
   vertColor: GLint;
 };

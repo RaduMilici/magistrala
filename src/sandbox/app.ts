@@ -1,12 +1,19 @@
 import { App } from '../app/App';
-import fragmentShaderSource from '../shaders/fragment_shader.glsl';
-import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
-import { fPoints } from './assets/f_points';
-// import { makeTranslationSlider } from './ui/translation_slider';
+import fragmentShaderSource from './shaders/fragment_shader.glsl';
+import { vertexShaderChunks } from './shaders/vertex_shader_chunks';
+import { fPoints } from './assets/f/f_points';
+//import { fColors } from './assets/f/f_colors';
+//import { makeTranslationSlider } from './ui/translation_slider';
 import { Color } from '../core/color/Color';
-import { Updater, GameObject, Component, tickData } from 'pulsar-pathfinding';
+import {
+  Updater,
+  GameObject,
+  Component,
+  tickData,
+  //randomFloat,
+} from 'pulsar-pathfinding';
 import { Vector3 } from '../core/Vector3';
-import { Triangle } from '../core/Triangle';
+import { Triangle } from '../core/triangle/Triangle';
 import { GameObject3D } from '../core/ecs/GameObject3D';
 import { Component3D } from '../core/ecs/Component3D';
 
@@ -26,9 +33,14 @@ class FShape extends GameObject3D {
     const fragmentShader = app.newFragmentShader({
       source: fragmentShaderSource,
     });
-    const geometry = app.newGeometry({
-      triangles: Triangle.multipleFromCoordinates(fPoints),
-    });
+
+    const triangles = Triangle.multipleFromCoordinates(fPoints);
+    //const colors = Color.multipleFrom255(fColors);
+    for (let i = 0; i < triangles.length; i++) {
+      //triangles[i].color = colors[i];
+      triangles[i].color = Color.random();
+    }
+    const geometry = app.newGeometry({ triangles });
     this.mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
   }
 }
@@ -38,11 +50,11 @@ class Rotate extends Component3D {
     super({ name: 'Rotate' });
   }
 
-  update({ deltaTimeMS, elapsedTime }: tickData) {
+  update({ elapsedTime }: tickData) {
     this.parent.mesh.transforms.rotation = new Vector3({
-      x: elapsedTime,
-      y: elapsedTime,
-      z: elapsedTime,
+      x: 0,
+      y: -elapsedTime,
+      z: 0,
     });
   }
 }
@@ -62,17 +74,27 @@ class RenderLoop extends Component {
   }
 }
 
-const fShape = new FShape();
-const rotate = new Rotate();
-fShape.addComponent(rotate);
-scene.add(fShape.mesh);
+for (let i = 0; i < 1; i++) {
+  const fShape = new FShape();
+  fShape.addComponent(new Rotate());
+  scene.add(fShape.mesh);
+  updater.add(fShape);
+  // fShape.mesh.transforms.translation = new Vector3({
+  //   x: randomFloat(0, 2),
+  //   y: randomFloat(-2, 0),
+  //   z: 0,
+  // });
+  fShape.mesh.transforms.translation = new Vector3({
+    x: 1,
+    y: -1,
+    z: 0,
+  });
+}
+
 app.addScene(scene);
 
 const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
 
-updater.add(fShape);
 updater.add(renderGameObject);
 updater.start();
-
-fShape.mesh.transforms.translation = new Vector3({ x: 1, y: -1, z: 0 });

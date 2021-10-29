@@ -1,8 +1,21 @@
-import { Vector3 } from './Vector3';
+import { Vector3 } from '../Vector3';
 import { randomFloat } from 'pulsar-pathfinding';
+import { triangle_config } from './triangle_config';
+import { Color } from '../color/Color';
 
 export class Triangle {
-  constructor(public a: Vector3, public b: Vector3, public c: Vector3) {}
+  public static readonly VERTEX_COUNT = 3;
+  public color: Color | undefined;
+  public readonly a: Vector3;
+  public readonly b: Vector3;
+  public readonly c: Vector3;
+
+  constructor({ a, b, c, color }: triangle_config) {
+    this.a = a;
+    this.b = b;
+    this.c = c;
+    this.color = color;
+  }
 
   get points(): Array<Vector3> {
     return [this.a, this.b, this.c];
@@ -13,11 +26,23 @@ export class Triangle {
   }
 
   public static fromCoordinates(coordinates: Array<number>): Triangle {
-    return new Triangle(
-      new Vector3({ x: coordinates[0], y: coordinates[1], z: coordinates[2] }),
-      new Vector3({ x: coordinates[3], y: coordinates[4], z: coordinates[5] }),
-      new Vector3({ x: coordinates[6], y: coordinates[7], z: coordinates[8] })
-    );
+    return new Triangle({
+      a: new Vector3({
+        x: coordinates[0],
+        y: coordinates[1],
+        z: coordinates[2],
+      }),
+      b: new Vector3({
+        x: coordinates[3],
+        y: coordinates[4],
+        z: coordinates[5],
+      }),
+      c: new Vector3({
+        x: coordinates[6],
+        y: coordinates[7],
+        z: coordinates[8],
+      }),
+    });
   }
 
   public static multipleFromCoordinates(
@@ -28,13 +53,6 @@ export class Triangle {
       triangles.push(Triangle.fromCoordinates(coordinates.slice(i, i + 9)));
     }
     return triangles;
-  }
-
-  public randomize() {
-    const { a, b, c } = Triangle.random();
-    this.a = a;
-    this.b = b;
-    this.c = c;
   }
 
   public static random(): Triangle {
@@ -53,7 +71,7 @@ export class Triangle {
       y: randomFloat(-1, 1),
       z: randomFloat(-1, 1),
     });
-    return new Triangle(a, b, c);
+    return new Triangle({ a, b, c });
   }
 
   public static randomMultiple(number: number): Array<Triangle> {

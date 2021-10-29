@@ -1,11 +1,13 @@
 import { Geometry } from '../geometry/Geometry';
 import { meshConfig } from './mesh_config';
-import { Errors } from '../errors';
 import { Program } from '../program/Program';
-import { Locations } from './Locations';
 import { Transforms } from './transforms/Transforms';
 import { Vector3 } from '../Vector3';
 import { ProjectionMatrix } from './transforms/matrices/projection/ProjectionMatrix';
+import { PositionBuffer } from './buffer/PositionBuffer';
+import { TriangleColorBuffer } from './buffer/TriangleColorBuffer';
+import { PositionLocations } from './locations/PositionLocations';
+import { ColorLocations } from './locations/ColorLocations';
 
 export class Mesh {
   public projectionMatrix: ProjectionMatrix = new ProjectionMatrix();
@@ -13,35 +15,51 @@ export class Mesh {
   public readonly transforms: Transforms;
 
   private readonly context: WebGL2RenderingContext;
-  private readonly buffer: WebGLBuffer;
   private readonly program: Program;
-  private readonly locations: Locations;
   private readonly geometry: Geometry;
 
-  constructor(config: meshConfig) {
-    this.context = config.context;
-    this.geometry = config.geometry;
-    this.projectionMatrix = config.projectionMatrix;
+  private readonly positionLocations: PositionLocations;
+  private readonly colorLocations: ColorLocations | null = null;
+
+  private positionBuffer: PositionBuffer | null = null;
+  private triangleColorBuffer: TriangleColorBuffer | null = null;
+
+  constructor({
+    context,
+    geometry,
+    projectionMatrix,
+    vertexShader,
+    fragmentShader,
+  }: meshConfig) {
+    this.context = context;
+    this.geometry = geometry;
+    this.projectionMatrix = projectionMatrix;
+    const vao = this.context.createVertexArray();
+    this.context.bindVertexArray(vao);
     this.transforms = new Transforms({
       translation: new Vector3(),
-      rotation: new Vector3({ x: 0, y: 0, z: 0 }),
+      rotation: new Vector3(),
       scale: new Vector3({ x: 1, y: 1, z: 1 }),
     });
-    this.buffer = Mesh.createBuffer(this.context);
     this.program = new Program({
-      context: this.context,
-      vertexShader: config.vertexShader,
-      fragmentShader: config.fragmentShader,
+      context,
+      vertexShader,
+      fragmentShader,
       debug: true,
     });
-    this.locations = new Locations(this.context, this.program);
-    this.context.bindBuffer(WebGL2RenderingContext.ARRAY_BUFFER, this.buffer);
-    this.context.bufferData(
-      WebGL2RenderingContext.ARRAY_BUFFER,
-      this.geometry.vertexCoordinates,
-      WebGL2RenderingContext.STATIC_DRAW
-    );
-    this.enableAttributes();
+    this.positionLocations = new PositionLocations({
+      context,
+      program: this.program,
+    });
+
+    if (this.geometry.hasTriangleColors) {
+      this.colorLocations = new ColorLocations({
+        context,
+        program: this.program,
+      });
+    }
+
+    this.createBuffers();
   }
 
   get vertCount(): number {
@@ -53,31 +71,6 @@ export class Mesh {
     this.setUniformValues();
   }
 
-  private static createBuffer(context: WebGL2RenderingContext): WebGLBuffer {
-    const buffer = context.createBuffer();
-
-    if (buffer === null) {
-      throw new Error(Errors.COULD_NOT_CREATE_BUFFER);
-    }
-
-    return buffer;
-  }
-
-  private enableAttributes() {
-    this.context.enableVertexAttribArray(
-      this.locations.attributeLocations.position
-    );
-
-    this.context.vertexAttribPointer(
-      this.locations.attributeLocations.position,
-      3,
-      WebGL2RenderingContext.FLOAT,
-      false,
-      0,
-      0
-    );
-  }
-
   private setUniformValues() {
     const { elements } = this.projectionMatrix
       .multiply(this.transforms.translationMatrix)
@@ -86,9 +79,27 @@ export class Mesh {
       .multiply(this.transforms.zRotationMatrix)
       .multiply(this.transforms.scaleMatrix);
     this.context.uniformMatrix4fv(
-      this.locations.uniformLocations.matrix,
+      this.positionLocations.matrixUniformLocation,
       false,
       elements
     );
+  }
+
+  private createBuffers() {
+    const { context, geometry } = this;
+
+    this.positionBuffer = new PositionBuffer({
+      context,
+      vertexCoordinates: geometry.vertexCoordinates,
+      locations: this.positionLocations,
+    });
+
+    if (this.geometry.hasTriangleColors && this.colorLocations) {
+      this.triangleColorBuffer = new TriangleColorBuffer({
+        context,
+        triangleColors: this.geometry.triangleColors,
+        locations: this.colorLocations,
+      });
+    }
   }
 }
