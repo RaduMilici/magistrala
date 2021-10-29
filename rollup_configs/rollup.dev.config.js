@@ -1,5 +1,4 @@
 import merge from 'deepmerge';
-import analyze from 'rollup-plugin-analyzer';
 import clean from 'rollup-plugin-clean';
 import htmlTemplate from 'rollup-plugin-generate-html-template';
 import serve from 'rollup-plugin-serve';
@@ -15,6 +14,5 @@ export default merge(rollupBaseConfig, {
     }),
     serve('dist'),
     visualizer(),
-    analyze({ summaryOnly: true }),
   ],
 });
