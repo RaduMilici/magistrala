@@ -104,3 +104,4 @@ dist
 .tern-port
 /.idea
 scripts/circular_dependencies/graph.svg
+stats.html

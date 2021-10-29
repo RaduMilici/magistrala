@@ -2,6 +2,7 @@ import merge from 'deepmerge';
 import clean from 'rollup-plugin-clean';
 import htmlTemplate from 'rollup-plugin-generate-html-template';
 import serve from 'rollup-plugin-serve';
+import { visualizer } from 'rollup-plugin-visualizer';
 import { rollupBaseConfig } from './rollup.base.config';
 
 export default merge(rollupBaseConfig, {
@@ -12,5 +13,6 @@ export default merge(rollupBaseConfig, {
       target: 'index.html',
     }),
     serve('dist'),
+    visualizer(),
   ],
 });
