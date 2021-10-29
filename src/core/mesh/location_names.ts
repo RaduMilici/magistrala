@@ -5,5 +5,10 @@ export enum UniformNames {
 
 export enum AttributeNames {
   POSITION = 'a_position',
+  COLOR = 'a_color',
   VERTEX_COLOR = 'a_vertColor',
+}
+
+export enum VaryingNames {
+  COLOR = 'v_color',
 }

@@ -1,5 +1,6 @@
-import { Locations } from '../Locations';
-import { Geometry } from '../../geometry/Geometry';
+import { Locations } from '../locations/Locations';
+import { PositionLocations } from '../locations/PositionLocations';
+import { ColorLocations } from '../locations/ColorLocations';
 
 export type bufferConfig = {
   context: WebGL2RenderingContext;
@@ -7,5 +8,11 @@ export type bufferConfig = {
 };
 
 export type positionBufferConfig = {
-  geometry: Geometry;
-} & bufferConfig;
+  locations: PositionLocations;
+  vertexCoordinates: Float32Array;
+} & Omit<bufferConfig, 'locations'>;
+
+export type colorBufferConfig = {
+  locations: ColorLocations;
+  triangleColors: Float32Array;
+} & Omit<bufferConfig, 'locations'>;

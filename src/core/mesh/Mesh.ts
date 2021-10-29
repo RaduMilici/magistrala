@@ -1,11 +1,13 @@
 import { Geometry } from '../geometry/Geometry';
 import { meshConfig } from './mesh_config';
 import { Program } from '../program/Program';
-import { Locations } from './Locations';
 import { Transforms } from './transforms/Transforms';
 import { Vector3 } from '../Vector3';
 import { ProjectionMatrix } from './transforms/matrices/projection/ProjectionMatrix';
 import { PositionBuffer } from './buffer/PositionBuffer';
+import { TriangleColorBuffer } from './buffer/TriangleColorBuffer';
+import { PositionLocations } from './locations/PositionLocations';
+import { ColorLocations } from './locations/ColorLocations';
 
 export class Mesh {
   public projectionMatrix: ProjectionMatrix = new ProjectionMatrix();
@@ -14,9 +16,13 @@ export class Mesh {
 
   private readonly context: WebGL2RenderingContext;
   private readonly program: Program;
-  private readonly locations: Locations;
   private readonly geometry: Geometry;
-  private readonly positionBuffer: PositionBuffer;
+
+  private readonly positionLocations: PositionLocations;
+  private readonly colorLocations: ColorLocations | null = null;
+
+  private positionBuffer: PositionBuffer | null = null;
+  private triangleColorBuffer: TriangleColorBuffer | null = null;
 
   constructor({
     context,
@@ -28,6 +34,8 @@ export class Mesh {
     this.context = context;
     this.geometry = geometry;
     this.projectionMatrix = projectionMatrix;
+    const vao = this.context.createVertexArray();
+    this.context.bindVertexArray(vao);
     this.transforms = new Transforms({
       translation: new Vector3(),
       rotation: new Vector3(),
@@ -39,12 +47,19 @@ export class Mesh {
       fragmentShader,
       debug: true,
     });
-    this.locations = new Locations(context, this.program);
-    this.positionBuffer = new PositionBuffer({
+    this.positionLocations = new PositionLocations({
       context,
-      geometry,
-      locations: this.locations,
+      program: this.program,
     });
+
+    if (this.geometry.hasTriangleColors) {
+      this.colorLocations = new ColorLocations({
+        context,
+        program: this.program,
+      });
+    }
+
+    this.createBuffers();
   }
 
   get vertCount(): number {
@@ -64,9 +79,27 @@ export class Mesh {
       .multiply(this.transforms.zRotationMatrix)
       .multiply(this.transforms.scaleMatrix);
     this.context.uniformMatrix4fv(
-      this.locations.uniformLocations.matrix,
+      this.positionLocations.matrixUniformLocation,
       false,
       elements
     );
+  }
+
+  private createBuffers() {
+    const { context, geometry } = this;
+
+    this.positionBuffer = new PositionBuffer({
+      context,
+      vertexCoordinates: geometry.vertexCoordinates,
+      locations: this.positionLocations,
+    });
+
+    if (this.geometry.hasTriangleColors && this.colorLocations) {
+      this.triangleColorBuffer = new TriangleColorBuffer({
+        context,
+        triangleColors: this.geometry.triangleColors,
+        locations: this.colorLocations,
+      });
+    }
   }
 }

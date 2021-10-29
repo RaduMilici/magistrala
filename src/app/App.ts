@@ -6,6 +6,7 @@ import { shaderConfig } from '../core/shader/shader_configs';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
 import { Triangle } from '../core/triangle/Triangle';
+import { triangle_config } from '../core/triangle/triangle_config';
 import { Vector3 } from '../core/Vector3';
 import { Mesh } from '../core/mesh/Mesh';
 import { meshConfig } from '../core/mesh/mesh_config';
@@ -47,8 +48,8 @@ export class App {
     return new Geometry(config);
   }
 
-  newTriangle(a: Vector3, b: Vector3, c: Vector3): Triangle {
-    return new Triangle({ a, b, c });
+  newTriangle({ a, b, c, color }: triangle_config): Triangle {
+    return new Triangle({ a, b, c, color });
   }
 
   newScene(): Scene {

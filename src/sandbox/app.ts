@@ -1,7 +1,8 @@
 import { App } from '../app/App';
-import fragmentShaderSource from '../shaders/fragment_shader.glsl';
-import { vertexShaderChunks } from '../shaders/vertex_shader_chunks';
-import { fPoints } from './assets/f_points';
+import fragmentShaderSource from './shaders/fragment_shader.glsl';
+import { vertexShaderChunks } from './shaders/vertex_shader_chunks';
+import { fPoints } from './assets/f/f_points';
+import { fColors } from './assets/f/f_colors';
 // import { makeTranslationSlider } from './ui/translation_slider';
 import { Color } from '../core/color/Color';
 import {
@@ -9,7 +10,7 @@ import {
   GameObject,
   Component,
   tickData,
-  randomFloat,
+  //randomFloat,
 } from 'pulsar-pathfinding';
 import { Vector3 } from '../core/Vector3';
 import { Triangle } from '../core/triangle/Triangle';
@@ -32,9 +33,21 @@ class FShape extends GameObject3D {
     const fragmentShader = app.newFragmentShader({
       source: fragmentShaderSource,
     });
-    const geometry = app.newGeometry({
-      triangles: Triangle.multipleFromCoordinates(fPoints),
-    });
+
+    const triangles = Triangle.multipleFromCoordinates(fPoints);
+    const colors = Color.multipleFrom255(fColors);
+    for (let i = 0; i < triangles.length; i++) {
+      triangles[i].color = colors[i];
+      //triangles[i].color = Color.random();
+    }
+    // const triangle = app.newTriangle({
+    //   a: new Vector3({ x: 0, y: 0, z: 0 }),
+    //   b: new Vector3({ x: 100, y: 100, z: 0 }),
+    //   c: new Vector3({ x: 0, y: -100, z: 0 }),
+    //   color: new Color({ r: 0, g: 0, b: 1, a: 1 })
+    // })
+
+    const geometry = app.newGeometry({ triangles });
     this.mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
   }
 }
@@ -68,14 +81,19 @@ class RenderLoop extends Component {
   }
 }
 
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 1; i++) {
   const fShape = new FShape();
   fShape.addComponent(new Rotate());
   scene.add(fShape.mesh);
   updater.add(fShape);
+  // fShape.mesh.transforms.translation = new Vector3({
+  //   x: randomFloat(0, 2),
+  //   y: randomFloat(-2, 0),
+  //   z: 0,
+  // });
   fShape.mesh.transforms.translation = new Vector3({
-    x: randomFloat(0, 2),
-    y: randomFloat(-2, 0),
+    x: 1,
+    y: -1,
     z: 0,
   });
 }
@@ -87,6 +105,3 @@ renderGameObject.addComponent(new RenderLoop());
 
 updater.add(renderGameObject);
 updater.start();
-
-// fShape.mesh.transforms.translation = new Vector3({ x: 1, y: -1, z: 0 });
-// fShape2.mesh.transforms.translation = new Vector3({ x: 0, y: -1, z: 0 });

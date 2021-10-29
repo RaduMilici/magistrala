@@ -1,6 +1,6 @@
 import { Errors } from '../../errors';
 import { bufferConfig } from './buffer_configs';
-import { Locations } from '../Locations';
+import { Locations } from '../locations/Locations';
 
 export abstract class Buffer {
   readonly glBuffer: WebGLBuffer;
@@ -11,6 +11,7 @@ export abstract class Buffer {
     this.context = context;
     this.locations = locations;
     this.glBuffer = Buffer.createGlBuffer(this.context);
+    context.bindBuffer(WebGL2RenderingContext.ARRAY_BUFFER, this.glBuffer);
   }
 
   public abstract enableAttributes(): void;
