@@ -2,6 +2,8 @@ import { colorValues } from './color_values';
 import { randomFloat } from 'pulsar-pathfinding';
 
 export class Color {
+  public static readonly VALUE_COUNT = 4;
+
   constructor(public value: colorValues) {}
 
   set(value: colorValues) {

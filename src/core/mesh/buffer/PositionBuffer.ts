@@ -1,6 +1,7 @@
 import { Buffer } from './Buffer';
 import { positionBufferConfig } from './buffer_configs';
 import { PositionLocations } from '../locations/PositionLocations';
+import { Triangle } from '../../triangle/Triangle';
 
 export class PositionBuffer extends Buffer {
   readonly vertexCoordinates: Float32Array;
@@ -21,11 +22,11 @@ export class PositionBuffer extends Buffer {
 
     this.context.vertexAttribPointer(
       this.locations.positionAttributeLocation,
-      3,
+      Triangle.VERTEX_COUNT,
       WebGL2RenderingContext.FLOAT,
-      false,
-      0,
-      0
+      Buffer.IS_NORMALIZED,
+      Buffer.STRIDE,
+      Buffer.OFFSET
     );
   }
 

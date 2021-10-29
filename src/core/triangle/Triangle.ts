@@ -4,6 +4,7 @@ import { triangle_config } from './triangle_config';
 import { Color } from '../color/Color';
 
 export class Triangle {
+  public static readonly VERTEX_COUNT = 3;
   public color: Color | undefined;
   public readonly a: Vector3;
   public readonly b: Vector3;

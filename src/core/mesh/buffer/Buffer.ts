@@ -3,7 +3,11 @@ import { bufferConfig } from './buffer_configs';
 import { Locations } from '../locations/Locations';
 
 export abstract class Buffer {
-  readonly glBuffer: WebGLBuffer;
+  public static readonly STRIDE = 0;
+  public static readonly OFFSET = 0;
+  public static readonly IS_NORMALIZED = false;
+
+  public readonly glBuffer: WebGLBuffer;
   protected context: WebGL2RenderingContext;
   protected locations: Locations;
 

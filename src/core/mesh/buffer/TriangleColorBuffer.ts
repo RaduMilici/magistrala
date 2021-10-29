@@ -1,6 +1,7 @@
 import { Buffer } from './Buffer';
 import { colorBufferConfig } from './buffer_configs';
 import { ColorLocations } from '../locations/ColorLocations';
+import { Color } from '../../color/Color';
 
 export class TriangleColorBuffer extends Buffer {
   triangleColors: Float32Array;
@@ -19,11 +20,11 @@ export class TriangleColorBuffer extends Buffer {
 
     this.context.vertexAttribPointer(
       this.locations.colorAttributeLocation,
-      4,
+      Color.VALUE_COUNT,
       WebGL2RenderingContext.FLOAT,
-      false,
-      0,
-      0
+      Buffer.IS_NORMALIZED,
+      Buffer.STRIDE,
+      Buffer.OFFSET
     );
   }
 
