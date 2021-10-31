@@ -11,8 +11,8 @@ import { Vector3 } from '../core/Vector3';
 import { Color } from '../core/color/Color';
 import { Component3D } from '../core/ecs/Component3D';
 import { GameObject3D } from '../core/ecs/GameObject3D';
-import { Triangle } from '../core/triangle/Triangle';
-import { fPoints } from './assets/f/f_points';
+import { ObjLoader } from '../loader/ObjLoader';
+import { ObjUrl } from './assets/obj_url';
 import fragmentShaderSource from './shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from './shaders/vertex_shader_chunks';
 
@@ -35,17 +35,29 @@ const updater = new Updater();
 class FShape extends GameObject3D {
   constructor() {
     super({ name: 'f shape' });
+    this.loadMesh();
+  }
+
+  async loadMesh() {
     const vertexShader = app.newVertexShader({ source: vertexShaderChunks });
     const fragmentShader = app.newFragmentShader({
       source: fragmentShaderSource,
     });
-
-    const triangles = Triangle.multipleFromCoordinates(fPoints);
-    for (let i = 0; i < triangles.length; i++) {
-      triangles[i].color = Color.random();
-    }
-    const geometry = app.newGeometry({ triangles });
-    this.mesh = app.newMesh({ vertexShader, fragmentShader, geometry });
+    const { triangles } = await new ObjLoader().load(ObjUrl.TEDDY);
+    triangles.forEach((triangle) => (triangle.color = Color.random()));
+    this.mesh = app.newMesh({
+      fragmentShader,
+      vertexShader,
+      geometry: app.newGeometry({ triangles }),
+    });
+    this.mesh.transforms.translation = new Vector3({
+      x: 0,
+      y: 0,
+      z: -500,
+    });
+    this.mesh.transforms.scale = new Vector3({ x: 10, y: 10, z: 10 });
+    scene.add(this.mesh);
+    updater.add(this);
   }
 }
 
@@ -56,8 +68,8 @@ class Rotate extends Component3D {
 
   update({ elapsedTime }: tickData) {
     this.parent.mesh.transforms.rotation = new Vector3({
-      x: DegToRad(180),
-      y: elapsedTime,
+      x: 0,
+      y: -elapsedTime,
       z: 0,
     });
   }
@@ -78,16 +90,9 @@ class RenderLoop extends Component {
   }
 }
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 1; i++) {
   const fShape = new FShape();
   fShape.addComponent(new Rotate());
-  scene.add(fShape.mesh);
-  updater.add(fShape);
-  fShape.mesh.transforms.translation = new Vector3({
-    x: 0,
-    y: 0,
-    z: -500,
-  });
 }
 
 app.addScene(scene);
