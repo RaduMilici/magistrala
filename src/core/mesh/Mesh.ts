@@ -13,13 +13,13 @@ export class Mesh {
   public perspectiveMatrix: PerspectiveMatrix;
 
   public readonly transforms: Transforms;
+  public readonly geometry: Geometry;
 
   private readonly context: WebGL2RenderingContext;
   private readonly program: Program;
-  private readonly geometry: Geometry;
 
   private readonly positionLocations: PositionLocations;
-  private readonly colorLocations: ColorLocations | null = null;
+  private readonly colorLocations: ColorLocations;
 
   private positionBuffer: PositionBuffer | null = null;
   private triangleColorBuffer: TriangleColorBuffer | null = null;
@@ -52,12 +52,10 @@ export class Mesh {
       program: this.program,
     });
 
-    if (this.geometry.hasTriangleColors) {
-      this.colorLocations = new ColorLocations({
-        context,
-        program: this.program,
-      });
-    }
+    this.colorLocations = new ColorLocations({
+      context,
+      program: this.program,
+    });
 
     this.createBuffers();
   }
@@ -94,12 +92,10 @@ export class Mesh {
       locations: this.positionLocations,
     });
 
-    if (this.geometry.hasTriangleColors && this.colorLocations) {
-      this.triangleColorBuffer = new TriangleColorBuffer({
-        context,
-        triangleColors: this.geometry.triangleColors,
-        locations: this.colorLocations,
-      });
-    }
+    this.triangleColorBuffer = new TriangleColorBuffer({
+      context,
+      triangleColors: this.geometry.triangleColors,
+      locations: this.colorLocations,
+    });
   }
 }
