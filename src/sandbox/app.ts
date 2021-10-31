@@ -98,12 +98,6 @@ class RenderLoop extends Component {
 for (let i = 0; i < 1; i++) {
   const fShape = new FShape();
   fShape.addComponent(new Rotate());
-  //updater.add(fShape);
-  // fShape.mesh.transforms.translation = new Vector3({
-  //   x: 0,
-  //   y: 0,
-  //   z: -500,
-  // });
 }
 
 app.addScene(scene);
