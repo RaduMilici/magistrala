@@ -1,13 +1,13 @@
 import { Vector3 } from '../core/Vector3';
 import { Triangle } from '../core/triangle/Triangle';
+import { Cache } from './Cache';
 import { MeshData } from './MeshData';
-import { MeshCache, PromiseCache, TextCache } from './loader-caches';
 import { ObjDelimiters, ObjSpecifiers } from './obj-specifiers';
 
 export class ObjLoader {
-  public static promiseCache: PromiseCache = {};
-  public static textCache: TextCache = {};
-  public static meshCache: MeshCache = {};
+  public static promiseCache = new Cache<Promise<Response>>();
+  public static textCache = new Cache<Promise<string>>();
+  public static meshCache = new Cache<MeshData>();
 
   public async load(path: string): Promise<MeshData> {
     if (ObjLoader.promiseCache.hasOwnProperty(path)) {
