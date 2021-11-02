@@ -9,20 +9,22 @@ import { ObjUrl } from '../obj_url';
 import { Rotate } from './Rotate.component';
 
 export class Teddy extends GameObject3D {
+  private static vertexShader = app.newVertexShader({
+    source: vertexShaderChunks,
+  });
+  private static fragmentShader = app.newFragmentShader({
+    source: fragmentShaderSource,
+  });
   constructor() {
     super({ name: 'teddy' });
   }
 
   async loadMesh(): Promise<Mesh> {
-    const vertexShader = app.newVertexShader({ source: vertexShaderChunks });
-    const fragmentShader = app.newFragmentShader({
-      source: fragmentShaderSource,
-    });
     const { triangles } = await new ObjLoader().load(ObjUrl.TEDDY);
     triangles.forEach((triangle) => (triangle.color = Color.random()));
     this.mesh = app.newMesh({
-      fragmentShader,
-      vertexShader,
+      vertexShader: Teddy.vertexShader,
+      fragmentShader: Teddy.fragmentShader,
       geometry: app.newGeometry({ triangles }),
     });
     this.addComponent(new Rotate());

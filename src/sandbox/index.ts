@@ -12,7 +12,7 @@ const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
 
 const loadPromises: Array<Promise<Mesh>> = [];
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 150; i++) {
   const teddy = new Teddy();
   loadPromises.push(teddy.loadMesh());
 }
