@@ -6,6 +6,7 @@
   "scripts": {
     "start": "rollup -c rollup_configs/rollup.dev.config.js -w",
     "build": "rollup -c rollup_configs/rollup.prod.config.js",
+    "build:sandbox": "rollup -c rollup_configs/rollup.sandbox.config.js",
     "format": "prettier --write .",
     "circularDependencies": "node scripts/circular_dependencies/circularDependencies.js",
     "prepare": "husky install"
