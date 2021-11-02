@@ -6,16 +6,47 @@ enum Specifiers {
   FACE = 'f',
 }
 
+interface LoosePromiseObject {
+  [key: string]: Promise<Response>;
+}
+
+interface LooseMeshObject {
+  [key: string]: MeshData;
+}
+
+interface LooseTextObject {
+  [key: string]: Promise<string>;
+}
+
 export class MeshData {
   vertices: Array<Vector3> = [];
   triangles: Array<Triangle> = [];
 }
 
 export class ObjLoader {
+  public static promiseCache: LoosePromiseObject = {};
+  public static meshCache: LooseMeshObject = {};
+  public static textCache: LooseTextObject = {};
+
   public async load(path: string): Promise<MeshData> {
-    const response = await fetch(path);
-    const text = await response.text();
-    return this.readStringData(text);
+    if (ObjLoader.promiseCache[path] !== undefined) {
+      return ObjLoader.returnFromCache(path);
+    }
+
+    ObjLoader.promiseCache[path] = fetch(path);
+    const response = await ObjLoader.promiseCache[path];
+
+    ObjLoader.textCache[path] = response.text();
+    const text = await ObjLoader.textCache[path];
+
+    ObjLoader.meshCache[path] = this.readStringData(text);
+    return ObjLoader.meshCache[path];
+  }
+
+  private static async returnFromCache(path: string): Promise<MeshData> {
+    await ObjLoader.promiseCache[path];
+    await ObjLoader.textCache[path];
+    return ObjLoader.meshCache[path];
   }
 
   private readStringData(text: string): MeshData {
