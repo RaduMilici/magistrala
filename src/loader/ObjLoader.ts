@@ -15,9 +15,7 @@ export class ObjLoader {
     }
     ObjLoader.promiseCache[path] = fetch(path);
     ObjLoader.textCache[path] = (await ObjLoader.promiseCache[path]).text();
-    ObjLoader.meshCache[path] = ObjLoader.readStringData(
-      await ObjLoader.textCache[path],
-    );
+    ObjLoader.meshCache[path] = ObjLoader.read(await ObjLoader.textCache[path]);
     return ObjLoader.meshCache[path];
   }
 
@@ -27,7 +25,7 @@ export class ObjLoader {
     return ObjLoader.meshCache[path];
   }
 
-  private static readStringData(text: string): MeshData {
+  private static read(text: string): MeshData {
     const meshData = new MeshData();
     const rows = text.split(ObjDelimiters.ROW);
     rows.forEach((element) => {
