@@ -1,3 +1,4 @@
+import { randomInt } from 'pulsar-pathfinding';
 import { Vector3 } from '../core/Vector3';
 import { Mesh } from '../core/mesh/Mesh';
 import { scene, updater } from './app';
@@ -11,7 +12,7 @@ const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
 
 const loadPromises: Array<Promise<Mesh>> = [];
-for (let i = 0; i < 40; i++) {
+for (let i = 0; i < 50; i++) {
   const teddy = new Teddy();
   loadPromises.push(teddy.loadMesh());
 }
@@ -24,7 +25,11 @@ Promise.all(loadPromises).then((meshes) =>
     const z = Math.sin(angle) * radius;
     const sf = 2;
     mesh.transforms.scale = new Vector3({ x: sf, y: sf, z: sf });
-    mesh.transforms.translation = new Vector3({ x, y: 0, z: z - 500 });
+    mesh.transforms.translation = new Vector3({
+      x,
+      y: randomInt(-100, 100),
+      z: z - 500,
+    });
     scene.add(mesh);
   }),
 );

@@ -1,34 +1,46 @@
 import { Vector3 } from '../core/Vector3';
 import { Triangle } from '../core/triangle/Triangle';
-
-enum Specifiers {
-  VERTEX = 'v',
-  FACE = 'f',
-}
-
-export class MeshData {
-  vertices: Array<Vector3> = [];
-  triangles: Array<Triangle> = [];
-}
+import { MeshData } from './MeshData';
+import { MeshCache, PromiseCache, TextCache } from './loader-caches';
+import { ObjSpecifiers } from './obj-specifiers';
 
 export class ObjLoader {
+  public static promiseCache: PromiseCache = {};
+  public static textCache: TextCache = {};
+  public static meshCache: MeshCache = {};
+
   public async load(path: string): Promise<MeshData> {
-    const response = await fetch(path);
-    const text = await response.text();
-    return this.readStringData(text);
+    if (ObjLoader.promiseCache.hasOwnProperty(path)) {
+      return ObjLoader.returnFromCache(path);
+    }
+
+    ObjLoader.promiseCache[path] = fetch(path);
+    const response = await ObjLoader.promiseCache[path];
+
+    ObjLoader.textCache[path] = response.text();
+    const text = await ObjLoader.textCache[path];
+
+    ObjLoader.meshCache[path] = ObjLoader.readStringData(text);
+    return ObjLoader.meshCache[path];
   }
 
-  private readStringData(text: string): MeshData {
+  private static async returnFromCache(path: string): Promise<MeshData> {
+    await ObjLoader.promiseCache[path];
+    await ObjLoader.textCache[path];
+    return ObjLoader.meshCache[path];
+  }
+
+  private static readStringData(text: string): MeshData {
     const meshData = new MeshData();
-    const elements = text.split('\n');
-    elements.forEach((element) => {
-      const [specifier, ...rest] = element.split(' ');
+    const rows = text.split('\n');
+    rows.forEach((element) => {
+      const [specifier, ...values] = element.split(' ');
       switch (specifier) {
-        case Specifiers.VERTEX:
-          ObjLoader.assignVertex(rest, meshData);
+        case ObjSpecifiers.VERTEX:
+          ObjLoader.assignVertex(values, meshData);
           break;
-        case Specifiers.FACE:
-          ObjLoader.assignTriangle(rest, meshData);
+        case ObjSpecifiers.FACE:
+          ObjLoader.assignTriangle(values, meshData);
       }
     });
     return meshData;
@@ -50,6 +62,7 @@ export class ObjLoader {
     triangleIndices.forEach((index) => {
       // TODO: implement textureCoord and normal once supported
       const [position, textureCoord, normal] = index.split('/').map(parseFloat);
+      // subtracting 1 because .obj indices are not 0 based
       vertexIndices.push(position - 1);
     });
     const [aIndex, bIndex, cIndex] = vertexIndices;
