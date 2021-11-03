@@ -10,19 +10,25 @@ export class ObjLoader {
   public static meshCache = new Cache<MeshData>();
 
   public async load(path: string): Promise<MeshData> {
-    if (ObjLoader.promiseCache.hasOwnProperty(path)) {
+    if (ObjLoader.promiseCache.has(path)) {
       return ObjLoader.returnFromCache(path);
     }
-    ObjLoader.promiseCache[path] = fetch(path);
-    ObjLoader.textCache[path] = (await ObjLoader.promiseCache[path]).text();
-    ObjLoader.meshCache[path] = ObjLoader.read(await ObjLoader.textCache[path]);
-    return ObjLoader.meshCache[path];
+    ObjLoader.promiseCache.set(path, fetch(path));
+    ObjLoader.textCache.set(
+      path,
+      (await ObjLoader.promiseCache.get(path)).text(),
+    );
+    ObjLoader.meshCache.set(
+      path,
+      ObjLoader.read(await ObjLoader.textCache.get(path)),
+    );
+    return ObjLoader.meshCache.get(path);
   }
 
   private static async returnFromCache(path: string): Promise<MeshData> {
-    await ObjLoader.promiseCache[path];
-    await ObjLoader.textCache[path];
-    return ObjLoader.meshCache[path];
+    await ObjLoader.promiseCache.get(path);
+    await ObjLoader.textCache.get(path);
+    return ObjLoader.meshCache.get(path);
   }
 
   private static read(text: string): MeshData {
