@@ -1,4 +1,5 @@
 import { RadToDeg, size } from 'pulsar-pathfinding';
+import { Camera } from '../Camera';
 import { Canvas } from '../Canvas';
 import { Color } from '../color/Color';
 import { Errors } from '../errors';
@@ -55,8 +56,8 @@ export class Renderer {
     );
   }
 
-  render(scene: Scene) {
+  render(scene: Scene, camera: Camera) {
     this.clear();
-    scene.render(this.context);
+    scene.render(this.context, camera);
   }
 }

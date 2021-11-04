@@ -1,6 +1,7 @@
 import { Vector3 } from '../core/Vector3';
 import { Mesh } from '../core/mesh/Mesh';
 import { scene, updater } from './app';
+import { CameraGameObject } from './assets/game_assets/CameraSlide.gameobject';
 import {
   RenderGameObject,
   RenderLoop,
@@ -11,7 +12,7 @@ const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
 
 const loadPromises: Array<Promise<Mesh>> = [];
-for (let i = 0; i < 20; i++) {
+for (let i = 0; i < 30; i++) {
   loadPromises.push(new Teddy().loadMesh());
 }
 
@@ -27,5 +28,7 @@ Promise.all(loadPromises).then((meshes) =>
   }),
 );
 
+const camera = new CameraGameObject();
+updater.add(camera);
 updater.add(renderGameObject);
 updater.start();

@@ -1,3 +1,4 @@
+import { Camera } from '../core/Camera';
 import { Vector3 } from '../core/Vector3';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
@@ -13,10 +14,7 @@ import { Triangle } from '../core/triangle/Triangle';
 import { triangle_config } from '../core/triangle/triangle_config';
 
 export class App {
-  public readonly scenes: Array<Scene> = [];
   public readonly renderer: Renderer;
-
-  private requestAnimationFrameId: number = 0;
 
   constructor(private rendererConfig: rendererConfig) {
     this.renderer = new Renderer(rendererConfig);
@@ -60,29 +58,7 @@ export class App {
     return new Vector3({ x, y, z });
   }
 
-  addScene(scene: Scene) {
-    this.scenes.push(scene);
-  }
-
-  removeScene(scene: Scene) {
-    const index = this.scenes.findIndex(
-      (activeScene) => activeScene.id === scene.id,
-    );
-    if (index !== -1) {
-      this.scenes.splice(index, 1);
-    }
-  }
-
-  renderOnce() {
-    this.scenes.forEach((scene) => this.renderer.render(scene));
-  }
-
-  startRendering = () => {
-    this.renderOnce();
-    this.requestAnimationFrameId = requestAnimationFrame(this.startRendering);
-  };
-
-  stopRendering() {
-    cancelAnimationFrame(this.requestAnimationFrameId);
+  render(scene: Scene, camera: Camera) {
+    this.renderer.render(scene, camera);
   }
 }
