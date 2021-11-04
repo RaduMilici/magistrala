@@ -11,13 +11,8 @@ export class Scene {
   }
 
   render(context: WebGL2RenderingContext, camera: Camera) {
-    const cameraMatrix = camera.transforms.translationMatrix
-      .multiply(camera.transforms.xRotationMatrix)
-      .multiply(camera.transforms.yRotationMatrix)
-      .multiply(camera.transforms.zRotationMatrix)
-      .invert();
     this.children.forEach((child) => {
-      child.prepareForRender(cameraMatrix);
+      child.prepareForRender(camera.invertedMatrix);
       context.drawArrays(WebGL2RenderingContext.TRIANGLES, 0, child.vertCount);
     });
   }
