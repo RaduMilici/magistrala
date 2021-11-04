@@ -1,40 +1,41 @@
 import { Vector3 } from '../core/Vector3';
 import { Triangle } from '../core/triangle/Triangle';
+import { Cache } from './Cache';
 import { MeshData } from './MeshData';
-import { MeshCache, PromiseCache, TextCache } from './loader-caches';
-import { ObjSpecifiers } from './obj-specifiers';
+import { ObjDelimiters, ObjSpecifiers } from './obj-specifiers';
 
 export class ObjLoader {
-  public static promiseCache: PromiseCache = {};
-  public static textCache: TextCache = {};
-  public static meshCache: MeshCache = {};
+  public static promiseCache = new Cache<Promise<Response>>();
+  public static textCache = new Cache<Promise<string>>();
+  public static meshCache = new Cache<MeshData>();
 
   public async load(path: string): Promise<MeshData> {
-    if (ObjLoader.promiseCache.hasOwnProperty(path)) {
+    if (ObjLoader.promiseCache.has(path)) {
       return ObjLoader.returnFromCache(path);
     }
-
-    ObjLoader.promiseCache[path] = fetch(path);
-    const response = await ObjLoader.promiseCache[path];
-
-    ObjLoader.textCache[path] = response.text();
-    const text = await ObjLoader.textCache[path];
-
-    ObjLoader.meshCache[path] = ObjLoader.readStringData(text);
-    return ObjLoader.meshCache[path];
+    ObjLoader.promiseCache.set(path, fetch(path));
+    ObjLoader.textCache.set(
+      path,
+      (await ObjLoader.promiseCache.get(path)).text(),
+    );
+    ObjLoader.meshCache.set(
+      path,
+      ObjLoader.read(await ObjLoader.textCache.get(path)),
+    );
+    return ObjLoader.meshCache.get(path);
   }
 
   private static async returnFromCache(path: string): Promise<MeshData> {
-    await ObjLoader.promiseCache[path];
-    await ObjLoader.textCache[path];
-    return ObjLoader.meshCache[path];
+    await ObjLoader.promiseCache.get(path);
+    await ObjLoader.textCache.get(path);
+    return ObjLoader.meshCache.get(path);
   }
 
-  private static readStringData(text: string): MeshData {
+  private static read(text: string): MeshData {
     const meshData = new MeshData();
-    const rows = text.split('\n');
+    const rows = text.split(ObjDelimiters.ROW);
     rows.forEach((element) => {
-      const [specifier, ...values] = element.split(' ');
+      const [specifier, ...values] = element.split(ObjDelimiters.VALUES);
       switch (specifier) {
         case ObjSpecifiers.VERTEX:
           ObjLoader.assignVertex(values, meshData);
@@ -61,14 +62,13 @@ export class ObjLoader {
     const vertexIndices: Array<number> = [];
     triangleIndices.forEach((index) => {
       // TODO: implement textureCoord and normal once supported
-      const [position, textureCoord, normal] = index.split('/').map(parseFloat);
+      const [position, textureCoord, normal] = index
+        .split(ObjDelimiters.INDICES)
+        .map(parseFloat);
       // subtracting 1 because .obj indices are not 0 based
       vertexIndices.push(position - 1);
     });
-    const [aIndex, bIndex, cIndex] = vertexIndices;
-    const a = meshData.vertices[aIndex];
-    const b = meshData.vertices[bIndex];
-    const c = meshData.vertices[cIndex];
+    const [a, b, c] = vertexIndices.map((i) => meshData.vertices[i]);
     meshData.triangles.push(new Triangle({ a, b, c }));
   }
 }

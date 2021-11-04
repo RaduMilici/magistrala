@@ -1,4 +1,5 @@
-import { Vector3 } from '../Vector3';
+import { Matrix4 } from 'pulsar-pathfinding';
+import { Object3D } from '../Object3D';
 import { Geometry } from '../geometry/Geometry';
 import { Program } from '../program/Program';
 import { PositionBuffer } from './buffer/PositionBuffer';
@@ -6,13 +7,11 @@ import { TriangleColorBuffer } from './buffer/TriangleColorBuffer';
 import { ColorLocations } from './locations/ColorLocations';
 import { PositionLocations } from './locations/PositionLocations';
 import { meshConfig } from './mesh_config';
-import { Transforms } from './transforms/Transforms';
 import { PerspectiveMatrix } from './transforms/matrices/perspective/PerspectiveMatrix';
 
-export class Mesh {
+export class Mesh extends Object3D {
   public perspectiveMatrix: PerspectiveMatrix;
 
-  public readonly transforms: Transforms;
   public readonly geometry: Geometry;
 
   private readonly context: WebGL2RenderingContext;
@@ -31,16 +30,12 @@ export class Mesh {
     vertexShader,
     fragmentShader,
   }: meshConfig) {
+    super();
     this.context = context;
     this.geometry = geometry;
     this.perspectiveMatrix = perspectiveMatrix;
     const vao = this.context.createVertexArray();
     this.context.bindVertexArray(vao);
-    this.transforms = new Transforms({
-      translation: new Vector3(),
-      rotation: new Vector3(),
-      scale: new Vector3({ x: 1, y: 1, z: 1 }),
-    });
     this.program = new Program({
       context,
       vertexShader,
@@ -64,13 +59,14 @@ export class Mesh {
     return this.geometry.vertexCoordinates.length / 3;
   }
 
-  public prepareForRender() {
+  public prepareForRender(cameraMatrix: Matrix4) {
     this.program.use();
-    this.setUniformValues();
+    this.setUniformValues(cameraMatrix);
   }
 
-  private setUniformValues() {
+  private setUniformValues(cameraMatrix: Matrix4) {
     const { elements } = this.perspectiveMatrix
+      .multiply(cameraMatrix)
       .multiply(this.transforms.translationMatrix)
       .multiply(this.transforms.xRotationMatrix)
       .multiply(this.transforms.yRotationMatrix)

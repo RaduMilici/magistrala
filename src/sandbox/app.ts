@@ -1,5 +1,6 @@
 import { DegToRad, Updater, size } from 'pulsar-pathfinding';
 import { App } from '../app/App';
+import { Camera } from '../core/Camera';
 import { Color } from '../core/color/Color';
 
 const rendererSize: size = {
@@ -17,7 +18,6 @@ const app = new App({
 app.renderer.setClearColor(Color.from255({ r: 40, g: 44, b: 52 }));
 const scene = app.newScene();
 const updater = new Updater();
+const camera = new Camera();
 
-app.addScene(scene);
-
-export { app, updater, scene };
+export { app, updater, scene, camera };

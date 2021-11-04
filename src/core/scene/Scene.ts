@@ -1,4 +1,5 @@
 import { uniqueId } from 'pulsar-pathfinding';
+import { Camera } from '../Camera';
 import { Mesh } from '../mesh/Mesh';
 
 export class Scene {
@@ -9,9 +10,14 @@ export class Scene {
     this.children.push(child);
   }
 
-  render(context: WebGL2RenderingContext) {
+  render(context: WebGL2RenderingContext, camera: Camera) {
+    const cameraMatrix = camera.transforms.translationMatrix
+      .multiply(camera.transforms.xRotationMatrix)
+      .multiply(camera.transforms.yRotationMatrix)
+      .multiply(camera.transforms.zRotationMatrix)
+      .invert();
     this.children.forEach((child) => {
-      child.prepareForRender();
+      child.prepareForRender(cameraMatrix);
       context.drawArrays(WebGL2RenderingContext.TRIANGLES, 0, child.vertCount);
     });
   }
