@@ -123,7 +123,7 @@ export class ObjLoader {
 
     const [a, b, c] = vertexIndices.map(
       ({ positionIndex, textureCoordIndex }) => {
-        const vertex = meshData.vertices[positionIndex];
+        const vertex = meshData.vertices[positionIndex].clone();
         vertex.textureCoord = meshData.textureCoords[textureCoordIndex];
         return vertex;
       },

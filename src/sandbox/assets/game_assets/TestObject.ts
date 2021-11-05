@@ -20,7 +20,7 @@ export class TestObject extends GameObject3D {
   }
 
   async loadMesh(): Promise<Mesh> {
-    const { triangles } = await new ObjLoader().load(ObjUrl.STING);
+    const { triangles } = await new ObjLoader().load(ObjUrl.CUBE);
     triangles.forEach((triangle) => (triangle.color = Color.random()));
     this.mesh = app.newMesh({
       vertexShader: TestObject.vertexShader,

@@ -17,4 +17,14 @@ export class Vector3 {
     this.y = y;
     this.z = z;
   }
+
+  clone(): Vector3 {
+    const vector3 = new Vector3({
+      x: this.x,
+      y: this.y,
+      z: this.z,
+    });
+    vector3.textureCoord = this.textureCoord;
+    return vector3;
+  }
 }
