@@ -46,7 +46,10 @@ export class Geometry {
         y,
         z,
         // TODO: remove default value when dynamic shaders are implemented
-        textureCoord: { x: tx, y: ty } = new Vector(),
+        textureCoord: { x: tx, y: ty } = new Vector({
+          x: Math.random(),
+          y: Math.random(),
+        }),
       } = points[i];
       positionCoordinates.push(x, y, z);
       textureCoordinates.push(tx, ty);

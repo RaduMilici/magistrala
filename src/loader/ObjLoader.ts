@@ -24,10 +24,7 @@ export class ObjLoader {
       path,
       ObjLoader.assignTextByIdentifier(await ObjLoader.textCache.get(path)),
     );
-    const meshData = ObjLoader.meshCache.get(path);
-    ObjLoader.assignValuesFromText(meshData);
-    console.log(meshData);
-    return meshData;
+    return ObjLoader.assignValuesFromText(ObjLoader.meshCache.get(path));
   }
 
   private static async returnFromCache(path: string): Promise<MeshData> {
@@ -57,7 +54,7 @@ export class ObjLoader {
     return meshData;
   }
 
-  private static assignValuesFromText(meshData: MeshData) {
+  private static assignValuesFromText(meshData: MeshData): MeshData {
     meshData.verticesText.forEach((text) =>
       ObjLoader.assignVertex(text, meshData),
     );
@@ -67,6 +64,8 @@ export class ObjLoader {
     meshData.trianglesText.forEach((text) =>
       ObjLoader.assignTriangle(text, meshData),
     );
+
+    return meshData;
   }
 
   private static assignVertex(
