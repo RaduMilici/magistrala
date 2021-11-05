@@ -1,4 +1,5 @@
 import { size } from 'pulsar-pathfinding';
+
 import { Errors } from './errors';
 
 export class Canvas {

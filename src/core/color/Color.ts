@@ -1,4 +1,5 @@
 import { randomFloat } from 'pulsar-pathfinding';
+
 import { colorValues } from './color_values';
 
 export class Color {
@@ -44,6 +45,15 @@ export class Color {
       g: randomFloat(0, 1),
       b: randomFloat(0, 1),
       a: 1,
+    });
+  }
+
+  public static random255(): Color {
+    return new Color({
+      r: randomFloat(0, 255),
+      g: randomFloat(0, 255),
+      b: randomFloat(0, 255),
+      a: 255,
     });
   }
 

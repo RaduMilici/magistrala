@@ -10,6 +10,8 @@ import { Scene } from '../core/scene/Scene';
 import { FragmentShader } from '../core/shader/FragmentShader';
 import { VertexShader } from '../core/shader/VertexShader';
 import { shaderConfig } from '../core/shader/shader_configs';
+import { Texture } from '../core/texture/Texture';
+import { textureConfig } from '../core/texture/texture_config';
 import { Triangle } from '../core/triangle/Triangle';
 import { triangle_config } from '../core/triangle/triangle_config';
 
@@ -32,6 +34,7 @@ export class App {
     fragmentShader,
     vertexShader,
     geometry,
+    texture,
   }: Omit<meshConfig, 'context' | 'perspectiveMatrix'>): Mesh {
     return new Mesh({
       vertexShader,
@@ -39,7 +42,12 @@ export class App {
       geometry,
       context: this.renderer.context,
       perspectiveMatrix: this.renderer.perspectiveMatrix,
+      texture,
     });
+  }
+
+  newTexture({ image, src }: Omit<textureConfig, 'context'> = {}) {
+    return new Texture({ context: this.renderer.context, image, src });
   }
 
   newGeometry(config: geometryConfig): Geometry {

@@ -6,6 +6,7 @@ import { positionBufferConfig } from './buffer_configs';
 export class PositionBuffer extends Buffer {
   readonly vertexCoordinates: Float32Array;
   protected locations: PositionLocations;
+  private static readonly IS_NORMALIZED = false;
 
   constructor({ context, locations, vertexCoordinates }: positionBufferConfig) {
     super({ context, locations });
@@ -24,7 +25,7 @@ export class PositionBuffer extends Buffer {
       this.locations.positionAttributeLocation,
       Triangle.VERTEX_COUNT,
       WebGL2RenderingContext.FLOAT,
-      Buffer.IS_NORMALIZED,
+      PositionBuffer.IS_NORMALIZED,
       Buffer.STRIDE,
       Buffer.OFFSET,
     );

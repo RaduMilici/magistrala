@@ -1,4 +1,5 @@
 import { Matrix4 } from 'pulsar-pathfinding';
+
 import { sinCos } from './sin_cos';
 
 export class YRotationMatrix extends Matrix4 {

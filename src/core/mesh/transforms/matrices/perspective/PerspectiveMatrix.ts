@@ -1,4 +1,5 @@
 import { Matrix4 } from 'pulsar-pathfinding';
+
 import { perspectiveMatrixConfig } from './perspective_matrix_config';
 
 const DEFAULT_PERSPECTIVE_MATRIX_SIZE: perspectiveMatrixConfig = {

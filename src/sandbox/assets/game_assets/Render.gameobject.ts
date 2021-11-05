@@ -1,4 +1,5 @@
 import { Component, GameObject } from 'pulsar-pathfinding';
+
 import { app, camera, scene } from '../../app';
 
 export class RenderGameObject extends GameObject {

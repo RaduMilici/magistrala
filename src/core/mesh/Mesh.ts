@@ -1,11 +1,15 @@
 import { Matrix4 } from 'pulsar-pathfinding';
+
 import { Object3D } from '../Object3D';
 import { Geometry } from '../geometry/Geometry';
 import { Program } from '../program/Program';
+import { Texture } from '../texture/Texture';
 import { PositionBuffer } from './buffer/PositionBuffer';
+import { TextureCoordBuffer } from './buffer/TextureCoordBuffer';
 import { TriangleColorBuffer } from './buffer/TriangleColorBuffer';
 import { ColorLocations } from './locations/ColorLocations';
 import { PositionLocations } from './locations/PositionLocations';
+import { TextureCoordLocations } from './locations/TextureCoordLocations';
 import { meshConfig } from './mesh_config';
 import { PerspectiveMatrix } from './transforms/matrices/perspective/PerspectiveMatrix';
 
@@ -14,14 +18,16 @@ export class Mesh extends Object3D {
 
   public readonly geometry: Geometry;
 
+  private readonly texture: Texture;
   private readonly context: WebGL2RenderingContext;
   private readonly program: Program;
-
   private readonly positionLocations: PositionLocations;
   private readonly colorLocations: ColorLocations;
+  private readonly textureCoordLocations: TextureCoordLocations;
 
   private positionBuffer: PositionBuffer | null = null;
   private triangleColorBuffer: TriangleColorBuffer | null = null;
+  private textureCoordBuffer: TextureCoordBuffer | null = null;
 
   constructor({
     context,
@@ -29,6 +35,7 @@ export class Mesh extends Object3D {
     perspectiveMatrix,
     vertexShader,
     fragmentShader,
+    texture,
   }: meshConfig) {
     super();
     this.context = context;
@@ -52,16 +59,24 @@ export class Mesh extends Object3D {
       program: this.program,
     });
 
+    this.textureCoordLocations = new TextureCoordLocations({
+      context,
+      program: this.program,
+    });
+
+    this.texture = texture;
+
     this.createBuffers();
   }
 
   get vertCount(): number {
-    return this.geometry.vertexCoordinates.length / 3;
+    return this.geometry.positionCoordinates.length / 3;
   }
 
   public prepareForRender(cameraMatrix: Matrix4) {
     this.program.use();
     this.setUniformValues(cameraMatrix);
+    this.texture.bind();
   }
 
   private setUniformValues(cameraMatrix: Matrix4) {
@@ -80,18 +95,22 @@ export class Mesh extends Object3D {
   }
 
   private createBuffers() {
-    const { context, geometry } = this;
-
     this.positionBuffer = new PositionBuffer({
-      context,
-      vertexCoordinates: geometry.vertexCoordinates,
+      context: this.context,
+      vertexCoordinates: this.geometry.positionCoordinates,
       locations: this.positionLocations,
     });
 
     this.triangleColorBuffer = new TriangleColorBuffer({
-      context,
+      context: this.context,
       triangleColors: this.geometry.triangleColors,
       locations: this.colorLocations,
+    });
+
+    this.textureCoordBuffer = new TextureCoordBuffer({
+      context: this.context,
+      textureCoordinates: this.geometry.textureCoordinates,
+      locations: this.textureCoordLocations,
     });
   }
 }

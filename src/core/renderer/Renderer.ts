@@ -1,4 +1,5 @@
 import { RadToDeg, size } from 'pulsar-pathfinding';
+
 import { Camera } from '../Camera';
 import { Canvas } from '../Canvas';
 import { Color } from '../color/Color';

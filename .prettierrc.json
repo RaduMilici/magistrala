@@ -4,5 +4,6 @@
   "semi": true,
   "importOrder": ["<THIRD_PARTY_MODULES>", "^[./]"],
   "importOrderSortSpecifiers": true,
+  "importOrderSeparation": true,
   "importOrderParserPlugins": ["typescript", "classProperties"]
 }

@@ -1,4 +1,5 @@
 import { DegToRad, Updater, size } from 'pulsar-pathfinding';
+
 import { App } from '../app/App';
 import { Camera } from '../core/Camera';
 import { Color } from '../core/color/Color';

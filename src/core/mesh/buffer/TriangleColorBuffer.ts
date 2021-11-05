@@ -7,6 +7,8 @@ export class TriangleColorBuffer extends Buffer {
   triangleColors: Float32Array;
   locations: ColorLocations;
 
+  private static readonly IS_NORMALIZED = false;
+
   constructor({ context, locations, triangleColors }: colorBufferConfig) {
     super({ context, locations });
     this.triangleColors = triangleColors;
@@ -22,7 +24,7 @@ export class TriangleColorBuffer extends Buffer {
       this.locations.colorAttributeLocation,
       Color.VALUE_COUNT,
       WebGL2RenderingContext.FLOAT,
-      Buffer.IS_NORMALIZED,
+      TriangleColorBuffer.IS_NORMALIZED,
       Buffer.STRIDE,
       Buffer.OFFSET,
     );

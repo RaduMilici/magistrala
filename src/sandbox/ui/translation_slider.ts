@@ -1,4 +1,5 @@
 import { GUI } from 'dat.gui';
+
 import { Mesh } from '../../core/mesh/Mesh';
 
 const gui = new GUI();
