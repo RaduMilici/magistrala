@@ -4,11 +4,15 @@ import { geometryConfig } from './geometry_config';
 export class Geometry {
   public readonly triangleColors: Float32Array;
   public readonly triangles: Array<Triangle>;
-  public readonly vertexCoordinates: Float32Array;
+  public readonly positionCoordinates: Float32Array;
+  public readonly textureCoordinates: Float32Array;
 
   constructor({ triangles }: geometryConfig) {
     this.triangles = triangles;
-    this.vertexCoordinates = Geometry.getVertexCoordinates(triangles);
+    const { positionCoordinates, textureCoordinates } =
+      Geometry.getVertexCoordinates(triangles);
+    this.positionCoordinates = positionCoordinates;
+    this.textureCoordinates = textureCoordinates;
     this.triangleColors = this.geTriangleColors();
   }
 
@@ -26,12 +30,28 @@ export class Geometry {
     return new Float32Array(values);
   }
 
-  private static getVertexCoordinates(
-    triangles: Array<Triangle>,
-  ): Float32Array {
-    const coordinates = Triangle.getPoints(triangles)
-      .map(({ x, y, z }) => [x, y, z])
-      .flat();
-    return new Float32Array(coordinates);
+  private static getVertexCoordinates(triangles: Array<Triangle>): {
+    positionCoordinates: Float32Array;
+    textureCoordinates: Float32Array;
+  } {
+    const points = Triangle.getPoints(triangles);
+    const positionCoordinates = [];
+    const textureCoordinates = [];
+
+    for (let i = 0; i < points.length; i++) {
+      const {
+        x,
+        y,
+        z,
+        textureCoord: { x: tx, y: ty },
+      } = points[i];
+      positionCoordinates.push(x, y, z);
+      textureCoordinates.push(tx, ty);
+    }
+
+    return {
+      positionCoordinates: new Float32Array(positionCoordinates),
+      textureCoordinates: new Float32Array(textureCoordinates),
+    };
   }
 }

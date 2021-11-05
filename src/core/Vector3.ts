@@ -1,7 +1,10 @@
+import { Vector } from 'pulsar-pathfinding';
+
 export class Vector3 {
   x: number = 0;
   y: number = 0;
   z: number = 0;
+  textureCoord: Vector = new Vector();
 
   constructor(
     { x = 0, y = 0, z = 0 }: { x?: number; y?: number; z?: number } = {
