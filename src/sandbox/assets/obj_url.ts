@@ -4,6 +4,8 @@ export enum ObjUrl {
   CUBE = 'https://gist.githubusercontent.com/RaduMilici/080a9b4ecf48b89cdfdf31bef020d7d5/raw/dcbbbf2489b4615fb00c6957d1742df28bbe0c24/cube.obj',
   DRAWER = 'https://gist.githubusercontent.com/RaduMilici/ddf3cd3dc943ac595b53d3672df96b25/raw/0c4b956231420316c56645ea86aa6d2dece434a1/drawer.obj',
   STING = 'https://gist.githubusercontent.com/RaduMilici/387860dad1c60f090f21705cafbd8b60/raw/670ca6cc12bbbb01698da18ecef02e6fd0c5178a/sting.obj',
+  ARMADILLO = 'https://raw.githubusercontent.com/alecjacobson/common-3d-test-models/master/data/armadillo.obj',
+  BUNNY = 'https://raw.githubusercontent.com/alecjacobson/common-3d-test-models/master/data/stanford-bunny.obj',
 }
 
 export enum ImgUrl {

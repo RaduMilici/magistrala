@@ -9,7 +9,7 @@ export class CameraGameObject extends GameObject {
   constructor() {
     super({ name: 'camera game object' });
     this.addComponent(new Slide(this));
-    this.camera.transforms.translation = new Vector3({ z: 50 });
+    this.camera.transforms.translation = new Vector3({ z: 40 });
   }
 }
 
