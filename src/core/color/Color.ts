@@ -1,4 +1,5 @@
 import { randomFloat } from 'pulsar-pathfinding';
+
 import { colorValues } from './color_values';
 
 export class Color {

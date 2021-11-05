@@ -5,7 +5,6 @@ import { bufferConfig } from './buffer_configs';
 export abstract class Buffer {
   public static readonly STRIDE = 0;
   public static readonly OFFSET = 0;
-  public static readonly IS_NORMALIZED = false;
 
   public readonly glBuffer: WebGLBuffer;
   protected context: WebGL2RenderingContext;

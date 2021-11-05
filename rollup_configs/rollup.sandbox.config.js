@@ -2,6 +2,7 @@ import merge from 'deepmerge';
 import clean from 'rollup-plugin-clean';
 import htmlTemplate from 'rollup-plugin-generate-html-template';
 import { terser } from 'rollup-plugin-terser';
+
 import { rollupBaseConfig } from './rollup.base.config';
 
 export default merge(rollupBaseConfig, {

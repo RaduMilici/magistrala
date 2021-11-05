@@ -1,4 +1,5 @@
 import { Matrix4 } from 'pulsar-pathfinding';
+
 import { Vector3 } from '../../Vector3';
 import { transformsConfig } from '../transforms_config';
 import { ScaleMatrix } from './matrices/ScaleMatrix';

@@ -1,4 +1,5 @@
 import { Matrix4 } from 'pulsar-pathfinding';
+
 import { projectionMatrixConfig } from './projection_matrix_config';
 
 const DEFAULT_PROJECTION_MATRIX_SIZE: projectionMatrixConfig = {

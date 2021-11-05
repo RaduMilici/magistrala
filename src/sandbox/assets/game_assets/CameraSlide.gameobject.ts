@@ -1,4 +1,5 @@
 import { Component, GameObject, tickData } from 'pulsar-pathfinding';
+
 import { Camera } from '../../../core/Camera';
 // import { Vector3 } from '../../../core/Vector3';
 import { camera } from '../../app';

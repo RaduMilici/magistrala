@@ -1,4 +1,5 @@
 import { tickData } from 'pulsar-pathfinding';
+
 import { Vector3 } from '../../../core/Vector3';
 import { Component3D } from '../../../core/ecs/Component3D';
 

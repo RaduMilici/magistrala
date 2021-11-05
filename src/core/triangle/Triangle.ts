@@ -1,4 +1,5 @@
 import { randomFloat } from 'pulsar-pathfinding';
+
 import { Vector3 } from '../Vector3';
 import { Color } from '../color/Color';
 import { triangle_config } from './triangle_config';

@@ -1,4 +1,5 @@
 import { uniqueId } from 'pulsar-pathfinding';
+
 import { Camera } from '../Camera';
 import { Mesh } from '../mesh/Mesh';
 

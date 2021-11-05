@@ -1,8 +1,10 @@
 import { Matrix4 } from 'pulsar-pathfinding';
+
 import { Object3D } from '../Object3D';
 import { Geometry } from '../geometry/Geometry';
 import { Program } from '../program/Program';
 import { PositionBuffer } from './buffer/PositionBuffer';
+import { TextureCoordBuffer } from './buffer/TextureCoordBuffer';
 import { TriangleColorBuffer } from './buffer/TriangleColorBuffer';
 import { ColorLocations } from './locations/ColorLocations';
 import { PositionLocations } from './locations/PositionLocations';
@@ -22,6 +24,7 @@ export class Mesh extends Object3D {
 
   private positionBuffer: PositionBuffer | null = null;
   private triangleColorBuffer: TriangleColorBuffer | null = null;
+  private textureCoordBuffer: TextureCoordBuffer | null = null;
 
   constructor({
     context,
