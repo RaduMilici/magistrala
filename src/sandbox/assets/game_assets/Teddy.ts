@@ -4,7 +4,7 @@ import { Mesh } from '../../../core/mesh/Mesh';
 import { ObjLoader } from '../../../loader/ObjLoader';
 import { app, updater } from '../../app';
 import fragmentShaderSource from '../../shaders/fragment_shader.glsl';
-import { vertexShaderChunks } from '../../shaders/vertex_shader_chunks';
+import { vertexShaderChunks } from '../../shaders/vertex_shader_chunks_color';
 import { ObjUrl } from '../obj_url';
 import { Rotate } from './Rotate.component';
 
