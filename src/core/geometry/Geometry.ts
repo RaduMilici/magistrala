@@ -1,3 +1,5 @@
+import { Vector } from 'pulsar-pathfinding';
+
 import { Triangle } from '../triangle/Triangle';
 import { geometryConfig } from './geometry_config';
 
@@ -43,7 +45,8 @@ export class Geometry {
         x,
         y,
         z,
-        textureCoord: { x: tx, y: ty },
+        // TODO: remove default value when dynamic shaders are implemented
+        textureCoord: { x: tx, y: ty } = new Vector(),
       } = points[i];
       positionCoordinates.push(x, y, z);
       textureCoordinates.push(tx, ty);
