@@ -1,7 +1,7 @@
 import { Component, GameObject, tickData } from 'pulsar-pathfinding';
 
 import { Camera } from '../../../core/Camera';
-// import { Vector3 } from '../../../core/Vector3';
+import { Vector3 } from '../../../core/Vector3';
 import { camera } from '../../app';
 
 export class CameraGameObject extends GameObject {
@@ -9,6 +9,7 @@ export class CameraGameObject extends GameObject {
   constructor() {
     super({ name: 'camera game object' });
     this.addComponent(new Slide(this));
+    this.camera.transforms.translation = new Vector3({ z: 5 });
   }
 }
 

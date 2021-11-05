@@ -3,6 +3,7 @@ import { Matrix4 } from 'pulsar-pathfinding';
 import { Object3D } from '../Object3D';
 import { Geometry } from '../geometry/Geometry';
 import { Program } from '../program/Program';
+import { Texture } from '../texture/Texture';
 import { PositionBuffer } from './buffer/PositionBuffer';
 import { TextureCoordBuffer } from './buffer/TextureCoordBuffer';
 import { TriangleColorBuffer } from './buffer/TriangleColorBuffer';
@@ -17,9 +18,9 @@ export class Mesh extends Object3D {
 
   public readonly geometry: Geometry;
 
+  private readonly texture: Texture;
   private readonly context: WebGL2RenderingContext;
   private readonly program: Program;
-
   private readonly positionLocations: PositionLocations;
   private readonly colorLocations: ColorLocations;
   private readonly textureCoordLocations: TextureCoordLocations;
@@ -34,6 +35,7 @@ export class Mesh extends Object3D {
     perspectiveMatrix,
     vertexShader,
     fragmentShader,
+    texture,
   }: meshConfig) {
     super();
     this.context = context;
@@ -62,6 +64,8 @@ export class Mesh extends Object3D {
       program: this.program,
     });
 
+    this.texture = texture;
+
     this.createBuffers();
   }
 
@@ -72,6 +76,7 @@ export class Mesh extends Object3D {
   public prepareForRender(cameraMatrix: Matrix4) {
     this.program.use();
     this.setUniformValues(cameraMatrix);
+    this.texture.bind();
   }
 
   private setUniformValues(cameraMatrix: Matrix4) {

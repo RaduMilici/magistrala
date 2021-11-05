@@ -48,6 +48,15 @@ export class Color {
     });
   }
 
+  public static random255(): Color {
+    return new Color({
+      r: randomFloat(0, 255),
+      g: randomFloat(0, 255),
+      b: randomFloat(0, 255),
+      a: 255,
+    });
+  }
+
   public static from255({ r, g, b, a = 255 }: colorValues): Color {
     return new Color({
       r: r / 255,

@@ -5,10 +5,10 @@ import { ObjLoader } from '../../../loader/ObjLoader';
 import { app, updater } from '../../app';
 import fragmentShaderSource from '../../shaders/fragment_shader.glsl';
 import { vertexShaderChunks } from '../../shaders/vertex_shader_chunks_color';
-import { ObjUrl } from '../obj_url';
+import { ImgUrl, ObjUrl } from '../obj_url';
 import { Rotate } from './Rotate.component';
 
-export class Teddy extends GameObject3D {
+export class TestObject extends GameObject3D {
   private static vertexShader = app.newVertexShader({
     source: vertexShaderChunks,
   });
@@ -20,12 +20,13 @@ export class Teddy extends GameObject3D {
   }
 
   async loadMesh(): Promise<Mesh> {
-    const { triangles } = await new ObjLoader().load(ObjUrl.TEDDY);
+    const { triangles } = await new ObjLoader().load(ObjUrl.CUBE);
     triangles.forEach((triangle) => (triangle.color = Color.random()));
     this.mesh = app.newMesh({
-      vertexShader: Teddy.vertexShader,
-      fragmentShader: Teddy.fragmentShader,
+      vertexShader: TestObject.vertexShader,
+      fragmentShader: TestObject.fragmentShader,
       geometry: app.newGeometry({ triangles }),
+      texture: app.newTexture({ src: ImgUrl.CHECKER }),
     });
     this.addComponent(new Rotate());
     updater.add(this);
