@@ -13,8 +13,7 @@ out vec4 color;
 
 void main() {
   vec3 normal = normalize(v_normal);
-  //float light = dot(normal, u_reverseLightDirection);
-  float light = dot(normal, vec3(0.5, 0.5, 0.5));
+  float light = dot(normal, u_reverseLightDirection);
   color = texture(u_texture, v_texcoord);
   color.xyz *= light;
 }

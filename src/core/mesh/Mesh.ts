@@ -2,6 +2,7 @@ import { Matrix4 } from 'pulsar-pathfinding';
 
 import { Object3D } from '../Object3D';
 import { Geometry } from '../geometry/Geometry';
+import { DirectionalLight } from '../lights/directional_light/DirectionalLight';
 import { Program } from '../program/Program';
 import { Texture } from '../texture/Texture';
 import { MeshBuffers } from './buffer/MeshBuffers';
@@ -13,6 +14,7 @@ export class Mesh extends Object3D {
   public perspectiveMatrix: PerspectiveMatrix;
 
   public readonly geometry: Geometry;
+  public readonly directionalLights: Array<DirectionalLight> = [];
 
   private readonly texture: Texture;
   private readonly context: WebGL2RenderingContext;
@@ -64,6 +66,12 @@ export class Mesh extends Object3D {
   }
 
   private setUniformValues(cameraMatrix: Matrix4) {
+    this.directionalLights.forEach((directionalLight) =>
+      directionalLight.setUniform(
+        this.meshLocations.directionalLightLocations
+          .reverseLightUniformLocation,
+      ),
+    );
     const { elements } = this.perspectiveMatrix
       .multiply(cameraMatrix)
       .multiply(this.transforms.translationMatrix)

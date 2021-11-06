@@ -1,25 +1,19 @@
+import { uniqueId } from 'pulsar-pathfinding';
+
 import { Vector3 } from '../../Vector3';
-import { DirectionalLightLocations } from '../../mesh/locations/DirectionalLightLocations';
 import { directionalLightConfig } from './directional_light_config';
 
 export class DirectionalLight {
+  id: string = uniqueId();
   direction: Vector3;
-  private readonly directionalLightLocations: DirectionalLightLocations;
   private readonly context: WebGL2RenderingContext;
 
-  constructor({ context, direction, program }: directionalLightConfig) {
+  constructor({ context, direction }: directionalLightConfig) {
     this.context = context;
     this.direction = direction;
-    this.directionalLightLocations = new DirectionalLightLocations({
-      context,
-      program,
-    });
   }
 
-  setUniform() {
-    this.context.uniform3fv(
-      this.directionalLightLocations.reverseLightUniformLocation,
-      this.direction.values,
-    );
+  setUniform(reverseLightUniformLocation: WebGLUniformLocation) {
+    this.context.uniform3fv(reverseLightUniformLocation, this.direction.values);
   }
 }
