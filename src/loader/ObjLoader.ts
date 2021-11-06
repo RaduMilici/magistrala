@@ -1,6 +1,6 @@
 import { Vector } from 'pulsar-pathfinding';
 
-import { Vertex } from '../core/Vector3';
+import { Vector3, Vertex } from '../core/Vector3';
 import { Triangle } from '../core/triangle/Triangle';
 import { Cache } from './Cache';
 import { MeshData } from './MeshData';
@@ -92,7 +92,7 @@ export class ObjLoader {
 
   private static assignNormals(normals: Array<string>, meshData: MeshData) {
     const [x, y, z] = normals.map(parseFloat);
-    meshData.normals.push(new Vertex({ x, y, z }));
+    meshData.normals.push(new Vector3({ x, y, z }));
   }
 
   private static assignTriangle(
