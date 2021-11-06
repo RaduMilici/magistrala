@@ -14,4 +14,5 @@ export enum AttributeNames {
 export enum VaryingNames {
   COLOR = 'v_color',
   TEXTURE_COORD = 'v_texcoord',
+  NORMAL = 'v_normal',
 }
