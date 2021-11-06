@@ -6,7 +6,7 @@ import { triangle_config } from './triangle_config';
 
 export class Triangle {
   public static readonly VERTEX_COUNT = 3;
-  public color: Color | undefined;
+  public color: Color = new Color({ r: 1, g: 1, b: 1, a: 1 });
   public readonly a: Vector3;
   public readonly b: Vector3;
   public readonly c: Vector3;
@@ -15,7 +15,9 @@ export class Triangle {
     this.a = a;
     this.b = b;
     this.c = c;
-    this.color = color;
+    if (color !== undefined) {
+      this.color = color;
+    }
   }
 
   get points(): Array<Vector3> {
