@@ -11,4 +11,5 @@ export enum ObjUrl {
 
 export enum ImgUrl {
   CHECKER = 'https://i.imgur.com/cLEBhWk.jpg',
+  BLOODBRAND = 'https://i.imgur.com/AKcKJgc.jpg',
 }
