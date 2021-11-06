@@ -5,6 +5,7 @@ import { Triangle } from '../core/triangle/Triangle';
 import { Cache } from './Cache';
 import { MeshData } from './MeshData';
 import { ObjDelimiters, ObjSpecifiers } from './obj-specifiers';
+import { vertexIndices } from './obj-specifiers';
 
 export class ObjLoader {
   public static promiseCache = new Cache<Promise<Response>>();
