@@ -11,7 +11,7 @@ export type bufferConfig = {
 
 export type positionBufferConfig = {
   locations: PositionLocations;
-  vertexCoordinates: Float32Array;
+  positionCoordinates: Float32Array;
 } & Omit<bufferConfig, 'locations'>;
 
 export type colorBufferConfig = {
@@ -26,5 +26,5 @@ export type textureCoordBufferConfig = {
 
 export type normalBufferConfig = {
   locations: NormalLocations;
-  normals: Float32Array;
+  normalCoordinates: Float32Array;
 } & Omit<bufferConfig, 'locations'>;
