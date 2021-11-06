@@ -1,6 +1,7 @@
 import { Vector } from 'pulsar-pathfinding';
 
 export class Vector3 {
+  public static readonly ELEMENT_COUNT = 3;
   x: number = 0;
   y: number = 0;
   z: number = 0;

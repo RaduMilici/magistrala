@@ -8,6 +8,7 @@ export enum AttributeNames {
   COLOR = 'a_color',
   VERTEX_COLOR = 'a_vertColor',
   TEXTURE_COORD = 'a_texcoord',
+  NORMAL = 'a_normal',
 }
 
 export enum VaryingNames {
