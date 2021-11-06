@@ -18,6 +18,10 @@ export class Vector3 {
     this.z = z;
   }
 
+  get values(): Array<number> {
+    return [this.x, this.y, this.z];
+  }
+
   clone(): Vector3 {
     return new Vector3({
       x: this.x,

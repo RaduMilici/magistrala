@@ -17,7 +17,7 @@ export const PONT_SIZE_UNIFORM = `uniform float ${UniformNames.POINT_SIZE};`;
 
 export const COLOR_VARYING = `out vec4 ${VaryingNames.COLOR};`;
 export const TEXTURE_COORD_VARYING = `out vec2 ${VaryingNames.TEXTURE_COORD};`;
-export const NORMAL_VARYING = `out vec2 ${VaryingNames.NORMAL};`;
+export const NORMAL_VARYING = `out vec3 ${VaryingNames.NORMAL};`;
 export const FRAG_COLOR_VARYING = 'out vec3 fragColor;';
 
 export const VERTEX_SHADER_BOILERPLATE = `${VERSION}

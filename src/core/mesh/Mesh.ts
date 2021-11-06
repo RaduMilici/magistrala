@@ -4,14 +4,8 @@ import { Object3D } from '../Object3D';
 import { Geometry } from '../geometry/Geometry';
 import { Program } from '../program/Program';
 import { Texture } from '../texture/Texture';
-import { NormalBuffer } from './buffer/NormalBuffer';
-import { PositionBuffer } from './buffer/PositionBuffer';
-import { TextureCoordBuffer } from './buffer/TextureCoordBuffer';
-import { TriangleColorBuffer } from './buffer/TriangleColorBuffer';
-import { ColorLocations } from './locations/ColorLocations';
-import { NormalLocations } from './locations/NormalLocations';
-import { PositionLocations } from './locations/PositionLocations';
-import { TextureCoordLocations } from './locations/TextureCoordLocations';
+import { MeshBuffers } from './buffer/MeshBuffers';
+import { MeshLocations } from './locations/MeshLocations';
 import { meshConfig } from './mesh_config';
 import { PerspectiveMatrix } from './transforms/matrices/perspective/PerspectiveMatrix';
 
@@ -24,14 +18,8 @@ export class Mesh extends Object3D {
   private readonly context: WebGL2RenderingContext;
   private readonly program: Program;
 
-  private positionLocations: PositionLocations | null = null;
-  private colorLocations: ColorLocations | null = null;
-  private textureCoordLocations: TextureCoordLocations | null = null;
-  private normalLocations: NormalLocations | null = null;
-  private positionBuffer: PositionBuffer | null = null;
-  private triangleColorBuffer: TriangleColorBuffer | null = null;
-  private textureCoordBuffer: TextureCoordBuffer | null = null;
-  private normalBuffer: NormalBuffer | null = null;
+  private meshBuffers: MeshBuffers;
+  private meshLocations: MeshLocations;
 
   constructor({
     context,
@@ -54,8 +42,15 @@ export class Mesh extends Object3D {
       fragmentShader,
       debug: true,
     });
-    this.createLocations();
-    this.createBuffers();
+    this.meshLocations = new MeshLocations({ context, program: this.program });
+    this.meshBuffers = new MeshBuffers({
+      context,
+      geometry,
+      positionLocations: this.meshLocations.positionLocations,
+      colorLocations: this.meshLocations.colorLocations,
+      textureCoordLocations: this.meshLocations.textureCoordLocations,
+      normalLocations: this.meshLocations.normalLocations,
+    });
   }
 
   get vertCount(): number {
@@ -77,58 +72,9 @@ export class Mesh extends Object3D {
       .multiply(this.transforms.zRotationMatrix)
       .multiply(this.transforms.scaleMatrix);
     this.context.uniformMatrix4fv(
-      this.positionLocations!.matrixUniformLocation,
+      this.meshLocations.positionLocations.matrixUniformLocation,
       false,
       elements,
     );
-  }
-
-  private createLocations() {
-    this.positionLocations = new PositionLocations({
-      context: this.context,
-      program: this.program,
-    });
-
-    this.colorLocations = new ColorLocations({
-      context: this.context,
-      program: this.program,
-    });
-
-    this.textureCoordLocations = new TextureCoordLocations({
-      context: this.context,
-      program: this.program,
-    });
-
-    this.normalLocations = new NormalLocations({
-      context: this.context,
-      program: this.program,
-    });
-  }
-
-  private createBuffers() {
-    /*
-     * Using non-null assertions here because all locations are created by "this.createLocations"
-     * and the TypeScript compiler isn't detecting that.
-     */
-    this.positionBuffer = new PositionBuffer({
-      context: this.context,
-      vertexCoordinates: this.geometry.positionCoordinates,
-      locations: this.positionLocations!,
-    });
-    this.triangleColorBuffer = new TriangleColorBuffer({
-      context: this.context,
-      triangleColors: this.geometry.triangleColors,
-      locations: this.colorLocations!,
-    });
-    this.textureCoordBuffer = new TextureCoordBuffer({
-      context: this.context,
-      textureCoordinates: this.geometry.textureCoordinates,
-      locations: this.textureCoordLocations!,
-    });
-    this.normalBuffer = new NormalBuffer({
-      context: this.context,
-      normals: this.geometry.normalCoordinates,
-      locations: this.normalLocations!,
-    });
   }
 }

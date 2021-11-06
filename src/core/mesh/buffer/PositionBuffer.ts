@@ -8,9 +8,13 @@ export class PositionBuffer extends Buffer {
   protected locations: PositionLocations;
   private static readonly IS_NORMALIZED = false;
 
-  constructor({ context, locations, vertexCoordinates }: positionBufferConfig) {
+  constructor({
+    context,
+    locations,
+    positionCoordinates,
+  }: positionBufferConfig) {
     super({ context, locations });
-    this.vertexCoordinates = vertexCoordinates;
+    this.vertexCoordinates = positionCoordinates;
     this.locations = locations;
     this.setBufferData();
     this.enableAttributes();

@@ -4,13 +4,13 @@ import { Buffer } from './Buffer';
 import { normalBufferConfig } from './buffer_configs';
 
 export class NormalBuffer extends Buffer {
-  readonly normals: Float32Array;
+  readonly normalCoordinates: Float32Array;
   protected locations: NormalLocations;
   private static readonly IS_NORMALIZED = false;
 
-  constructor({ context, locations, normals }: normalBufferConfig) {
-    super({ context, locations });
-    this.normals = normals;
+  constructor({ context, locations, normalCoordinates }: normalBufferConfig) {
+    super({ context, locations: locations });
+    this.normalCoordinates = normalCoordinates;
     this.locations = locations;
     this.setBufferData();
     this.enableAttributes();
@@ -34,7 +34,7 @@ export class NormalBuffer extends Buffer {
   protected setBufferData() {
     this.context.bufferData(
       WebGL2RenderingContext.ARRAY_BUFFER,
-      this.normals,
+      this.normalCoordinates,
       WebGL2RenderingContext.STATIC_DRAW,
     );
   }
