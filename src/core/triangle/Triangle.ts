@@ -15,7 +15,9 @@ export class Triangle {
     this.a = a;
     this.b = b;
     this.c = c;
-    this.color = color;
+    if (color !== undefined) {
+      this.color = color;
+    }
   }
 
   get points(): Array<Vertex> {
