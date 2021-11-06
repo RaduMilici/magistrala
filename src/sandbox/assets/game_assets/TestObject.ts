@@ -26,7 +26,7 @@ export class TestObject extends GameObject3D {
       vertexShader: TestObject.vertexShader,
       fragmentShader: TestObject.fragmentShader,
       geometry: app.newGeometry({ triangles }),
-      texture: app.newTexture({ src: ImgUrl.CHECKER }),
+      texture: app.newTexture({ src: ImgUrl.BLOODBRAND }),
     });
     this.addComponent(new Rotate());
     updater.add(this);
