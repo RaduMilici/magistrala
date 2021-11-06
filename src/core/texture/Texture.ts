@@ -1,29 +1,57 @@
 import { Color } from '../color/Color';
-import { textureConfig } from './texture_config';
+import { textureConfig, wrapType } from './texture_config';
 
 export class Texture {
+  private _wrapT: wrapType = WebGL2RenderingContext.REPEAT;
+  private _wrapS: wrapType = WebGL2RenderingContext.REPEAT;
+
   private readonly context: WebGL2RenderingContext;
   private readonly glTexture: WebGLTexture | null;
-  private readonly src: string | undefined;
-  private readonly image: HTMLImageElement | undefined;
 
   constructor({ context, src, image }: textureConfig) {
     this.context = context;
     this.glTexture = this.context.createTexture();
-    this.src = src;
-    this.image = image;
-    if (this.image !== undefined) {
-      this.bindTexture(this.image);
-    } else if (this.src !== undefined) {
+    this.decideWhichTextureToLoad(image, src);
+  }
+
+  get wrapT(): wrapType {
+    return this._wrapT;
+  }
+
+  set wrapT(value: wrapType) {
+    this._wrapT = value;
+    this.setWrapMode(WebGL2RenderingContext.TEXTURE_WRAP_T, value);
+  }
+
+  get wrapS(): wrapType {
+    return this._wrapS;
+  }
+
+  set wrapS(value: wrapType) {
+    this._wrapS = value;
+    this.setWrapMode(WebGL2RenderingContext.TEXTURE_WRAP_S, value);
+  }
+
+  bind() {
+    this.context.bindTexture(WebGL2RenderingContext.TEXTURE_2D, this.glTexture);
+  }
+
+  private setWrapMode(mode: number, value: wrapType) {
+    this.context.texParameteri(WebGL2RenderingContext.TEXTURE_2D, mode, value);
+  }
+
+  private decideWhichTextureToLoad(
+    image: HTMLImageElement | undefined,
+    src: string | undefined,
+  ) {
+    if (image !== undefined) {
+      this.bindTexture(image);
+    } else if (src !== undefined) {
       this.bindBlankTexture();
-      this.load(this.src);
+      this.load(src);
     } else {
       this.bindBlankTexture();
     }
-  }
-
-  public bind() {
-    this.context.bindTexture(WebGL2RenderingContext.TEXTURE_2D, this.glTexture);
   }
 
   private load(src: string) {
