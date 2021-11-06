@@ -106,6 +106,10 @@ export class Mesh extends Object3D {
   }
 
   private createBuffers() {
+    /*
+     * Using non-null assertions here because all locations are created by "this.createLocations"
+     * and the TypeScript compiler isn't detecting that.
+     */
     this.positionBuffer = new PositionBuffer({
       context: this.context,
       vertexCoordinates: this.geometry.positionCoordinates,
