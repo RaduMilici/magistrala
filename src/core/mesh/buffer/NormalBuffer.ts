@@ -1,16 +1,16 @@
 import { Vector3 } from '../../Vector3';
-import { PositionLocations } from '../locations/PositionLocations';
+import { NormalLocations } from '../locations/NormalLocations';
 import { Buffer } from './Buffer';
-import { positionBufferConfig } from './buffer_configs';
+import { normalBufferConfig } from './buffer_configs';
 
-export class PositionBuffer extends Buffer {
-  readonly vertexCoordinates: Float32Array;
-  protected locations: PositionLocations;
+export class NormalBuffer extends Buffer {
+  readonly normals: Float32Array;
+  protected locations: NormalLocations;
   private static readonly IS_NORMALIZED = false;
 
-  constructor({ context, locations, vertexCoordinates }: positionBufferConfig) {
+  constructor({ context, locations, normals }: normalBufferConfig) {
     super({ context, locations });
-    this.vertexCoordinates = vertexCoordinates;
+    this.normals = normals;
     this.locations = locations;
     this.setBufferData();
     this.enableAttributes();
@@ -18,14 +18,14 @@ export class PositionBuffer extends Buffer {
 
   public enableAttributes() {
     this.context.enableVertexAttribArray(
-      this.locations.positionAttributeLocation,
+      this.locations.normalAttributeLocation,
     );
 
     this.context.vertexAttribPointer(
-      this.locations.positionAttributeLocation,
+      this.locations.normalAttributeLocation,
       Vector3.ELEMENT_COUNT,
       WebGL2RenderingContext.FLOAT,
-      PositionBuffer.IS_NORMALIZED,
+      NormalBuffer.IS_NORMALIZED,
       Buffer.STRIDE,
       Buffer.OFFSET,
     );
@@ -34,7 +34,7 @@ export class PositionBuffer extends Buffer {
   protected setBufferData() {
     this.context.bufferData(
       WebGL2RenderingContext.ARRAY_BUFFER,
-      this.vertexCoordinates,
+      this.normals,
       WebGL2RenderingContext.STATIC_DRAW,
     );
   }

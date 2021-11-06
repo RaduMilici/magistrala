@@ -4,10 +4,12 @@ import { Object3D } from '../Object3D';
 import { Geometry } from '../geometry/Geometry';
 import { Program } from '../program/Program';
 import { Texture } from '../texture/Texture';
+import { NormalBuffer } from './buffer/NormalBuffer';
 import { PositionBuffer } from './buffer/PositionBuffer';
 import { TextureCoordBuffer } from './buffer/TextureCoordBuffer';
 import { TriangleColorBuffer } from './buffer/TriangleColorBuffer';
 import { ColorLocations } from './locations/ColorLocations';
+import { NormalLocations } from './locations/NormalLocations';
 import { PositionLocations } from './locations/PositionLocations';
 import { TextureCoordLocations } from './locations/TextureCoordLocations';
 import { meshConfig } from './mesh_config';
@@ -21,13 +23,15 @@ export class Mesh extends Object3D {
   private readonly texture: Texture;
   private readonly context: WebGL2RenderingContext;
   private readonly program: Program;
-  private readonly positionLocations: PositionLocations;
-  private readonly colorLocations: ColorLocations;
-  private readonly textureCoordLocations: TextureCoordLocations;
 
+  private positionLocations: PositionLocations | null = null;
+  private colorLocations: ColorLocations | null = null;
+  private textureCoordLocations: TextureCoordLocations | null = null;
+  private normalLocations: NormalLocations | null = null;
   private positionBuffer: PositionBuffer | null = null;
   private triangleColorBuffer: TriangleColorBuffer | null = null;
   private textureCoordBuffer: TextureCoordBuffer | null = null;
+  private normalBuffer: NormalBuffer | null = null;
 
   constructor({
     context,
@@ -41,6 +45,7 @@ export class Mesh extends Object3D {
     this.context = context;
     this.geometry = geometry;
     this.perspectiveMatrix = perspectiveMatrix;
+    this.texture = texture;
     const vao = this.context.createVertexArray();
     this.context.bindVertexArray(vao);
     this.program = new Program({
@@ -49,23 +54,7 @@ export class Mesh extends Object3D {
       fragmentShader,
       debug: true,
     });
-    this.positionLocations = new PositionLocations({
-      context,
-      program: this.program,
-    });
-
-    this.colorLocations = new ColorLocations({
-      context,
-      program: this.program,
-    });
-
-    this.textureCoordLocations = new TextureCoordLocations({
-      context,
-      program: this.program,
-    });
-
-    this.texture = texture;
-
+    this.createLocations();
     this.createBuffers();
   }
 
@@ -88,29 +77,54 @@ export class Mesh extends Object3D {
       .multiply(this.transforms.zRotationMatrix)
       .multiply(this.transforms.scaleMatrix);
     this.context.uniformMatrix4fv(
-      this.positionLocations.matrixUniformLocation,
+      this.positionLocations!.matrixUniformLocation,
       false,
       elements,
     );
+  }
+
+  private createLocations() {
+    this.positionLocations = new PositionLocations({
+      context: this.context,
+      program: this.program,
+    });
+
+    this.colorLocations = new ColorLocations({
+      context: this.context,
+      program: this.program,
+    });
+
+    this.textureCoordLocations = new TextureCoordLocations({
+      context: this.context,
+      program: this.program,
+    });
+
+    this.normalLocations = new NormalLocations({
+      context: this.context,
+      program: this.program,
+    });
   }
 
   private createBuffers() {
     this.positionBuffer = new PositionBuffer({
       context: this.context,
       vertexCoordinates: this.geometry.positionCoordinates,
-      locations: this.positionLocations,
+      locations: this.positionLocations!,
     });
-
     this.triangleColorBuffer = new TriangleColorBuffer({
       context: this.context,
       triangleColors: this.geometry.triangleColors,
-      locations: this.colorLocations,
+      locations: this.colorLocations!,
     });
-
     this.textureCoordBuffer = new TextureCoordBuffer({
       context: this.context,
       textureCoordinates: this.geometry.textureCoordinates,
-      locations: this.textureCoordLocations,
+      locations: this.textureCoordLocations!,
+    });
+    this.normalBuffer = new NormalBuffer({
+      context: this.context,
+      normals: this.geometry.normalCoordinates,
+      locations: this.normalLocations!,
     });
   }
 }

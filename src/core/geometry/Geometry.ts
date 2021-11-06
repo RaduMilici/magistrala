@@ -8,13 +8,15 @@ export class Geometry {
   public readonly triangles: Array<Triangle>;
   public readonly positionCoordinates: Float32Array;
   public readonly textureCoordinates: Float32Array;
+  public readonly normalCoordinates: Float32Array;
 
   constructor({ triangles }: geometryConfig) {
     this.triangles = triangles;
-    const { positionCoordinates, textureCoordinates } =
+    const { positionCoordinates, textureCoordinates, normalCoordinates } =
       Geometry.getVertexCoordinates(triangles);
     this.positionCoordinates = positionCoordinates;
     this.textureCoordinates = textureCoordinates;
+    this.normalCoordinates = normalCoordinates;
     this.triangleColors = this.geTriangleColors();
   }
 
@@ -35,10 +37,12 @@ export class Geometry {
   private static getVertexCoordinates(triangles: Array<Triangle>): {
     positionCoordinates: Float32Array;
     textureCoordinates: Float32Array;
+    normalCoordinates: Float32Array;
   } {
     const points = Triangle.getPoints(triangles);
     const positionCoordinates = [];
     const textureCoordinates = [];
+    const normalCoordinates = [];
 
     for (let i = 0; i < points.length; i++) {
       const {
@@ -50,14 +54,17 @@ export class Geometry {
           x: Math.random(),
           y: Math.random(),
         }),
+        normal: { x: nx, y: ny, z: nz },
       } = points[i];
       positionCoordinates.push(x, y, z);
       textureCoordinates.push(tx, ty);
+      normalCoordinates.push(nx, ny, nz);
     }
 
     return {
       positionCoordinates: new Float32Array(positionCoordinates),
       textureCoordinates: new Float32Array(textureCoordinates),
+      normalCoordinates: new Float32Array(normalCoordinates),
     };
   }
 }
