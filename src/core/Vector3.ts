@@ -4,7 +4,6 @@ export class Vector3 {
   x: number = 0;
   y: number = 0;
   z: number = 0;
-  textureCoord: Vector = new Vector();
 
   constructor(
     { x = 0, y = 0, z = 0 }: { x?: number; y?: number; z?: number } = {
@@ -19,12 +18,26 @@ export class Vector3 {
   }
 
   clone(): Vector3 {
-    const vector3 = new Vector3({
+    return new Vector3({
       x: this.x,
       y: this.y,
       z: this.z,
     });
-    vector3.textureCoord = this.textureCoord;
-    return vector3;
+  }
+}
+
+export class Vertex extends Vector3 {
+  textureCoord: Vector = new Vector();
+  normal: Vector3 = new Vector3();
+
+  clone(): Vertex {
+    const vertex = new Vertex({
+      x: this.x,
+      y: this.y,
+      z: this.z,
+    });
+    vertex.textureCoord = this.textureCoord;
+    vertex.normal = this.normal;
+    return vertex;
   }
 }

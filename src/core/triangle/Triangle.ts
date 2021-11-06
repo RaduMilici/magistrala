@@ -1,15 +1,15 @@
 import { randomFloat } from 'pulsar-pathfinding';
 
-import { Vector3 } from '../Vector3';
+import { Vertex } from '../Vector3';
 import { Color } from '../color/Color';
 import { triangle_config } from './triangle_config';
 
 export class Triangle {
   public static readonly VERTEX_COUNT = 3;
   public color: Color | undefined;
-  public readonly a: Vector3;
-  public readonly b: Vector3;
-  public readonly c: Vector3;
+  public readonly a: Vertex;
+  public readonly b: Vertex;
+  public readonly c: Vertex;
 
   constructor({ a, b, c, color }: triangle_config) {
     this.a = a;
@@ -18,27 +18,27 @@ export class Triangle {
     this.color = color;
   }
 
-  get points(): Array<Vector3> {
+  get points(): Array<Vertex> {
     return [this.a, this.b, this.c];
   }
 
-  public static getPoints(triangles: Array<Triangle>): Array<Vector3> {
+  public static getPoints(triangles: Array<Triangle>): Array<Vertex> {
     return triangles.map((triangle) => triangle.points).flat();
   }
 
   public static fromCoordinates(coordinates: Array<number>): Triangle {
     return new Triangle({
-      a: new Vector3({
+      a: new Vertex({
         x: coordinates[0],
         y: coordinates[1],
         z: coordinates[2],
       }),
-      b: new Vector3({
+      b: new Vertex({
         x: coordinates[3],
         y: coordinates[4],
         z: coordinates[5],
       }),
-      c: new Vector3({
+      c: new Vertex({
         x: coordinates[6],
         y: coordinates[7],
         z: coordinates[8],
@@ -57,17 +57,17 @@ export class Triangle {
   }
 
   public static random(): Triangle {
-    const a = new Vector3({
+    const a = new Vertex({
       x: randomFloat(-1, 1),
       y: randomFloat(-1, 1),
       z: randomFloat(-1, 1),
     });
-    const b = new Vector3({
+    const b = new Vertex({
       x: randomFloat(-1, 1),
       y: randomFloat(-1, 1),
       z: randomFloat(-1, 1),
     });
-    const c = new Vector3({
+    const c = new Vertex({
       x: randomFloat(-1, 1),
       y: randomFloat(-1, 1),
       z: randomFloat(-1, 1),

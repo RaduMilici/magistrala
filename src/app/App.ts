@@ -1,5 +1,4 @@
 import { Camera } from '../core/Camera';
-import { Vector3 } from '../core/Vector3';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
 import { Mesh } from '../core/mesh/Mesh';
@@ -60,10 +59,6 @@ export class App {
 
   newScene(): Scene {
     return new Scene();
-  }
-
-  newVector2(x: number, y: number, z: number): Vector3 {
-    return new Vector3({ x, y, z });
   }
 
   render(scene: Scene, camera: Camera) {
