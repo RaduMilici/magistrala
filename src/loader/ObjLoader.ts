@@ -70,7 +70,6 @@ export class ObjLoader {
     meshData.trianglesText.forEach((text) =>
       ObjLoader.assignTriangle(text, meshData),
     );
-    console.log(meshData);
     return meshData;
   }
 
