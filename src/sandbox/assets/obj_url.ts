@@ -6,6 +6,7 @@ export enum ObjUrl {
   STING = 'https://gist.githubusercontent.com/RaduMilici/387860dad1c60f090f21705cafbd8b60/raw/670ca6cc12bbbb01698da18ecef02e6fd0c5178a/sting.obj',
   ARMADILLO = 'https://raw.githubusercontent.com/alecjacobson/common-3d-test-models/master/data/armadillo.obj',
   BUNNY = 'https://raw.githubusercontent.com/alecjacobson/common-3d-test-models/master/data/stanford-bunny.obj',
+  BLOODBRAND = 'https://ucdabd1f8263859def14545b87e5.dl.dropboxusercontent.com/cd/0/inline/BZcgB2xUSuvbxONncvogXL6gF-IH2t20F_QDhVxjmKUn3boZJHoo53cZj1FVn_8A7jDT-Xo02iSwvQ1ZuE-ezjKbi3CJFqjMcFi7ZMpPUXSEdKxY5u3syIq-TMuZ7buuWKZa-LpnjAvoEt31NhW86TPR/file',
 }
 
 export enum ImgUrl {
