@@ -3,6 +3,8 @@ import { Vector3 } from '../core/Vector3';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
 import { DirectionalLight } from '../core/lights/directional_light/DirectionalLight';
+import { Material } from '../core/material/Material';
+import { BasicMaterial } from '../core/material/basic_material/BasicMaterial';
 import { Mesh } from '../core/mesh/Mesh';
 import { meshConfig } from '../core/mesh/mesh_config';
 import { Renderer } from '../core/renderer/Renderer';
@@ -39,18 +41,16 @@ export class App {
   }
 
   newMesh({
-    fragmentShader,
-    vertexShader,
     geometry,
     texture,
+    material,
   }: Omit<meshConfig, 'context' | 'perspectiveMatrix'>): Mesh {
     return new Mesh({
-      vertexShader,
-      fragmentShader,
       geometry,
       context: this.renderer.context,
       perspectiveMatrix: this.renderer.perspectiveMatrix,
       texture,
+      material,
     });
   }
 
@@ -68,6 +68,10 @@ export class App {
 
   newScene(): Scene {
     return new Scene();
+  }
+
+  newMaterial(): Material {
+    return new BasicMaterial({ context: this.renderer.context });
   }
 
   render(scene: Scene, camera: Camera) {

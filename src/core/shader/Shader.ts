@@ -4,9 +4,9 @@ import { shaderBaseConfig } from './shader_configs';
 export class Shader {
   readonly glShader: WebGLShader;
 
-  constructor(config: shaderBaseConfig) {
-    this.glShader = Shader.createGlShader(config);
-    Shader.verify(config.context, this.glShader);
+  constructor({ context, source, type }: shaderBaseConfig) {
+    this.glShader = Shader.createGlShader({ context, source, type });
+    Shader.verify(context, this.glShader);
   }
 
   public delete(context: WebGL2RenderingContext, program: WebGLProgram) {

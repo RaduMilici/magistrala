@@ -10,4 +10,5 @@ export enum Errors {
   COULD_NOT_CREATE_BUFFER = 'Could not create buffer',
   COULD_NOT_GET_UNIFORM_LOCATION = 'Could not get uniform location',
   COULD_NOT_GET_ATTRIBUTE_LOCATION = 'Could not get attribute location',
+  CAN_NOT_ADD_ATTRIBUTE_TO_FRAGMENT_SHADER = "Fragment shaders don't have attributes.",
 }

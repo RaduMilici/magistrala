@@ -16,7 +16,7 @@ export type positionBufferConfig = {
 
 export type colorBufferConfig = {
   locations: ColorLocations;
-  triangleColors: Float32Array;
+  color: Float32Array;
 } & Omit<bufferConfig, 'locations'>;
 
 export type textureCoordBufferConfig = {

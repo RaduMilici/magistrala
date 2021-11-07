@@ -17,10 +17,6 @@ export abstract class Buffer {
     context.bindBuffer(WebGL2RenderingContext.ARRAY_BUFFER, this.glBuffer);
   }
 
-  public abstract enableAttributes(): void;
-
-  protected abstract setBufferData(): void;
-
   private static createGlBuffer(context: WebGL2RenderingContext): WebGLBuffer {
     const buffer = context.createBuffer();
 

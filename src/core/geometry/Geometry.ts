@@ -9,6 +9,7 @@ export class Geometry {
   public readonly positionCoordinates: Float32Array;
   public readonly textureCoordinates: Float32Array;
   public readonly normalCoordinates: Float32Array;
+  public readonly vertCount: number;
 
   constructor({ triangles }: geometryConfig) {
     this.triangles = triangles;
@@ -18,6 +19,7 @@ export class Geometry {
     this.textureCoordinates = textureCoordinates;
     this.normalCoordinates = normalCoordinates;
     this.triangleColors = this.geTriangleColors();
+    this.vertCount = this.positionCoordinates.length / 3;
   }
 
   get hasTriangleColors(): boolean {

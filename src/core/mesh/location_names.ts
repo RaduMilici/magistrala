@@ -2,6 +2,7 @@ export enum UniformNames {
   POINT_SIZE = 'u_pointSize',
   MATRIX = 'u_matrix',
   REVERSE_LIGHT_DIRECTION = 'u_reverseLightDirection',
+  COLOR = 'u_color',
 }
 
 export enum AttributeNames {

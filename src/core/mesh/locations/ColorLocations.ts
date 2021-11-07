@@ -1,14 +1,12 @@
-import { AttributeNames } from '../location_names';
+import { UniformNames } from '../location_names';
 import { Locations } from './Locations';
 import { locationsConfig } from './locations_config';
 
 export class ColorLocations extends Locations {
-  colorAttributeLocation: GLint;
+  colorAttributeLocation: WebGLUniformLocation;
 
   constructor({ context, program }: locationsConfig) {
     super({ context, program });
-    this.colorAttributeLocation = this.getAttributeLocation(
-      AttributeNames.COLOR,
-    );
+    this.colorAttributeLocation = this.getUniformLocation(UniformNames.COLOR);
   }
 }
