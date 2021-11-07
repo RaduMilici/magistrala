@@ -1,10 +1,11 @@
 import { Vector } from 'pulsar-pathfinding';
 
-import { Vector3 } from '../core/Vector3';
+import { Vector3, Vertex } from '../core/Vector3';
 import { Triangle } from '../core/triangle/Triangle';
 import { Cache } from './Cache';
 import { MeshData } from './MeshData';
 import { ObjDelimiters, ObjSpecifiers } from './obj-specifiers';
+import { vertexIndices } from './obj-specifiers';
 
 export class ObjLoader {
   public static promiseCache = new Cache<Promise<Response>>();
@@ -46,6 +47,9 @@ export class ObjLoader {
         case ObjSpecifiers.TEXTURE_COORD:
           meshData.textureCoordsText.push(values);
           break;
+        case ObjSpecifiers.NORMAL:
+          meshData.normalsText.push(values);
+          break;
         case ObjSpecifiers.FACE:
           meshData.trianglesText.push(values);
       }
@@ -61,10 +65,12 @@ export class ObjLoader {
     meshData.textureCoordsText.forEach((text) =>
       ObjLoader.assignTextureCoord(text, meshData),
     );
+    meshData.normalsText.forEach((text) => {
+      ObjLoader.assignNormals(text, meshData);
+    });
     meshData.trianglesText.forEach((text) =>
       ObjLoader.assignTriangle(text, meshData),
     );
-
     return meshData;
   }
 
@@ -73,7 +79,7 @@ export class ObjLoader {
     meshData: MeshData,
   ) {
     const [x, y, z] = vertexCoordinates.map(parseFloat);
-    meshData.vertices.push(new Vector3({ x, y, z }));
+    meshData.vertices.push(new Vertex({ x, y, z }));
   }
 
   private static assignTextureCoord(
@@ -82,6 +88,11 @@ export class ObjLoader {
   ) {
     const [x, y] = textureCoordinates.map(parseFloat);
     meshData.textureCoords.push(new Vector({ x, y }));
+  }
+
+  private static assignNormals(normals: Array<string>, meshData: MeshData) {
+    const [x, y, z] = normals.map(parseFloat);
+    meshData.normals.push(new Vector3({ x, y, z }));
   }
 
   private static assignTriangle(
@@ -103,27 +114,21 @@ export class ObjLoader {
     triangleIndices: Array<string>,
     meshData: MeshData,
   ) {
-    const vertexIndices: Array<{
-      positionIndex: number;
-      textureCoordIndex: number;
-    }> = [];
+    const vertexIndices: vertexIndices = [];
 
     triangleIndices.forEach((index) => {
       // TODO: implement normal once supported
       const [positionIndex, textureCoordIndex, normalIndex] = index
         .split(ObjDelimiters.INDICES)
-        .map(parseFloat);
-      // subtracting 1 because .obj indices are not 0 based
-      vertexIndices.push({
-        positionIndex: positionIndex - 1,
-        textureCoordIndex: textureCoordIndex - 1,
-      });
+        .map((index) => parseFloat(index) - 1); // subtracting 1 because .obj indices are not 0 based
+      vertexIndices.push({ positionIndex, textureCoordIndex, normalIndex });
     });
 
     const [a, b, c] = vertexIndices.map(
-      ({ positionIndex, textureCoordIndex }) => {
+      ({ positionIndex, textureCoordIndex, normalIndex }) => {
         const vertex = meshData.vertices[positionIndex].clone();
         vertex.textureCoord = meshData.textureCoords[textureCoordIndex];
+        vertex.normal = meshData.normals[normalIndex];
         return vertex;
       },
     );

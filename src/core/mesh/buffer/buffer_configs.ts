@@ -1,5 +1,6 @@
 import { ColorLocations } from '../locations/ColorLocations';
 import { Locations } from '../locations/Locations';
+import { NormalLocations } from '../locations/NormalLocations';
 import { PositionLocations } from '../locations/PositionLocations';
 import { TextureCoordLocations } from '../locations/TextureCoordLocations';
 
@@ -10,7 +11,7 @@ export type bufferConfig = {
 
 export type positionBufferConfig = {
   locations: PositionLocations;
-  vertexCoordinates: Float32Array;
+  positionCoordinates: Float32Array;
 } & Omit<bufferConfig, 'locations'>;
 
 export type colorBufferConfig = {
@@ -21,4 +22,9 @@ export type colorBufferConfig = {
 export type textureCoordBufferConfig = {
   locations: TextureCoordLocations;
   textureCoordinates: Float32Array;
+} & Omit<bufferConfig, 'locations'>;
+
+export type normalBufferConfig = {
+  locations: NormalLocations;
+  normalCoordinates: Float32Array;
 } & Omit<bufferConfig, 'locations'>;

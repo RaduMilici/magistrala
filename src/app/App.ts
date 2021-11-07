@@ -2,6 +2,7 @@ import { Camera } from '../core/Camera';
 import { Vector3 } from '../core/Vector3';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
+import { DirectionalLight } from '../core/lights/directional_light/DirectionalLight';
 import { Mesh } from '../core/mesh/Mesh';
 import { meshConfig } from '../core/mesh/mesh_config';
 import { Renderer } from '../core/renderer/Renderer';
@@ -24,6 +25,13 @@ export class App {
 
   newVertexShader({ source }: Omit<shaderConfig, 'context'>): VertexShader {
     return new VertexShader({ source, context: this.renderer.context });
+  }
+
+  newDirectionalLight(direction: Vector3): DirectionalLight {
+    return new DirectionalLight({
+      context: this.renderer.context,
+      direction,
+    });
   }
 
   newFragmentShader({ source }: Omit<shaderConfig, 'context'>): FragmentShader {
@@ -60,10 +68,6 @@ export class App {
 
   newScene(): Scene {
     return new Scene();
-  }
-
-  newVector2(x: number, y: number, z: number): Vector3 {
-    return new Vector3({ x, y, z });
   }
 
   render(scene: Scene, camera: Camera) {
