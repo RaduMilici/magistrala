@@ -1,8 +1,8 @@
+import { Buffer } from '../buffer/Buffer';
+import { textureCoordBufferConfig } from '../buffer/buffer_configs';
 import { TextureCoordLocations } from '../locations/TextureCoordLocations';
-import { Buffer } from './Buffer';
-import { textureCoordBufferConfig } from './buffer_configs';
 
-export class TextureCoordBuffer extends Buffer {
+export class TextureCoordAttribute extends Buffer {
   readonly textureCoordinates: Float32Array;
   protected locations: TextureCoordLocations;
   private static readonly IS_NORMALIZED = true;
@@ -29,7 +29,7 @@ export class TextureCoordBuffer extends Buffer {
       // TODO: add VECTOR2.ELEMENT_COUNT to pulsar
       2,
       WebGL2RenderingContext.FLOAT,
-      TextureCoordBuffer.IS_NORMALIZED,
+      TextureCoordAttribute.IS_NORMALIZED,
       Buffer.STRIDE,
       Buffer.OFFSET,
     );

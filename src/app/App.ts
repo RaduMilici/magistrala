@@ -1,10 +1,10 @@
 import { Camera } from '../core/Camera';
 import { Vector3 } from '../core/Vector3';
-import { Color } from '../core/color/Color';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
 import { DirectionalLight } from '../core/lights/directional_light/DirectionalLight';
 import { BasicMaterial } from '../core/material/basic_material/BasicMaterial';
+import { basicMaterialConfig } from '../core/material/basic_material/basic_material_config';
 import { Mesh } from '../core/mesh/Mesh';
 import { meshConfig } from '../core/mesh/mesh_config';
 import { Renderer } from '../core/renderer/Renderer';
@@ -42,19 +42,17 @@ export class App {
 
   newMesh({
     geometry,
-    texture,
     material,
   }: Omit<meshConfig, 'context' | 'perspectiveMatrix'>): Mesh {
     return new Mesh({
       geometry,
       context: this.renderer.context,
       perspectiveMatrix: this.renderer.perspectiveMatrix,
-      texture,
       material,
     });
   }
 
-  newTexture({ image, src }: Omit<textureConfig, 'context'> = {}) {
+  newTexture({ image, src }: Omit<textureConfig, 'context'> = {}): Texture {
     return new Texture({ context: this.renderer.context, image, src });
   }
 
@@ -70,8 +68,15 @@ export class App {
     return new Scene();
   }
 
-  newBasicMaterial({ color }: { color?: Color } = {}): BasicMaterial {
-    return new BasicMaterial({ context: this.renderer.context, color });
+  newBasicMaterial({
+    color,
+    texture,
+  }: Omit<basicMaterialConfig, 'context'> = {}): BasicMaterial {
+    return new BasicMaterial({
+      context: this.renderer.context,
+      color,
+      texture,
+    });
   }
 
   render(scene: Scene, camera: Camera) {

@@ -15,8 +15,9 @@ export class BasicMaterial extends Material {
 
   constructor({
     context,
-    color = Color.random() /*, texture*/,
-  }: basicMaterialConfig) {
+    color = Color.random(),
+  }: // texture
+  basicMaterialConfig) {
     const { source: vsSource } = new BasicMaterialVertexShaderSource();
     const { source: fsSource } = new BasicMaterialFragmentShaderSource();
     const vertexShader = new VertexShader({ context, source: vsSource });

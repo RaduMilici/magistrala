@@ -15,10 +15,10 @@ export class TestObject extends GameObject3D {
   async loadMesh(): Promise<Mesh> {
     const { triangles } = await new ObjLoader().load(ObjUrl.BLOODBRAND);
     triangles.forEach((triangle) => (triangle.color = Color.random()));
+    const texture = app.newTexture({ src: ImgUrl.BLOODBRAND });
     this.mesh = app.newMesh({
       geometry: app.newGeometry({ triangles }),
-      texture: app.newTexture({ src: ImgUrl.BLOODBRAND }),
-      material: app.newBasicMaterial(),
+      material: app.newBasicMaterial({ texture }),
     });
     setInterval(() => {
       const material = this.mesh.material as BasicMaterial;
