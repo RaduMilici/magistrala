@@ -1,6 +1,6 @@
 import { Color } from '../../color/Color';
-import { ColorBuffer } from '../../mesh/buffer/ColorBuffer';
 import { ColorLocations } from '../../mesh/locations/ColorLocations';
+import { ColorUniforms } from '../../mesh/uniforms/ColorUniforms';
 import { FragmentShader } from '../../shader/FragmentShader';
 import { VertexShader } from '../../shader/VertexShader';
 import { Material } from '../Material';
@@ -11,7 +11,7 @@ import { BasicMaterialVertexShaderSource } from './shaders/BasicMaterialVertexSh
 export class BasicMaterial extends Material {
   private _color!: Color;
   private readonly colorLocations: ColorLocations;
-  private readonly colorBuffer: ColorBuffer;
+  private readonly colorUniforms: ColorUniforms;
 
   constructor({
     context,
@@ -26,7 +26,7 @@ export class BasicMaterial extends Material {
       context,
       program: this.program,
     });
-    this.colorBuffer = new ColorBuffer({
+    this.colorUniforms = new ColorUniforms({
       context,
       color,
       locations: this.colorLocations,
@@ -41,6 +41,6 @@ export class BasicMaterial extends Material {
   set color(color: Color) {
     this._color = color;
     this.program.use();
-    this.colorBuffer.color = color;
+    this.colorUniforms.color = color;
   }
 }

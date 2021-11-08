@@ -1,15 +1,15 @@
 import { Color } from '../../color/Color';
+import { colorBufferConfig } from '../buffer/buffer_configs';
 import { ColorLocations } from '../locations/ColorLocations';
-import { Buffer } from './Buffer';
-import { colorBufferConfig } from './buffer_configs';
 
-export class ColorBuffer extends Buffer {
+export class ColorUniforms {
   private _color: Color;
-  locations: ColorLocations;
+  private locations: ColorLocations;
+  private context: WebGL2RenderingContext;
 
   constructor({ context, locations, color }: colorBufferConfig) {
-    super({ context, locations });
     this.locations = locations;
+    this.context = context;
     this._color = color;
   }
 
@@ -20,7 +20,7 @@ export class ColorBuffer extends Buffer {
   set color(color: Color) {
     this._color = color;
     this.context.uniform4fv(
-      this.locations.colorAttributeLocation,
+      this.locations.colorUniformLocation,
       new Float32Array(color.values),
     );
   }
