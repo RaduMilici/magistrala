@@ -13,7 +13,7 @@ export class TestObject extends GameObject3D {
   }
 
   async loadMesh(): Promise<Mesh> {
-    const { triangles } = await new ObjLoader().load(ObjUrl.BLOODBRAND);
+    const { triangles } = await new ObjLoader().load(ObjUrl.TEAPOT);
     triangles.forEach((triangle) => (triangle.color = Color.random()));
     const texture = app.newTexture({ src: ImgUrl.BLOODBRAND });
     this.mesh = app.newMesh({

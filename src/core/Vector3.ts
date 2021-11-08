@@ -32,8 +32,24 @@ export class Vector3 {
 }
 
 export class Vertex extends Vector3 {
-  textureCoord: Vector = new Vector();
-  normal: Vector3 = new Vector3();
+  get textureCoord(): Vector | null {
+    return this._textureCoord;
+  }
+
+  set textureCoord(value: Vector | null) {
+    this._textureCoord = value ? value : null;
+  }
+
+  get normal(): Vector3 | null {
+    return this._normal;
+  }
+
+  set normal(value: Vector3 | null) {
+    this._normal = value ? value : null;
+  }
+
+  private _textureCoord: Vector | null = null;
+  private _normal: Vector3 | null = null;
 
   clone(): Vertex {
     const vertex = new Vertex({
@@ -41,8 +57,8 @@ export class Vertex extends Vector3 {
       y: this.y,
       z: this.z,
     });
-    vertex.textureCoord = this.textureCoord;
-    vertex.normal = this.normal;
+    vertex._textureCoord = this._textureCoord;
+    vertex._normal = this._normal;
     return vertex;
   }
 }

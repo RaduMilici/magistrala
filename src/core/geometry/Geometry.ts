@@ -1,5 +1,3 @@
-import { Vector } from 'pulsar-pathfinding';
-
 import { Triangle } from '../triangle/Triangle';
 import { geometryConfig } from './geometry_config';
 
@@ -7,8 +5,8 @@ export class Geometry {
   public readonly triangleColors: Float32Array;
   public readonly triangles: Array<Triangle>;
   public readonly positionCoordinates: Float32Array;
-  public readonly textureCoordinates: Float32Array;
-  public readonly normalCoordinates: Float32Array;
+  public readonly textureCoordinates: Float32Array | null = null;
+  public readonly normalCoordinates: Float32Array | null = null;
   public readonly vertCount: number;
 
   constructor({ triangles }: geometryConfig) {
@@ -38,35 +36,35 @@ export class Geometry {
 
   private static getVertexCoordinates(triangles: Array<Triangle>): {
     positionCoordinates: Float32Array;
-    textureCoordinates: Float32Array;
-    normalCoordinates: Float32Array;
+    textureCoordinates: Float32Array | null;
+    normalCoordinates: Float32Array | null;
   } {
     const points = Triangle.getPoints(triangles);
     const positionCoordinates = [];
-    const textureCoordinates = [];
-    const normalCoordinates = [];
+    const textureCoordinates: Array<number> = [];
+    const normalCoordinates: Array<number> = [];
 
     for (let i = 0; i < points.length; i++) {
-      const {
-        x,
-        y,
-        z,
-        // TODO: remove default value when dynamic shaders are implemented
-        textureCoord: { x: tx, y: ty } = new Vector({
-          x: Math.random(),
-          y: Math.random(),
-        }),
-        normal: { x: nx, y: ny, z: nz },
-      } = points[i];
+      const { x, y, z, textureCoord, normal } = points[i];
       positionCoordinates.push(x, y, z);
-      textureCoordinates.push(tx, ty);
-      normalCoordinates.push(nx, ny, nz);
+      if (textureCoord !== null) {
+        textureCoordinates.push(textureCoord.x, textureCoord.y);
+      }
+      if (normal !== null) {
+        normalCoordinates.push(normal.x, normal.y, normal.z);
+      }
     }
+
+    console.log(textureCoordinates);
 
     return {
       positionCoordinates: new Float32Array(positionCoordinates),
-      textureCoordinates: new Float32Array(textureCoordinates),
-      normalCoordinates: new Float32Array(normalCoordinates),
+      textureCoordinates: textureCoordinates.length
+        ? new Float32Array(textureCoordinates)
+        : null,
+      normalCoordinates: normalCoordinates.length
+        ? new Float32Array(normalCoordinates)
+        : null,
     };
   }
 }

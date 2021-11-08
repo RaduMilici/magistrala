@@ -5,6 +5,8 @@ import { materialConfig } from './material_config';
 import { MaterialLocations } from './material_locations/MaterialLocations';
 
 export abstract class Material {
+  textureCoordinates: Float32Array | null = null;
+
   private _program: Program;
   private materialLocations: MaterialLocations | null = null;
 
