@@ -1,5 +1,6 @@
 import { Color } from '../../../core/color/Color';
 import { GameObject3D } from '../../../core/ecs/GameObject3D';
+import { BasicMaterial } from '../../../core/material/basic_material/BasicMaterial';
 import { Mesh } from '../../../core/mesh/Mesh';
 import { ObjLoader } from '../../../loader/ObjLoader';
 import { app, updater } from '../../app';
@@ -19,6 +20,10 @@ export class TestObject extends GameObject3D {
       texture: app.newTexture({ src: ImgUrl.BLOODBRAND }),
       material: app.newBasicMaterial(),
     });
+    setInterval(() => {
+      const material = this.mesh.material as BasicMaterial;
+      material.color = Color.random();
+    }, 1000);
     this.addComponent(new Rotate());
     updater.add(this);
     return this.mesh;

@@ -4,7 +4,6 @@ import { Color } from '../core/color/Color';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
 import { DirectionalLight } from '../core/lights/directional_light/DirectionalLight';
-import { Material } from '../core/material/Material';
 import { BasicMaterial } from '../core/material/basic_material/BasicMaterial';
 import { Mesh } from '../core/mesh/Mesh';
 import { meshConfig } from '../core/mesh/mesh_config';
@@ -71,7 +70,7 @@ export class App {
     return new Scene();
   }
 
-  newBasicMaterial({ color }: { color?: Color } = {}): Material {
+  newBasicMaterial({ color }: { color?: Color } = {}): BasicMaterial {
     return new BasicMaterial({ context: this.renderer.context, color });
   }
 

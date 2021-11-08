@@ -1,3 +1,4 @@
+import { Color } from '../../color/Color';
 import { ColorLocations } from '../locations/ColorLocations';
 import { Locations } from '../locations/Locations';
 import { NormalLocations } from '../locations/NormalLocations';
@@ -16,7 +17,7 @@ export type positionBufferConfig = {
 
 export type colorBufferConfig = {
   locations: ColorLocations;
-  color: Float32Array;
+  color: Color;
 } & Omit<bufferConfig, 'locations'>;
 
 export type textureCoordBufferConfig = {

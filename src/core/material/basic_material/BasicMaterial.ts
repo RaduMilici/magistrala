@@ -9,8 +9,9 @@ import { BasicMaterialFragmentShaderSource } from './shaders/BasicMaterialFragme
 import { BasicMaterialVertexShaderSource } from './shaders/BasicMaterialVertexShaderSource';
 
 export class BasicMaterial extends Material {
-  colorLocations: ColorLocations;
-  colorBuffer: TriangleColorBuffer;
+  private _color!: Color;
+  private colorLocations: ColorLocations;
+  private colorBuffer: TriangleColorBuffer;
 
   constructor({
     context,
@@ -28,8 +29,19 @@ export class BasicMaterial extends Material {
     });
     this.colorBuffer = new TriangleColorBuffer({
       context,
+      color,
       locations: this.colorLocations,
-      color: new Float32Array(color?.values),
     });
+    this.color = color;
+  }
+
+  get color(): Color {
+    return this._color;
+  }
+
+  set color(color: Color) {
+    this._color = color;
+    this.program.use();
+    this.colorBuffer.color = color;
   }
 }

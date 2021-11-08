@@ -1,15 +1,27 @@
+import { Color } from '../../color/Color';
 import { ColorLocations } from '../locations/ColorLocations';
 import { Buffer } from './Buffer';
 import { colorBufferConfig } from './buffer_configs';
 
 export class TriangleColorBuffer extends Buffer {
-  color: Float32Array;
+  private _color: Color;
   locations: ColorLocations;
 
   constructor({ context, locations, color }: colorBufferConfig) {
     super({ context, locations });
-    this.color = color;
     this.locations = locations;
-    this.context.uniform4fv(locations.colorAttributeLocation, color);
+    this._color = color;
+  }
+
+  get color(): Color {
+    return this._color;
+  }
+
+  set color(color: Color) {
+    this._color = color;
+    this.context.uniform4fv(
+      this.locations.colorAttributeLocation,
+      new Float32Array(color.values),
+    );
   }
 }
