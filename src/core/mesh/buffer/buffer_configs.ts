@@ -1,8 +1,8 @@
 import { ColorLocations } from '../locations/ColorLocations';
 import { Locations } from '../locations/Locations';
 import { NormalLocations } from '../locations/NormalLocations';
-import { PositionLocations } from '../locations/PositionLocations';
 import { TextureCoordLocations } from '../locations/TextureCoordLocations';
+import { TransformLocations } from '../locations/TransformLocations';
 
 export type bufferConfig = {
   context: WebGL2RenderingContext;
@@ -10,7 +10,7 @@ export type bufferConfig = {
 };
 
 export type positionBufferConfig = {
-  locations: PositionLocations;
+  locations: TransformLocations;
   positionCoordinates: Float32Array;
 } & Omit<bufferConfig, 'locations'>;
 

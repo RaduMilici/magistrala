@@ -45,7 +45,7 @@ export class Mesh extends Object3D {
     this.meshBuffers = new MeshBuffers({
       context,
       geometry,
-      positionLocations: this.meshLocations.positionLocations,
+      positionLocations: this.meshLocations.transformLocations,
     });
   }
 
@@ -59,7 +59,7 @@ export class Mesh extends Object3D {
       .multiply(this.transforms.zRotationMatrix)
       .multiply(this.transforms.scaleMatrix);
     this.context.uniformMatrix4fv(
-      this.meshLocations.positionLocations.matrixUniformLocation,
+      this.meshLocations.transformLocations.matrixUniformLocation,
       false,
       elements,
     );

@@ -1,11 +1,11 @@
 import { Vector3 } from '../../Vector3';
-import { PositionLocations } from '../locations/PositionLocations';
+import { TransformLocations } from '../locations/TransformLocations';
 import { Buffer } from './Buffer';
 import { positionBufferConfig } from './buffer_configs';
 
 export class PositionBuffer extends Buffer {
   readonly vertexCoordinates: Float32Array;
-  protected locations: PositionLocations;
+  protected locations: TransformLocations;
   private static readonly IS_NORMALIZED = false;
 
   constructor({

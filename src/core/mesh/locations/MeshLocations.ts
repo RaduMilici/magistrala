@@ -1,10 +1,10 @@
-import { PositionLocations } from './PositionLocations';
+import { TransformLocations } from './TransformLocations';
 import { meshLocationsConfig } from './mesh_locations_config';
 
 export class MeshLocations {
-  readonly positionLocations: PositionLocations;
+  readonly transformLocations: TransformLocations;
 
   constructor({ context, program }: meshLocationsConfig) {
-    this.positionLocations = new PositionLocations({ context, program });
+    this.transformLocations = new TransformLocations({ context, program });
   }
 }

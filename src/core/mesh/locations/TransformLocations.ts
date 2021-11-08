@@ -2,7 +2,7 @@ import { AttributeNames, UniformNames } from '../location_names';
 import { Locations } from './Locations';
 import { locationsConfig } from './locations_config';
 
-export class PositionLocations extends Locations {
+export class TransformLocations extends Locations {
   matrixUniformLocation: WebGLUniformLocation;
   positionAttributeLocation: GLint;
 
