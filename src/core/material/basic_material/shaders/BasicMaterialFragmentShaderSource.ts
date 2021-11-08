@@ -5,7 +5,7 @@ import { Varyings } from '../../../shader/dynamic_shader/chunks/variables';
 export class BasicMaterialFragmentShaderSource extends DynamicFragmentShaderSource {
   constructor() {
     super();
-    this.addVarying(Varyings.color);
+    this.addVarying(Varyings.COLOR);
     this.addToMain(
       `${DynamicFragmentShaderSource.OUT_COLOR_NAME} = ${VaryingNames.COLOR};`,
     );

@@ -9,10 +9,10 @@ import {
 export class BasicMaterialVertexShaderSource extends DynamicVertexShaderSource {
   constructor() {
     super();
-    this.addAttribute(Attributes.position);
-    this.addUniform(Uniforms.color);
-    this.addUniform(Uniforms.translationMatrix);
-    this.addVarying(Varyings.color);
+    this.addAttribute(Attributes.POSITION);
+    this.addUniform(Uniforms.COLOR);
+    this.addUniform(Uniforms.TRANSLATION_MATRIX);
+    this.addVarying(Varyings.COLOR);
     this.addToMain(`${VaryingNames.COLOR} = ${UniformNames.COLOR};`);
   }
 }

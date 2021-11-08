@@ -5,15 +5,15 @@ import {
 } from '../../../mesh/location_names';
 
 export const Attributes = {
-  position: `vec4 ${AttributeNames.POSITION}`,
-  color: `vec4 ${AttributeNames.COLOR}`,
+  POSITION: `vec4 ${AttributeNames.POSITION}`,
+  COLOR: `vec4 ${AttributeNames.COLOR}`,
 };
 
 export const Uniforms = {
-  color: `vec4 ${UniformNames.COLOR}`,
-  translationMatrix: `mat4 ${UniformNames.MATRIX}`,
+  COLOR: `vec4 ${UniformNames.COLOR}`,
+  TRANSLATION_MATRIX: `mat4 ${UniformNames.MATRIX}`,
 };
 
 export const Varyings = {
-  color: `vec4 ${VaryingNames.COLOR}`,
+  COLOR: `vec4 ${VaryingNames.COLOR}`,
 };
