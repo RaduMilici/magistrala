@@ -55,8 +55,6 @@ export class Geometry {
       }
     }
 
-    console.log(textureCoordinates);
-
     return {
       positionCoordinates: new Float32Array(positionCoordinates),
       textureCoordinates: textureCoordinates.length

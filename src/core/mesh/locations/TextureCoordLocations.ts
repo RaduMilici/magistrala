@@ -3,12 +3,12 @@ import { Locations } from './Locations';
 import { locationsConfig } from './locations_config';
 
 export class TextureCoordLocations extends Locations {
-  textureCoordUniformLocation: GLint;
+  textureCoordAttributeLocation: GLint;
 
   constructor({ context, program }: locationsConfig) {
     super({ context, program });
-    this.textureCoordUniformLocation = this.getAttributeLocation(
-      AttributeNames.TEXTURE_COORD,
+    this.textureCoordAttributeLocation = this.getAttributeLocation(
+      AttributeNames.TEX_COORD,
     );
   }
 }

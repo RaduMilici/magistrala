@@ -21,11 +21,11 @@ export class TextureCoordAttribute extends Buffer {
 
   public enableAttributes() {
     this.context.enableVertexAttribArray(
-      this.locations.textureCoordUniformLocation,
+      this.locations.textureCoordAttributeLocation,
     );
 
     this.context.vertexAttribPointer(
-      this.locations.textureCoordUniformLocation,
+      this.locations.textureCoordAttributeLocation,
       // TODO: add VECTOR2.ELEMENT_COUNT to pulsar
       2,
       WebGL2RenderingContext.FLOAT,

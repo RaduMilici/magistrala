@@ -13,17 +13,22 @@ export class TestObject extends GameObject3D {
   }
 
   async loadMesh(): Promise<Mesh> {
-    const { triangles } = await new ObjLoader().load(ObjUrl.TEAPOT);
+    const { triangles } = await ObjLoader.load(ObjUrl.BLOODBRAND);
     triangles.forEach((triangle) => (triangle.color = Color.random()));
-    const texture = app.newTexture({ src: ImgUrl.BLOODBRAND });
+    const texture = app.newTexture({ src: ImgUrl.CHECKER });
+    //const texture2 = app.newTexture({ src: ImgUrl.BLOODBRAND });
     this.mesh = app.newMesh({
       geometry: app.newGeometry({ triangles }),
-      material: app.newBasicMaterial({ texture }),
+      material: app.newBasicMaterial({ texture, color: Color.RED }),
     });
     setInterval(() => {
       const material = this.mesh.material as BasicMaterial;
       material.color = Color.random();
     }, 1000);
+    // setTimeout(() => {
+    //     const material = this.mesh.material as BasicMaterial;
+    //     material.tex = Color.random();
+    // }, 2000)
     this.addComponent(new Rotate());
     updater.add(this);
     return this.mesh;

@@ -4,6 +4,9 @@ import { colorValues } from './color_values';
 
 export class Color {
   public static readonly VALUE_COUNT = 4;
+  public static readonly RED = new Color({ r: 1, g: 0, b: 0 });
+  public static readonly GREEN = new Color({ r: 0, g: 1, b: 0 });
+  public static readonly BLUE = new Color({ r: 0, g: 0, b: 1 });
 
   constructor(public value: colorValues) {}
 

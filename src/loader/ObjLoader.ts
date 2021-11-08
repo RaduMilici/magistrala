@@ -12,7 +12,7 @@ export class ObjLoader {
   public static textCache = new Cache<Promise<string>>();
   public static meshCache = new Cache<MeshData>();
 
-  public async load(path: string): Promise<MeshData> {
+  public static async load(path: string): Promise<MeshData> {
     if (ObjLoader.promiseCache.has(path)) {
       return ObjLoader.returnFromCache(path);
     }
@@ -71,7 +71,6 @@ export class ObjLoader {
     meshData.trianglesText.forEach((text) =>
       ObjLoader.assignTriangle(text, meshData),
     );
-    console.log(meshData);
     return meshData;
   }
 

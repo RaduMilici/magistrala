@@ -38,6 +38,10 @@ export class Mesh extends Object3D {
       geometry,
       positionLocations: this.meshLocations.transformLocations,
     });
+
+    if (geometry.textureCoordinates !== null) {
+      this.material.textureCoordinates = geometry.textureCoordinates;
+    }
   }
 
   public prepareForRender(cameraMatrix: Matrix4) {
