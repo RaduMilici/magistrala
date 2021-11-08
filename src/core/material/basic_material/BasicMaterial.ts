@@ -1,5 +1,5 @@
 import { Color } from '../../color/Color';
-import { TriangleColorBuffer } from '../../mesh/buffer/TriangleColorBuffer';
+import { ColorBuffer } from '../../mesh/buffer/ColorBuffer';
 import { ColorLocations } from '../../mesh/locations/ColorLocations';
 import { FragmentShader } from '../../shader/FragmentShader';
 import { VertexShader } from '../../shader/VertexShader';
@@ -11,7 +11,7 @@ import { BasicMaterialVertexShaderSource } from './shaders/BasicMaterialVertexSh
 export class BasicMaterial extends Material {
   private _color!: Color;
   private readonly colorLocations: ColorLocations;
-  private readonly colorBuffer: TriangleColorBuffer;
+  private readonly colorBuffer: ColorBuffer;
 
   constructor({
     context,
@@ -26,7 +26,7 @@ export class BasicMaterial extends Material {
       context,
       program: this.program,
     });
-    this.colorBuffer = new TriangleColorBuffer({
+    this.colorBuffer = new ColorBuffer({
       context,
       color,
       locations: this.colorLocations,

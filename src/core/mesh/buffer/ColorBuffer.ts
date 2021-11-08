@@ -3,7 +3,7 @@ import { ColorLocations } from '../locations/ColorLocations';
 import { Buffer } from './Buffer';
 import { colorBufferConfig } from './buffer_configs';
 
-export class TriangleColorBuffer extends Buffer {
+export class ColorBuffer extends Buffer {
   private _color: Color;
   locations: ColorLocations;
 
