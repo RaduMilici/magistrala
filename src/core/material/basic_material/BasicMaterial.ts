@@ -22,7 +22,6 @@ export class BasicMaterial extends Material {
     const vertexShader = new VertexShader({ context, source: vsSource });
     const fragmentShader = new FragmentShader({ context, source: fsSource });
     super({ context, vertexShader, fragmentShader });
-    this.program.use();
     this.colorLocations = new ColorLocations({
       context,
       program: this.program,
