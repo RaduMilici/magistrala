@@ -12,7 +12,10 @@ export class BasicMaterial extends Material {
   colorLocations: ColorLocations;
   colorBuffer: TriangleColorBuffer;
 
-  constructor({ context, color /*, texture*/ }: basicMaterialConfig) {
+  constructor({
+    context,
+    color = Color.random() /*, texture*/,
+  }: basicMaterialConfig) {
     const { source: vsSource } = new BasicMaterialVertexShaderSource();
     const { source: fsSource } = new BasicMaterialFragmentShaderSource();
     const vertexShader = new VertexShader({ context, source: vsSource });
@@ -26,7 +29,7 @@ export class BasicMaterial extends Material {
     this.colorBuffer = new TriangleColorBuffer({
       context,
       locations: this.colorLocations,
-      color: new Float32Array(color ? color.values : Color.random().values),
+      color: new Float32Array(color?.values),
     });
   }
 }

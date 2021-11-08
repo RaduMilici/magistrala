@@ -1,5 +1,6 @@
 import { Camera } from '../core/Camera';
 import { Vector3 } from '../core/Vector3';
+import { Color } from '../core/color/Color';
 import { Geometry } from '../core/geometry/Geometry';
 import { geometryConfig } from '../core/geometry/geometry_config';
 import { DirectionalLight } from '../core/lights/directional_light/DirectionalLight';
@@ -70,8 +71,8 @@ export class App {
     return new Scene();
   }
 
-  newMaterial(): Material {
-    return new BasicMaterial({ context: this.renderer.context });
+  newBasicMaterial({ color }: { color?: Color } = {}): Material {
+    return new BasicMaterial({ context: this.renderer.context, color });
   }
 
   render(scene: Scene, camera: Camera) {

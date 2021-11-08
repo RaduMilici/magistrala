@@ -17,7 +17,7 @@ export class TestObject extends GameObject3D {
     this.mesh = app.newMesh({
       geometry: app.newGeometry({ triangles }),
       texture: app.newTexture({ src: ImgUrl.BLOODBRAND }),
-      material: app.newMaterial(),
+      material: app.newBasicMaterial(),
     });
     this.addComponent(new Rotate());
     updater.add(this);
