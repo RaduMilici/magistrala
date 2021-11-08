@@ -10,8 +10,8 @@ import { BasicMaterialVertexShaderSource } from './shaders/BasicMaterialVertexSh
 
 export class BasicMaterial extends Material {
   private _color!: Color;
-  private colorLocations: ColorLocations;
-  private colorBuffer: TriangleColorBuffer;
+  private readonly colorLocations: ColorLocations;
+  private readonly colorBuffer: TriangleColorBuffer;
 
   constructor({
     context,
