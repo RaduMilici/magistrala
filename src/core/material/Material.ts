@@ -3,18 +3,16 @@ import { Program } from '../program/Program';
 import { FragmentShader } from '../shader/FragmentShader';
 import { VertexShader } from '../shader/VertexShader';
 import { materialConfig } from './material_config';
-import { MaterialLocations } from './material_locations/MaterialLocations';
 
 export abstract class Material {
+  program: Program;
+  protected readonly context: WebGL2RenderingContext;
+
   private _textureCoordinates: Float32Array | null = null;
   private _textureCoordLocations: TextureCoordLocations | null = null;
 
-  private _program!: Program;
-  private materialLocations: MaterialLocations | null = null;
   private readonly vertexShader: VertexShader;
   private readonly fragmentShader: FragmentShader;
-
-  protected readonly context: WebGL2RenderingContext;
 
   protected constructor({
     context,
@@ -25,18 +23,6 @@ export abstract class Material {
     this.vertexShader = vertexShader;
     this.fragmentShader = fragmentShader;
     this.program = this.compileShaders({ vertexShader, fragmentShader });
-  }
-
-  get program(): Program {
-    return this._program;
-  }
-
-  set program(value: Program) {
-    this._program = value;
-    this.materialLocations = new MaterialLocations({
-      context: this.context,
-      program: value,
-    });
   }
 
   get textureCoordinates(): Float32Array | null {

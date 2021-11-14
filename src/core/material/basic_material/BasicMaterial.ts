@@ -22,21 +22,20 @@ export class BasicMaterial extends Material {
   private textureCoordsLocations: TextureCoordLocations | undefined;
   private textureCoordAttribute: TextureCoordAttribute | undefined;
   private texture: Texture | undefined;
+  private state: BasicMaterialState;
 
   constructor({ context, color, texture }: basicMaterialConfig) {
     const state = new BasicMaterialState({ color, texture });
     const { source: vsSource } = new BasicMaterialVertexShaderSource(state);
     const { source: fsSource } = new BasicMaterialFragmentShaderSource(state);
+    console.log(vsSource);
+    console.log(fsSource);
     const vertexShader = new VertexShader({ context, source: vsSource });
     const fragmentShader = new FragmentShader({ context, source: fsSource });
     super({ context, vertexShader, fragmentShader });
+    this.state = state;
     this.texture = texture;
-    if (
-      state.value === BasicMaterialStates.COLOR_ONLY ||
-      state.value === BasicMaterialStates.COLOR_AND_TEXTURE
-    ) {
-      this.color = color || Color.random();
-    }
+    this.assignColor(color);
   }
 
   get color(): Color {
@@ -88,6 +87,15 @@ export class BasicMaterial extends Material {
         color,
         locations: this.colorLocations,
       });
+    }
+  }
+
+  private assignColor(color: Color = Color.random()) {
+    if (
+      this.state.value === BasicMaterialStates.COLOR_ONLY ||
+      this.state.value === BasicMaterialStates.COLOR_AND_TEXTURE
+    ) {
+      this.color = color;
     }
   }
 }
