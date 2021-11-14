@@ -35,42 +35,49 @@ export class BasicMaterial extends Material {
     super({ context, vertexShader, fragmentShader });
     this.state = state;
     this.texture = texture;
-    this.assignColor(color);
+    this.color = color;
+    if (this.texture) {
+      this.texture.bind();
+    }
   }
 
   get color(): Color {
     return this._color!;
   }
 
-  set color(color: Color) {
-    this._color = color;
+  set color(color: Color | undefined) {
+    this.state = new BasicMaterialState({ color, texture: this.texture });
+    switch (this.state.value) {
+      case BasicMaterialStates.COLOR_ONLY:
+      case BasicMaterialStates.COLOR_AND_TEXTURE:
+        this._color = color;
+        break;
+      case BasicMaterialStates.RANDOM_COLOR:
+        this._color = Color.random();
+        break;
+      case BasicMaterialStates.TEXTURE_ONLY:
+        this._color = undefined;
+        return;
+    }
+
     if (!this.colorUniforms && !this.colorLocations) {
-      this.createColorFields(color);
+      this.createColorLocations();
+      this.createColorUniforms(this._color!);
     }
-    if (this.colorUniforms) {
-      this.program.use();
-      this.colorUniforms.color = color;
-    }
+    this.program.use();
+    this.colorUniforms!.color = this._color!;
   }
 
   set textureCoordinates(textureCoordinates: Float32Array | null) {
     super.textureCoordinates = textureCoordinates;
     if (textureCoordinates && this.texture) {
-      this.textureCoordsLocations = new TextureCoordLocations({
-        context: this.context,
-        program: this.program,
-      });
-      this.textureCoordAttribute = new TextureCoordAttribute({
-        context: this.context,
-        locations: this.textureCoordsLocations,
-        textureCoordinates,
-      });
+      this.createTextureCoordsLocations();
+      this.createTextureCoordsAttribute(textureCoordinates);
     }
   }
 
-  private createColorFields(color: Color) {
-    this.createColorLocations();
-    this.createColorUniforms(color);
+  bindTexture() {
+    this.texture?.bind();
   }
 
   private createColorLocations() {
@@ -80,22 +87,26 @@ export class BasicMaterial extends Material {
     });
   }
 
-  private createColorUniforms(color: Color) {
-    if (this.colorLocations) {
-      this.colorUniforms = new ColorUniforms({
-        context: this.context,
-        color,
-        locations: this.colorLocations,
-      });
-    }
+  private createTextureCoordsLocations() {
+    this.textureCoordsLocations = new TextureCoordLocations({
+      context: this.context,
+      program: this.program,
+    });
   }
 
-  private assignColor(color: Color = Color.random()) {
-    if (
-      this.state.value === BasicMaterialStates.COLOR_ONLY ||
-      this.state.value === BasicMaterialStates.COLOR_AND_TEXTURE
-    ) {
-      this.color = color;
-    }
+  private createColorUniforms(color: Color) {
+    this.colorUniforms = new ColorUniforms({
+      context: this.context,
+      color,
+      locations: this.colorLocations!,
+    });
+  }
+
+  private createTextureCoordsAttribute(textureCoordinates: Float32Array) {
+    this.textureCoordAttribute = new TextureCoordAttribute({
+      context: this.context,
+      locations: this.textureCoordsLocations!,
+      textureCoordinates,
+    });
   }
 }

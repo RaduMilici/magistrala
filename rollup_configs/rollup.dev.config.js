@@ -14,8 +14,8 @@ export default merge(rollupBaseConfig, {
       template: 'rollup_configs/index_template.html',
       target: 'index.html',
     }),
-    serve('dist'),
     livereload(),
+    serve('dist'),
     visualizer(),
   ],
 });

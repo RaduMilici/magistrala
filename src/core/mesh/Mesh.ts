@@ -46,6 +46,7 @@ export class Mesh extends Object3D {
 
   public prepareForRender(cameraMatrix: Matrix4) {
     this.material.program.use();
+    this.material.bindTexture();
     const { elements } = this.perspectiveMatrix
       .multiply(cameraMatrix)
       .multiply(this.transforms.translationMatrix)

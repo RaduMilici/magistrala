@@ -1,6 +1,5 @@
 import { Color } from '../../../core/color/Color';
 import { GameObject3D } from '../../../core/ecs/GameObject3D';
-import { BasicMaterial } from '../../../core/material/basic_material/BasicMaterial';
 import { Mesh } from '../../../core/mesh/Mesh';
 import { ObjLoader } from '../../../loader/ObjLoader';
 import { app, updater } from '../../app';
@@ -16,15 +15,19 @@ export class TestObject extends GameObject3D {
     const { triangles } = await ObjLoader.load(ObjUrl.BLOODBRAND);
     triangles.forEach((triangle) => (triangle.color = Color.random()));
     const texture = app.newTexture({ src: ImgUrl.CHECKER });
-    //const texture2 = app.newTexture({ src: ImgUrl.BLOODBRAND });
+    const texture2 = app.newTexture({ src: ImgUrl.BLOODBRAND });
+    const random = Math.random() > 0.5;
+    const randomTexture = random ? texture : texture2;
+    console.log(random);
     this.mesh = app.newMesh({
       geometry: app.newGeometry({ triangles }),
-      material: app.newBasicMaterial({ texture, color: Color.RED }),
+      //material: app.newBasicMaterial(),
+      material: app.newBasicMaterial({ texture: randomTexture }),
     });
-    setInterval(() => {
-      const material = this.mesh.material as BasicMaterial;
-      material.color = Color.random();
-    }, 1000);
+    // setInterval(() => {
+    //   const material = this.mesh.material as BasicMaterial;
+    //   material.color = Color.random();
+    // }, 1000);
     // setTimeout(() => {
     //     const material = this.mesh.material as BasicMaterial;
     //     material.tex = Color.random();

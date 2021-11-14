@@ -1,4 +1,3 @@
-import { TextureCoordLocations } from '../mesh/locations/TextureCoordLocations';
 import { Program } from '../program/Program';
 import { FragmentShader } from '../shader/FragmentShader';
 import { VertexShader } from '../shader/VertexShader';
@@ -9,7 +8,6 @@ export abstract class Material {
   protected readonly context: WebGL2RenderingContext;
 
   private _textureCoordinates: Float32Array | null = null;
-  private _textureCoordLocations: TextureCoordLocations | null = null;
 
   private readonly vertexShader: VertexShader;
   private readonly fragmentShader: FragmentShader;
@@ -33,13 +31,7 @@ export abstract class Material {
     this._textureCoordinates = value;
   }
 
-  get textureCoordLocations(): TextureCoordLocations | null {
-    return this._textureCoordLocations;
-  }
-
-  set textureCoordLocations(value: TextureCoordLocations | null) {
-    this._textureCoordLocations = value;
-  }
+  abstract bindTexture(): void;
 
   protected compileShaders({
     vertexShader,

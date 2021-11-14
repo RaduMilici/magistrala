@@ -11,7 +11,12 @@ const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
 
 new TestObject().loadMesh().then((mesh) => {
-  //mesh.transforms.translation = new Vector3({ x: -1 });
+  mesh.transforms.translation = new Vector3({ x: 1 });
+  scene.add(mesh);
+});
+
+new TestObject().loadMesh().then((mesh) => {
+  mesh.transforms.translation = new Vector3({ x: -1 });
   scene.add(mesh);
 });
 

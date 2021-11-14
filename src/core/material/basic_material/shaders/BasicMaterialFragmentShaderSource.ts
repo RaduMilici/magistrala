@@ -15,6 +15,7 @@ export class BasicMaterialFragmentShaderSource extends DynamicFragmentShaderSour
 
     switch (value) {
       case BasicMaterialStates.COLOR_ONLY:
+      case BasicMaterialStates.RANDOM_COLOR:
         this.addUniform(Uniforms.COLOR);
         this.addToMain(
           `${DynamicFragmentShaderSource.OUT_COLOR_NAME} = ${UniformNames.COLOR};`,
