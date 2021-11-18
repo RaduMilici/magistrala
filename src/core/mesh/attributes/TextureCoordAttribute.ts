@@ -3,7 +3,7 @@ import { textureCoordBufferConfig } from '../buffer/buffer_configs';
 import { TextureCoordLocations } from '../locations/TextureCoordLocations';
 
 export class TextureCoordAttribute extends Buffer {
-  readonly textureCoordinates: Float32Array;
+  public textureCoordinates: Float32Array;
   protected locations: TextureCoordLocations;
   private static readonly IS_NORMALIZED = true;
 
@@ -19,7 +19,7 @@ export class TextureCoordAttribute extends Buffer {
     this.enableAttributes();
   }
 
-  public enableAttributes() {
+  protected enableAttributes() {
     this.context.enableVertexAttribArray(
       this.locations.textureCoordAttributeLocation,
     );
@@ -35,7 +35,7 @@ export class TextureCoordAttribute extends Buffer {
     );
   }
 
-  protected setBufferData() {
+  public setBufferData() {
     this.context.bufferData(
       WebGL2RenderingContext.ARRAY_BUFFER,
       this.textureCoordinates,

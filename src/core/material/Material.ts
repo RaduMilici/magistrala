@@ -7,7 +7,7 @@ export abstract class Material {
   program: Program;
   protected readonly context: WebGL2RenderingContext;
 
-  private _textureCoordinates: Float32Array | null = null;
+  protected _textureCoordinates: Float32Array | undefined;
 
   private readonly vertexShader: VertexShader;
   private readonly fragmentShader: FragmentShader;
@@ -23,11 +23,11 @@ export abstract class Material {
     this.program = this.compileShaders({ vertexShader, fragmentShader });
   }
 
-  get textureCoordinates(): Float32Array | null {
+  get textureCoordinates(): Float32Array | undefined {
     return this._textureCoordinates;
   }
 
-  set textureCoordinates(value: Float32Array | null) {
+  set textureCoordinates(value: Float32Array | undefined) {
     this._textureCoordinates = value;
   }
 

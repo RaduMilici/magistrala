@@ -10,6 +10,7 @@ export enum ObjUrl {
 }
 
 export enum ImgUrl {
+  BLENDER_CHECKER = 'https://i.imgur.com/o2y5nSA.png',
   CHECKER = 'https://i.imgur.com/cLEBhWk.jpg',
   BLOODBRAND = 'https://i.imgur.com/AKcKJgc.jpg',
 }

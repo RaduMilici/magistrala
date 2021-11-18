@@ -6,19 +6,24 @@ import {
   RenderLoop,
 } from './assets/game_assets/Render.gameobject';
 import { TestObject } from './assets/game_assets/TestObject';
+import { ImgUrl } from './assets/obj_url';
 
 const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
 
-new TestObject().loadMesh().then((mesh) => {
-  mesh.transforms.translation = new Vector3({ x: 1 });
-  scene.add(mesh);
-});
+new TestObject()
+  .TEST_loadMeshWithTexture(app.newTexture({ src: ImgUrl.BLOODBRAND }))
+  .then((mesh) => {
+    mesh.transforms.translation = new Vector3({ x: -1 });
+    scene.add(mesh);
+  });
 
-new TestObject().loadMesh().then((mesh) => {
-  mesh.transforms.translation = new Vector3({ x: -1 });
-  scene.add(mesh);
-});
+new TestObject()
+  .TEST_loadMeshWithTexture(app.newTexture({ src: ImgUrl.CHECKER }))
+  .then((mesh) => {
+    mesh.transforms.translation = new Vector3({ x: 1 });
+    scene.add(mesh);
+  });
 
 // TODO: support multiple lights
 const directionalLight = app.newDirectionalLight(

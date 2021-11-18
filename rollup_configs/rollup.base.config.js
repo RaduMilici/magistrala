@@ -8,5 +8,11 @@ export const rollupBaseConfig = {
     dir: 'dist',
     format: 'esm',
   },
-  plugins: [nodeResolve(), typescript(), glsl({ include: '**/**/*.glsl' })],
+  plugins: [
+    nodeResolve(),
+    typescript({
+      noEmitOnError: false,
+    }),
+    glsl({ include: '**/**/*.glsl' }),
+  ],
 };
