@@ -1,3 +1,5 @@
+import { randomInt } from 'pulsar-pathfinding';
+
 import { Color } from '../../../core/color/Color';
 import { GameObject3D } from '../../../core/ecs/GameObject3D';
 import { BasicMaterial } from '../../../core/material/basic_material/BasicMaterial';
@@ -7,12 +9,6 @@ import { ObjLoader } from '../../../loader/ObjLoader';
 import { app, updater } from '../../app';
 import { ImgUrl, ObjUrl } from '../obj_url';
 import { Rotate } from './Rotate.component';
-
-function* generator() {
-  let a = 0;
-  const t = [ImgUrl.BLOODBRAND, ImgUrl.CHECKER, ImgUrl.BLENDER_CHECKER];
-  yield t[a++ % 2];
-}
 
 export class TestObject extends GameObject3D {
   constructor() {
@@ -36,13 +32,16 @@ export class TestObject extends GameObject3D {
 
   TEST_changeTexture() {
     const material = this.mesh.material as BasicMaterial;
-    const texture = generator();
+    const textures = [
+      app.newTexture({ src: ImgUrl.BLENDER_CHECKER }),
+      app.newTexture({ src: ImgUrl.CHECKER }),
+      app.newTexture({ src: ImgUrl.BLOODBRAND }),
+      app.newTexture({ src: ImgUrl.CAT }),
+      app.newTexture({ src: ImgUrl.GRUNGE }),
+      app.newTexture({ src: ImgUrl.BRICKS }),
+    ];
     setInterval(() => {
-      const a = texture.next();
-      if (!a.done) {
-        material.texture = a.value;
-      }
-      //material.texture = app.newTexture({ src: ImgUrl.BLENDER_CHECKER });
+      material.texture = textures[randomInt(0, textures.length - 1)];
     }, 1000);
   }
 

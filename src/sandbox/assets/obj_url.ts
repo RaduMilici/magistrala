@@ -13,4 +13,7 @@ export enum ImgUrl {
   BLENDER_CHECKER = 'https://i.imgur.com/o2y5nSA.png',
   CHECKER = 'https://i.imgur.com/cLEBhWk.jpg',
   BLOODBRAND = 'https://i.imgur.com/AKcKJgc.jpg',
+  CAT = 'https://i.imgur.com/pqggrK0.jpeg',
+  GRUNGE = 'https://i.imgur.com/MWhuoQK.jpg',
+  BRICKS = 'https://i.imgur.com/4QJbpBV.png',
 }
