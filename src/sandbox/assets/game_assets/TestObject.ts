@@ -21,12 +21,14 @@ export class TestObject extends GameObject3D {
     this.mesh = app.newMesh({
       geometry: app.newGeometry({ triangles }),
       //material: app.newBasicMaterial(),
-      material: app.newBasicMaterial({ texture }),
+      material: app.newBasicMaterial({
+        texture: app.newTexture({ src: ImgUrl.BLENDER_CHECKER }),
+      }),
     });
     this.addComponent(new Rotate());
     updater.add(this);
     this.TEST_changeTexture();
-    //this.TEST_changeRandomColor();
+    this.TEST_changeRandomColor();
     return this.mesh;
   }
 
@@ -41,7 +43,8 @@ export class TestObject extends GameObject3D {
       app.newTexture({ src: ImgUrl.BRICKS }),
     ];
     setInterval(() => {
-      material.texture = textures[randomInt(0, textures.length - 1)];
+      //material.texture = textures[randomInt(0, textures.length - 1)];
+      material.texture = undefined;
     }, 1000);
   }
 

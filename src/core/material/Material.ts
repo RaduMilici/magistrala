@@ -1,10 +1,11 @@
 import { Program } from '../program/Program';
 import { FragmentShader } from '../shader/FragmentShader';
 import { VertexShader } from '../shader/VertexShader';
-import { materialConfig } from './material_config';
+import { materialConfig, materialSourceConfig } from './material_config';
 
 export abstract class Material {
   program: Program;
+  readonly onRecompileShaders: Array<() => void> = [];
   protected readonly context: WebGL2RenderingContext;
 
   protected _textureCoordinates: Float32Array | undefined;
@@ -20,7 +21,11 @@ export abstract class Material {
     this.context = context;
     this.vertexShader = vertexShader;
     this.fragmentShader = fragmentShader;
-    this.program = this.compileShaders({ vertexShader, fragmentShader });
+    this.program = Material.buildProgram({
+      context,
+      vertexShader,
+      fragmentShader,
+    });
   }
 
   get textureCoordinates(): Float32Array | undefined {
@@ -33,15 +38,48 @@ export abstract class Material {
 
   abstract bindTexture(): void;
 
-  protected compileShaders({
+  protected static buildProgram({
+    context,
     vertexShader,
     fragmentShader,
-  }: Omit<materialConfig, 'context'>): Program {
+  }: materialConfig): Program {
     return new Program({
-      context: this.context,
+      context,
       vertexShader,
       fragmentShader,
       debug: true,
     });
+  }
+
+  protected static buildProgramFromSource({
+    context,
+    vertexShaderSource,
+    fragmentShaderSource,
+  }: materialSourceConfig) {
+    const { fragmentShader, vertexShader } = Material.compileShadersFromSource({
+      context,
+      vertexShaderSource,
+      fragmentShaderSource,
+    });
+    return Material.buildProgram({ context, vertexShader, fragmentShader });
+  }
+
+  protected static compileShadersFromSource({
+    context,
+    vertexShaderSource,
+    fragmentShaderSource,
+  }: materialSourceConfig): {
+    vertexShader: VertexShader;
+    fragmentShader: FragmentShader;
+  } {
+    const vertexShader = new VertexShader({
+      context,
+      source: vertexShaderSource,
+    });
+    const fragmentShader = new FragmentShader({
+      context,
+      source: fragmentShaderSource,
+    });
+    return { vertexShader, fragmentShader };
   }
 }

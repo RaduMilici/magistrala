@@ -7,6 +7,8 @@ export class Color {
   public static readonly RED = new Color({ r: 1, g: 0, b: 0 });
   public static readonly GREEN = new Color({ r: 0, g: 1, b: 0 });
   public static readonly BLUE = new Color({ r: 0, g: 0, b: 1 });
+  public static readonly WHITE = new Color({ r: 1, g: 1, b: 1 });
+  public static readonly BLACK = new Color({ r: 0, g: 0, b: 0 });
 
   constructor(public value: colorValues) {}
 

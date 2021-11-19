@@ -19,20 +19,18 @@ export class Mesh extends Object3D {
   private readonly context: WebGL2RenderingContext;
 
   private meshBuffers: MeshBuffers;
-  private meshLocations: MeshLocations;
+  private meshLocations!: MeshLocations;
 
   constructor({ context, geometry, perspectiveMatrix, material }: meshConfig) {
     super();
     this.context = context;
     this.geometry = geometry;
     this.material = material;
+    this.material.onRecompileShaders.push(this.assignLocations);
     this.perspectiveMatrix = perspectiveMatrix;
     const vao = this.context.createVertexArray();
     this.context.bindVertexArray(vao);
-    this.meshLocations = new MeshLocations({
-      context,
-      program: this.material.program,
-    });
+    this.assignLocations();
     this.meshBuffers = new MeshBuffers({
       context,
       geometry,
@@ -60,4 +58,11 @@ export class Mesh extends Object3D {
       elements,
     );
   }
+
+  private assignLocations = () => {
+    this.meshLocations = new MeshLocations({
+      context: this.context,
+      program: this.material.program,
+    });
+  };
 }
