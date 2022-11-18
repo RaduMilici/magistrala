@@ -14,7 +14,7 @@ const app = new App({
   fov: DegToRad(60),
   aspect: rendererSize.width / rendererSize.height,
   near: 1,
-  far: 1000,
+  far: 10,
 });
 app.renderer.setClearColor(Color.from255({ r: 40, g: 44, b: 52 }));
 const scene = app.newScene();

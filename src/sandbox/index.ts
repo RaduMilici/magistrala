@@ -11,34 +11,19 @@ import { ImgUrl } from './assets/obj_url';
 const renderGameObject = new RenderGameObject();
 renderGameObject.addComponent(new RenderLoop());
 
-const addCircle = () => {
-  const count = 5;
-  const radius = 15;
-  for (let i = 0; i < count; i++) {
-    const angle = (i * Math.PI * 2) / count;
-
-    const x = Math.cos(angle) * radius;
-    const z = Math.sin(angle) * radius;
-    new TestObject()
-      .TEST_loadMeshWithTexture(app.newTexture({ src: ImgUrl.BLOODBRAND }))
-      .then((mesh) => {
-        mesh.transforms.translation = new Vector3({ x, z });
-        scene.add(mesh);
-      });
-  }
-};
-
 new TestObject()
   .TEST_loadMeshWithTexture(app.newTexture({ src: ImgUrl.BLOODBRAND }))
   .then((mesh) => {
-    mesh.transforms.translation = new Vector3({ x: 1 });
+    mesh.transforms.translation = new Vector3({ x: 1, y: 2 });
+    mesh.transforms.scale = new Vector3({ x: 2, y: 2, z: 2 });
     scene.add(mesh);
   });
 
 new TestObject()
   .TEST_loadMeshWithTexture(app.newTexture({ src: ImgUrl.BLOODBRAND }))
   .then((mesh) => {
-    mesh.transforms.translation = new Vector3({ x: -1 });
+    mesh.transforms.translation = new Vector3({ x: -1, y: 2 });
+    mesh.transforms.scale = new Vector3({ x: 2, y: 2, z: 2 });
     scene.add(mesh);
   });
 

@@ -16,7 +16,7 @@ export class TestObject extends GameObject3D {
   }
 
   async TEST_loadMeshWithTexture(texture: Texture): Promise<Mesh> {
-    const { triangles } = await ObjLoader.load(ObjUrl.BLOODBRAND);
+    const { triangles } = await ObjLoader.load(ObjUrl.CUBE);
     //triangles.forEach((triangle) => (triangle.color = Color.random()));
     this.mesh = app.newMesh({
       geometry: app.newGeometry({ triangles }),
@@ -28,7 +28,7 @@ export class TestObject extends GameObject3D {
     this.addComponent(new Rotate());
     updater.add(this);
     this.TEST_changeTexture();
-    this.TEST_changeRandomColor();
+    //this.TEST_changeRandomColor();
     return this.mesh;
   }
 
@@ -43,8 +43,8 @@ export class TestObject extends GameObject3D {
       app.newTexture({ src: ImgUrl.BRICKS }),
     ];
     setInterval(() => {
-      //material.texture = textures[randomInt(0, textures.length - 1)];
-      material.texture = undefined;
+      material.texture = textures[randomInt(0, textures.length - 1)];
+      //material.texture = undefined;
     }, 1000);
   }
 
