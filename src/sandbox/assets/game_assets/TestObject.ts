@@ -20,12 +20,13 @@ export class TestObject extends GameObject3D {
     //triangles.forEach((triangle) => (triangle.color = Color.random()));
     this.mesh = app.newMesh({
       geometry: app.newGeometry({ triangles }),
-      material: app.newBasicMaterial({ color: Color.RED }),
-      /*material: app.newBasicMaterial({
+      //material: app.newBasicMaterial({ color: Color.RED }),
+      material: app.newBasicMaterial({
+        color: Color.BLUE,
         texture: app.newTexture({ src: ImgUrl.BLENDER_CHECKER }),
-      }),*/
+      }),
     });
-    //this.addComponent(new Rotate());
+    this.addComponent(new Rotate());
     updater.add(this);
     //(this.mesh.material as BasicMaterial).texture = undefined;
     //this.TEST_changeTexture();

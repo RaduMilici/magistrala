@@ -39,10 +39,6 @@ export class BasicMaterial extends Material {
   set color(color: Color | undefined) {
     this.state = new BasicMaterialState({ color, texture: this.texture });
 
-    if (!BasicMaterialColor.isRequired(this.state)) {
-      return;
-    }
-
     this.basicMaterialColor = new BasicMaterialColor({
       color,
       state: this.state,

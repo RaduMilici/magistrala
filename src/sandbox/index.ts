@@ -14,7 +14,7 @@ renderGameObject.addComponent(new RenderLoop());
 new TestObject()
   .TEST_loadMeshWithTexture(app.newTexture({ src: ImgUrl.BLOODBRAND }))
   .then((mesh) => {
-    mesh.transforms.translation = new Vector3({ x: 1, y: 2 });
+    mesh.transforms.translation = new Vector3({ x: 0, y: 0 });
     mesh.transforms.scale = new Vector3({ x: 2, y: 2, z: 2 });
     scene.add(mesh);
   });
