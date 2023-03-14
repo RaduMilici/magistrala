@@ -70,10 +70,13 @@ export class BasicMaterialColor extends Color {
     state: { value },
     color,
   }: basicMaterialColorConfig): Color {
+    if (!color) {
+      return Color.random();
+    }
     switch (value) {
       case BasicMaterialStates.COLOR_ONLY:
       case BasicMaterialStates.COLOR_AND_TEXTURE:
-        return color || Color.BLACK;
+        return color;
       case BasicMaterialStates.RANDOM_COLOR:
         return Color.random();
       default:

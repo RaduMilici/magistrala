@@ -9,7 +9,7 @@ export enum BasicMaterialStates {
 }
 
 export class BasicMaterialState {
-  readonly value: string;
+  readonly value: BasicMaterialStates;
 
   constructor({ color, texture }: { color?: Color; texture?: Texture }) {
     if (!color && !texture) {

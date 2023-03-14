@@ -6,14 +6,29 @@ import { materialConfig, materialSourceConfig } from './material_config';
 export abstract class Material {
   program: Program;
   readonly onRecompileShaders: Array<() => void> = [];
-  protected readonly context: WebGL2RenderingContext;
+  protected context: WebGL2RenderingContext;
 
   protected _textureCoordinates: Float32Array | undefined;
 
-  private readonly vertexShader: VertexShader;
-  private readonly fragmentShader: FragmentShader;
+  private vertexShader: VertexShader;
+  private fragmentShader: FragmentShader;
 
   protected constructor({
+    context,
+    vertexShader,
+    fragmentShader,
+  }: materialConfig) {
+    this.context = context;
+    this.vertexShader = vertexShader;
+    this.fragmentShader = fragmentShader;
+    this.program = Material.buildProgram({
+      context,
+      vertexShader,
+      fragmentShader,
+    });
+  }
+
+  protected recompile({
     context,
     vertexShader,
     fragmentShader,

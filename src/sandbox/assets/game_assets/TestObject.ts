@@ -4,7 +4,7 @@ import { Color } from '../../../core/color/Color';
 import { GameObject3D } from '../../../core/ecs/GameObject3D';
 import { BasicMaterial } from '../../../core/material/basic_material/BasicMaterial';
 import { Mesh } from '../../../core/mesh/Mesh';
-import { Texture } from '../../../core/texture/Texture';
+//import { Texture } from '../../../core/texture/Texture';
 import { ObjLoader } from '../../../loader/ObjLoader';
 import { app, updater } from '../../app';
 import { ImgUrl, ObjUrl } from '../obj_url';
@@ -15,20 +15,21 @@ export class TestObject extends GameObject3D {
     super({ name: 'teddy' });
   }
 
-  async TEST_loadMeshWithTexture(texture: Texture): Promise<Mesh> {
+  async TEST_loadMeshWithTexture(/*texture: Texture*/): Promise<Mesh> {
     const { triangles } = await ObjLoader.load(ObjUrl.CUBE);
     //triangles.forEach((triangle) => (triangle.color = Color.random()));
     this.mesh = app.newMesh({
       geometry: app.newGeometry({ triangles }),
-      //material: app.newBasicMaterial(),
-      material: app.newBasicMaterial({
+      material: app.newBasicMaterial({ color: Color.RED }),
+      /*material: app.newBasicMaterial({
         texture: app.newTexture({ src: ImgUrl.BLENDER_CHECKER }),
-      }),
+      }),*/
     });
-    this.addComponent(new Rotate());
+    //this.addComponent(new Rotate());
     updater.add(this);
-    this.TEST_changeTexture();
-    //this.TEST_changeRandomColor();
+    //(this.mesh.material as BasicMaterial).texture = undefined;
+    //this.TEST_changeTexture();
+    this.TEST_changeRandomColor();
     return this.mesh;
   }
 
@@ -50,8 +51,8 @@ export class TestObject extends GameObject3D {
 
   TEST_changeRandomColor() {
     setInterval(() => {
-      const material = this.mesh.material as BasicMaterial;
-      material.color = Color.random();
+      (this.mesh.material as BasicMaterial).color =
+        Math.random() > 0.5 ? Color.random() : undefined;
     }, 1000);
   }
 

@@ -1,13 +1,10 @@
 import { Color } from '../../color/Color';
 import { TextureCoordAttribute } from '../../mesh/attributes/TextureCoordAttribute';
-import { ColorLocations } from '../../mesh/locations/ColorLocations';
 import { TextureCoordLocations } from '../../mesh/locations/TextureCoordLocations';
-import { ColorUniforms } from '../../mesh/uniforms/ColorUniforms';
 import { Texture } from '../../texture/Texture';
 import { Material } from '../Material';
 import { basicMaterialConfig } from './basic_material_config';
 import { BasicMaterialColor } from './properties/basic_material_color/BasicMaterialColor';
-import { basicMaterialColorConfig } from './properties/basic_material_color/basic_material_color_config';
 import { BasicMaterialFragmentShaderSource } from './shaders/BasicMaterialFragmentShaderSource';
 import { BasicMaterialVertexShaderSource } from './shaders/BasicMaterialVertexShaderSource';
 import {
@@ -41,22 +38,23 @@ export class BasicMaterial extends Material {
 
   set color(color: Color | undefined) {
     const state = new BasicMaterialState({ color, texture: this.texture });
+    console.log(state.value);
     if (!this.state.equals(state)) {
       this.state = state;
-      this.program = this.compileProgram(state);
-      this.onRecompileShaders.forEach((f) => f());
     }
 
     if (!BasicMaterialColor.isRequired(state)) {
       return;
     }
 
-    if (!this.basicMaterialColor) {
-      this.basicMaterialColor = this.makeMaterialColor({ color, state });
-    }
+    this.basicMaterialColor = new BasicMaterialColor({
+      color,
+      state,
+      context: this.context,
+      program: this.program,
+    });
 
     this.program.use();
-    this.basicMaterialColor.materialColor = color;
   }
 
   get textureCoordinates(): Float32Array | undefined {
@@ -112,23 +110,6 @@ export class BasicMaterial extends Material {
       context: this.context,
       locations: this.textureCoordsLocations!,
       textureCoordinates,
-    });
-  }
-
-  private compileProgram(state: BasicMaterialState) {
-    return Material.buildProgramFromSource({
-      context: this.context,
-      vertexShaderSource: new BasicMaterialVertexShaderSource(state).source,
-      fragmentShaderSource: new BasicMaterialFragmentShaderSource(state).source,
-    });
-  }
-
-  private makeMaterialColor({ color, state }: basicMaterialColorConfig) {
-    return new BasicMaterialColor({
-      color,
-      state,
-      context: this.context,
-      program: this.program,
     });
   }
 }
