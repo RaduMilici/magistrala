@@ -38,7 +38,6 @@ export class BasicMaterial extends Material {
 
   set color(color: Color | undefined) {
     const state = new BasicMaterialState({ color, texture: this.texture });
-    console.log(state.value);
     if (!this.state.equals(state)) {
       this.state = state;
     }
