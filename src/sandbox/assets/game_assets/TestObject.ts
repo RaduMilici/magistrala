@@ -4,7 +4,7 @@ import { Color } from '../../../core/color/Color';
 import { GameObject3D } from '../../../core/ecs/GameObject3D';
 import { BasicMaterial } from '../../../core/material/basic_material/BasicMaterial';
 import { Mesh } from '../../../core/mesh/Mesh';
-//import { Texture } from '../../../core/texture/Texture';
+import { Texture } from '../../../core/texture/Texture';
 import { ObjLoader } from '../../../loader/ObjLoader';
 import { app, updater } from '../../app';
 import { ImgUrl, ObjUrl } from '../obj_url';
@@ -15,7 +15,7 @@ export class TestObject extends GameObject3D {
     super({ name: 'teddy' });
   }
 
-  async TEST_loadMeshWithTexture(/*texture: Texture*/): Promise<Mesh> {
+  async TEST_loadMeshWithTexture(texture: Texture): Promise<Mesh> {
     const { triangles } = await ObjLoader.load(ObjUrl.CUBE);
     //triangles.forEach((triangle) => (triangle.color = Color.random()));
     this.mesh = app.newMesh({
