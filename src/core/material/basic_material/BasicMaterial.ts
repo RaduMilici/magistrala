@@ -37,23 +37,18 @@ export class BasicMaterial extends Material {
   }
 
   set color(color: Color | undefined) {
-    const state = new BasicMaterialState({ color, texture: this.texture });
-    if (!this.state.equals(state)) {
-      this.state = state;
-    }
+    this.state = new BasicMaterialState({ color, texture: this.texture });
 
-    if (!BasicMaterialColor.isRequired(state)) {
+    if (!BasicMaterialColor.isRequired(this.state)) {
       return;
     }
 
     this.basicMaterialColor = new BasicMaterialColor({
       color,
-      state,
+      state: this.state,
       context: this.context,
       program: this.program,
     });
-
-    this.program.use();
   }
 
   get textureCoordinates(): Float32Array | undefined {
