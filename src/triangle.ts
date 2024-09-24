@@ -30,22 +30,42 @@ export const drawTriangle = async () => {
     });
 
     const shaderModule = device.createShaderModule({
-        label: 'triangle',
+        label: 'triangle shader module',
         code: `
+            struct PositionColorOutput {
+                @builtin(position) position: vec4f,
+                @location(0) color: vec4f,
+            };
+
             @vertex fn vs(
                 @builtin(vertex_index) vertexIndex: u32
-            ) -> @builtin(position) vec4f {
+            ) -> PositionColorOutput {
                 let pos = array(
-                    vec2f(0.0, 1.0),
-                    vec2f(-1.0, -1.0),
-                    vec2f(1.0, -1.0)
+                    vec2f( 0,  1),
+                    vec2f(-1, -1),
+                    vec2f( 1, -1)
                 );
 
-                return vec4f(pos[vertexIndex], 0.0, 1.0);
+                let color = array<vec4f, 3>(
+                    vec4f(1, 0, 0, 1),
+                    vec4f(0, 1, 0, 1),
+                    vec4f(0, 0, 1, 1),
+                );
+
+                var vsOutput: PositionColorOutput;
+                vsOutput.position = vec4f(pos[vertexIndex], 0, 1);
+                vsOutput.color = color[vertexIndex];
+                return vsOutput;
             }
 
-            @fragment fn fs() -> @location(0) vec4f {
-                return vec4f(0.0, 0.0, 1.0, 1.0);
+            @fragment fn fs(fsInput: PositionColorOutput) -> @location(0) vec4f {
+                let red = vec4f(1, 0, 0, 1);
+                let green = vec4f(0, 1, 0, 1);
+                let gridSquareSize: u32 = 20;
+                let grid = vec2u(fsInput.position.xy) / gridSquareSize;
+                let checker = (grid.x + grid.y) % 2 == 1;
+
+                return select(red, green, checker);
             }
         `,
     });

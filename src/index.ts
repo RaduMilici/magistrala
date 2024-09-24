@@ -1,5 +1,9 @@
 import { compute } from './compute';
 import { drawTriangle } from './triangle';
 
-drawTriangle();
-compute();
+const start = async () => {
+    await drawTriangle();
+    await compute();
+};
+
+start();
