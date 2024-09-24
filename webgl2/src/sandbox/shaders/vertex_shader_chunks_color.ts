@@ -1,7 +1,7 @@
 import {
-  AttributeNames,
-  UniformNames,
-  VaryingNames,
+    AttributeNames,
+    UniformNames,
+    VaryingNames,
 } from '../../core/mesh/location_names';
 import { VERTEX_SHADER_BOILERPLATE } from '../../core/shader/chunks/variables';
 

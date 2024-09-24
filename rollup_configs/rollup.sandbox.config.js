@@ -6,12 +6,12 @@ import { terser } from 'rollup-plugin-terser';
 import { rollupBaseConfig } from './rollup.base.config';
 
 export default merge(rollupBaseConfig, {
-  plugins: [
-    clean(),
-    terser(),
-    htmlTemplate({
-      template: 'rollup_configs/index_template.html',
-      target: 'index.html',
-    }),
-  ],
+    plugins: [
+        clean(),
+        terser(),
+        htmlTemplate({
+            template: 'rollup_configs/index_template.html',
+            target: 'index.html',
+        }),
+    ],
 });

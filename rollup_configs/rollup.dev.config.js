@@ -8,19 +8,19 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import { rollupBaseConfig } from './rollup.base.config';
 
 export default merge(rollupBaseConfig, {
-  plugins: [
-    clean(),
-    htmlTemplate({
-      template: 'rollup_configs/index_template.html',
-      target: 'index.html',
-    }),
-    serve({
-      contentBase: 'dist',
-      port: 3000,
-    }),
-    livereload({
-      watch: 'dist',
-    }),
-    visualizer(),
-  ],
+    plugins: [
+        clean(),
+        htmlTemplate({
+            template: 'rollup_configs/index_template.html',
+            target: 'index.html',
+        }),
+        serve({
+            contentBase: 'dist',
+            port: 3000,
+        }),
+        livereload({
+            watch: 'dist',
+        }),
+        visualizer(),
+    ],
 });

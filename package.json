@@ -1,53 +1,53 @@
 {
-  "name": "magistrala",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "rollup -c rollup_configs/rollup.dev.config.js -w",
-    "build": "rollup -c rollup_configs/rollup.prod.config.js",
-    "build:sandbox": "rollup -c rollup_configs/rollup.sandbox.config.js",
-    "format": "prettier --write .",
-    "circularDependencies": "node scripts/circular_dependencies/circularDependencies.js",
-    "prepare": "husky install"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/RaduMilici/magistrala.git"
-  },
-  "author": "RaduMilici",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/RaduMilici/magistrala/issues"
-  },
-  "homepage": "https://github.com/RaduMilici/magistrala#readme",
-  "dependencies": {
-    "pulsar-pathfinding": "^2.1.1"
-  },
-  "devDependencies": {
-    "@rollup/plugin-node-resolve": "^13.0.6",
-    "@rollup/plugin-typescript": "^8.2.5",
-    "@trivago/prettier-plugin-sort-imports": "^3.0.0",
-    "@types/dat.gui": "^0.7.7",
-    "@webgpu/types": "^0.1.46",
-    "dat.gui": "^0.7.7",
-    "deepmerge": "^4.2.2",
-    "husky": "^7.0.2",
-    "lint-staged": "^11.1.2",
-    "madge": "^5.0.1",
-    "prettier": "2.4.1",
-    "rollup": "^2.57.0",
-    "rollup-plugin-clean": "^1.0.0",
-    "rollup-plugin-generate-html-template": "^1.7.0",
-    "rollup-plugin-glsl": "^1.3.0",
-    "rollup-plugin-livereload": "^2.0.5",
-    "rollup-plugin-serve": "^1.1.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-visualizer": "^5.5.2",
-    "tslib": "^2.3.1",
-    "typescript": "^4.4.3"
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
-  }
+    "name": "magistrala",
+    "version": "0.0.1",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "rollup -c rollup_configs/rollup.dev.config.js -w",
+        "build": "rollup -c rollup_configs/rollup.prod.config.js",
+        "build:sandbox": "rollup -c rollup_configs/rollup.sandbox.config.js",
+        "format": "prettier --write .",
+        "circularDependencies": "node scripts/circular_dependencies/circularDependencies.js",
+        "prepare": "husky install"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RaduMilici/magistrala.git"
+    },
+    "author": "RaduMilici",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/RaduMilici/magistrala/issues"
+    },
+    "homepage": "https://github.com/RaduMilici/magistrala#readme",
+    "dependencies": {
+        "pulsar-pathfinding": "^2.1.1"
+    },
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^13.0.6",
+        "@rollup/plugin-typescript": "^8.2.5",
+        "@trivago/prettier-plugin-sort-imports": "^3.0.0",
+        "@types/dat.gui": "^0.7.7",
+        "@webgpu/types": "^0.1.46",
+        "dat.gui": "^0.7.7",
+        "deepmerge": "^4.2.2",
+        "husky": "^7.0.2",
+        "lint-staged": "^11.1.2",
+        "madge": "^5.0.1",
+        "prettier": "2.4.1",
+        "rollup": "^2.57.0",
+        "rollup-plugin-clean": "^1.0.0",
+        "rollup-plugin-generate-html-template": "^1.7.0",
+        "rollup-plugin-glsl": "^1.3.0",
+        "rollup-plugin-livereload": "^2.0.5",
+        "rollup-plugin-serve": "^1.1.0",
+        "rollup-plugin-terser": "^7.0.2",
+        "rollup-plugin-visualizer": "^5.5.2",
+        "tslib": "^2.3.1",
+        "typescript": "^4.4.3"
+    },
+    "lint-staged": {
+        "**/*": "prettier --write --ignore-unknown"
+    }
 }

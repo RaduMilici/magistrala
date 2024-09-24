@@ -5,10 +5,10 @@ import { Texture } from '../texture/Texture';
 import { PerspectiveMatrix } from './transforms/matrices/perspective/PerspectiveMatrix';
 
 export type meshConfig = {
-  context: WebGL2RenderingContext;
-  geometry: Geometry;
-  vertexShader: VertexShader;
-  fragmentShader: FragmentShader;
-  perspectiveMatrix: PerspectiveMatrix;
-  texture: Texture;
+    context: WebGL2RenderingContext;
+    geometry: Geometry;
+    vertexShader: VertexShader;
+    fragmentShader: FragmentShader;
+    perspectiveMatrix: PerspectiveMatrix;
+    texture: Texture;
 };

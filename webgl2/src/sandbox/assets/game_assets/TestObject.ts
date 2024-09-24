@@ -9,27 +9,27 @@ import { ImgUrl, ObjUrl } from '../obj_url';
 import { Rotate } from './Rotate.component';
 
 export class TestObject extends GameObject3D {
-  private static vertexShader = app.newVertexShader({
-    source: vertexShaderChunks,
-  });
-  private static fragmentShader = app.newFragmentShader({
-    source: fragmentShaderSource,
-  });
-  constructor() {
-    super({ name: 'teddy' });
-  }
-
-  async loadMesh(): Promise<Mesh> {
-    const { triangles } = await new ObjLoader().load(ObjUrl.BLOODBRAND);
-    triangles.forEach((triangle) => (triangle.color = Color.random()));
-    this.mesh = app.newMesh({
-      vertexShader: TestObject.vertexShader,
-      fragmentShader: TestObject.fragmentShader,
-      geometry: app.newGeometry({ triangles }),
-      texture: app.newTexture({ src: ImgUrl.BLOODBRAND }),
+    private static vertexShader = app.newVertexShader({
+        source: vertexShaderChunks,
     });
-    this.addComponent(new Rotate());
-    updater.add(this);
-    return this.mesh;
-  }
+    private static fragmentShader = app.newFragmentShader({
+        source: fragmentShaderSource,
+    });
+    constructor() {
+        super({ name: 'teddy' });
+    }
+
+    async loadMesh(): Promise<Mesh> {
+        const { triangles } = await new ObjLoader().load(ObjUrl.BLOODBRAND);
+        triangles.forEach((triangle) => (triangle.color = Color.random()));
+        this.mesh = app.newMesh({
+            vertexShader: TestObject.vertexShader,
+            fragmentShader: TestObject.fragmentShader,
+            geometry: app.newGeometry({ triangles }),
+            texture: app.newTexture({ src: ImgUrl.BLOODBRAND }),
+        });
+        this.addComponent(new Rotate());
+        updater.add(this);
+        return this.mesh;
+    }
 }

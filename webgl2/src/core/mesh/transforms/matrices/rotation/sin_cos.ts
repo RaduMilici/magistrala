@@ -1,4 +1,4 @@
 export type sinCos = {
-  sin: number;
-  cos: number;
+    sin: number;
+    cos: number;
 };

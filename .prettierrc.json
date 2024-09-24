@@ -1,9 +1,10 @@
 {
-  "singleQuote": true,
-  "trailingComma": "all",
-  "semi": true,
-  "importOrder": ["<THIRD_PARTY_MODULES>", "^[./]"],
-  "importOrderSortSpecifiers": true,
-  "importOrderSeparation": true,
-  "importOrderParserPlugins": ["typescript", "classProperties"]
+    "singleQuote": true,
+    "trailingComma": "all",
+    "semi": true,
+    "importOrder": ["<THIRD_PARTY_MODULES>", "^[./]"],
+    "importOrderSortSpecifiers": true,
+    "importOrderSeparation": true,
+    "importOrderParserPlugins": ["typescript", "classProperties"],
+    "tabWidth": 4
 }

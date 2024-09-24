@@ -5,16 +5,16 @@ import { Camera } from '../core/Camera';
 import { Color } from '../core/color/Color';
 
 const rendererSize: size = {
-  width: window.innerWidth,
-  height: window.innerHeight,
+    width: window.innerWidth,
+    height: window.innerHeight,
 };
 const app = new App({
-  container: document.getElementById('magistrala-app'),
-  size: rendererSize,
-  fov: DegToRad(60),
-  aspect: rendererSize.width / rendererSize.height,
-  near: 1,
-  far: 1000,
+    container: document.getElementById('magistrala-app'),
+    size: rendererSize,
+    fov: DegToRad(60),
+    aspect: rendererSize.width / rendererSize.height,
+    near: 1,
+    far: 1000,
 });
 app.renderer.setClearColor(Color.from255({ r: 40, g: 44, b: 52 }));
 const scene = app.newScene();

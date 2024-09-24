@@ -5,10 +5,10 @@ import { PositionLocations } from '../locations/PositionLocations';
 import { TextureCoordLocations } from '../locations/TextureCoordLocations';
 
 export type buffersConfig = {
-  context: WebGL2RenderingContext;
-  geometry: Geometry;
-  positionLocations: PositionLocations;
-  colorLocations: ColorLocations;
-  textureCoordLocations: TextureCoordLocations;
-  normalLocations: NormalLocations;
+    context: WebGL2RenderingContext;
+    geometry: Geometry;
+    positionLocations: PositionLocations;
+    colorLocations: ColorLocations;
+    textureCoordLocations: TextureCoordLocations;
+    normalLocations: NormalLocations;
 };

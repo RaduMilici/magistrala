@@ -4,37 +4,39 @@ import { Buffer } from './Buffer';
 import { colorBufferConfig } from './buffer_configs';
 
 export class TriangleColorBuffer extends Buffer {
-  triangleColors: Float32Array;
-  locations: ColorLocations;
+    triangleColors: Float32Array;
+    locations: ColorLocations;
 
-  private static readonly IS_NORMALIZED = false;
+    private static readonly IS_NORMALIZED = false;
 
-  constructor({ context, locations, triangleColors }: colorBufferConfig) {
-    super({ context, locations });
-    this.triangleColors = triangleColors;
-    this.locations = locations;
-    this.setBufferData();
-    this.enableAttributes();
-  }
+    constructor({ context, locations, triangleColors }: colorBufferConfig) {
+        super({ context, locations });
+        this.triangleColors = triangleColors;
+        this.locations = locations;
+        this.setBufferData();
+        this.enableAttributes();
+    }
 
-  public enableAttributes() {
-    this.context.enableVertexAttribArray(this.locations.colorAttributeLocation);
+    public enableAttributes() {
+        this.context.enableVertexAttribArray(
+            this.locations.colorAttributeLocation,
+        );
 
-    this.context.vertexAttribPointer(
-      this.locations.colorAttributeLocation,
-      Color.VALUE_COUNT,
-      WebGL2RenderingContext.FLOAT,
-      TriangleColorBuffer.IS_NORMALIZED,
-      Buffer.STRIDE,
-      Buffer.OFFSET,
-    );
-  }
+        this.context.vertexAttribPointer(
+            this.locations.colorAttributeLocation,
+            Color.VALUE_COUNT,
+            WebGL2RenderingContext.FLOAT,
+            TriangleColorBuffer.IS_NORMALIZED,
+            Buffer.STRIDE,
+            Buffer.OFFSET,
+        );
+    }
 
-  protected setBufferData() {
-    this.context.bufferData(
-      WebGL2RenderingContext.ARRAY_BUFFER,
-      this.triangleColors,
-      WebGL2RenderingContext.STATIC_DRAW,
-    );
-  }
+    protected setBufferData() {
+        this.context.bufferData(
+            WebGL2RenderingContext.ARRAY_BUFFER,
+            this.triangleColors,
+            WebGL2RenderingContext.STATIC_DRAW,
+        );
+    }
 }

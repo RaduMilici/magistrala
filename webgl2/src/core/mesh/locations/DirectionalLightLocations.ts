@@ -3,12 +3,12 @@ import { Locations } from './Locations';
 import { locationsConfig } from './locations_config';
 
 export class DirectionalLightLocations extends Locations {
-  reverseLightUniformLocation: WebGLUniformLocation;
+    reverseLightUniformLocation: WebGLUniformLocation;
 
-  constructor({ context, program }: locationsConfig) {
-    super({ context, program });
-    this.reverseLightUniformLocation = this.getUniformLocation(
-      UniformNames.REVERSE_LIGHT_DIRECTION,
-    );
-  }
+    constructor({ context, program }: locationsConfig) {
+        super({ context, program });
+        this.reverseLightUniformLocation = this.getUniformLocation(
+            UniformNames.REVERSE_LIGHT_DIRECTION,
+        );
+    }
 }

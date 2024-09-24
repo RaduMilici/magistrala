@@ -17,60 +17,62 @@ import { Triangle } from '../core/triangle/Triangle';
 import { triangle_config } from '../core/triangle/triangle_config';
 
 export class App {
-  public readonly renderer: Renderer;
+    public readonly renderer: Renderer;
 
-  constructor(private rendererConfig: rendererConfig) {
-    this.renderer = new Renderer(rendererConfig);
-  }
+    constructor(private rendererConfig: rendererConfig) {
+        this.renderer = new Renderer(rendererConfig);
+    }
 
-  newVertexShader({ source }: Omit<shaderConfig, 'context'>): VertexShader {
-    return new VertexShader({ source, context: this.renderer.context });
-  }
+    newVertexShader({ source }: Omit<shaderConfig, 'context'>): VertexShader {
+        return new VertexShader({ source, context: this.renderer.context });
+    }
 
-  newDirectionalLight(direction: Vector3): DirectionalLight {
-    return new DirectionalLight({
-      context: this.renderer.context,
-      direction,
-    });
-  }
+    newDirectionalLight(direction: Vector3): DirectionalLight {
+        return new DirectionalLight({
+            context: this.renderer.context,
+            direction,
+        });
+    }
 
-  newFragmentShader({ source }: Omit<shaderConfig, 'context'>): FragmentShader {
-    return new FragmentShader({ source, context: this.renderer.context });
-  }
+    newFragmentShader({
+        source,
+    }: Omit<shaderConfig, 'context'>): FragmentShader {
+        return new FragmentShader({ source, context: this.renderer.context });
+    }
 
-  newMesh({
-    fragmentShader,
-    vertexShader,
-    geometry,
-    texture,
-  }: Omit<meshConfig, 'context' | 'perspectiveMatrix'>): Mesh {
-    return new Mesh({
-      vertexShader,
-      fragmentShader,
-      geometry,
-      context: this.renderer.context,
-      perspectiveMatrix: this.renderer.perspectiveMatrix,
-      texture,
-    });
-  }
+    newMesh({
+        fragmentShader,
+        vertexShader,
+        geometry,
+        texture,
+    }: Omit<meshConfig, 'context' | 'perspectiveMatrix'>): Mesh {
+        return new Mesh({
+            vertexShader,
+            fragmentShader,
+            geometry,
+            context: this.renderer.context,
+            perspectiveMatrix: this.renderer.perspectiveMatrix,
+            texture,
+        });
+    }
 
-  newTexture({ image, src }: Omit<textureConfig, 'context'> = {}) {
-    return new Texture({ context: this.renderer.context, image, src });
-  }
+    newTexture({ image, src }: Omit<textureConfig, 'context'> = {}) {
+        return new Texture({ context: this.renderer.context, image, src });
+    }
 
-  newGeometry(config: geometryConfig): Geometry {
-    return new Geometry(config);
-  }
+    newGeometry(config: geometryConfig): Geometry {
+        return new Geometry(config);
+    }
 
-  newTriangle({ a, b, c, color }: triangle_config): Triangle {
-    return new Triangle({ a, b, c, color });
-  }
+    newTriangle({ a, b, c, color }: triangle_config): Triangle {
+        return new Triangle({ a, b, c, color });
+    }
 
-  newScene(): Scene {
-    return new Scene();
-  }
+    newScene(): Scene {
+        return new Scene();
+    }
 
-  render(scene: Scene, camera: Camera) {
-    this.renderer.render(scene, camera);
-  }
+    render(scene: Scene, camera: Camera) {
+        this.renderer.render(scene, camera);
+    }
 }
