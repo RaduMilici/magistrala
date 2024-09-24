@@ -15,7 +15,6 @@ export default merge(rollupBaseConfig, {
       target: 'index.html',
     }),
     serve({
-      open: true,
       contentBase: 'dist',
       port: 3000,
     }),
