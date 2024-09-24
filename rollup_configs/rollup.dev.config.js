@@ -1,6 +1,7 @@
 import merge from 'deepmerge';
 import clean from 'rollup-plugin-clean';
 import htmlTemplate from 'rollup-plugin-generate-html-template';
+import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 import { visualizer } from 'rollup-plugin-visualizer';
 
@@ -13,7 +14,14 @@ export default merge(rollupBaseConfig, {
       template: 'rollup_configs/index_template.html',
       target: 'index.html',
     }),
-    serve('dist'),
+    serve({
+      open: true,
+      contentBase: 'dist',
+      port: 3000,
+    }),
+    livereload({
+      watch: 'dist', // Watch the 'dist' directory for changes
+    }),
     visualizer(),
   ],
 });
