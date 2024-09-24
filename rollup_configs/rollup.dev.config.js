@@ -20,7 +20,7 @@ export default merge(rollupBaseConfig, {
       port: 3000,
     }),
     livereload({
-      watch: 'dist', // Watch the 'dist' directory for changes
+      watch: 'dist',
     }),
     visualizer(),
   ],
