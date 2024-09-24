@@ -37,6 +37,10 @@ export const drawTriangle = async () => {
                 @location(0) color: vec4f,
             };
 
+            const RED: vec4f = vec4f(1.0, 0.0, 0.0, 1.0);
+            const GREEN: vec4f = vec4f(0.0, 1.0, 0.0, 1.0);
+            const BLUE: vec4f = vec4f(0.0, 0.0, 1.0, 1.0);
+
             @vertex fn vs(
                 @builtin(vertex_index) vertexIndex: u32
             ) -> PositionColorOutput {
@@ -46,11 +50,7 @@ export const drawTriangle = async () => {
                     vec2f( 1, -1)
                 );
 
-                let color = array<vec4f, 3>(
-                    vec4f(1, 0, 0, 1),
-                    vec4f(0, 1, 0, 1),
-                    vec4f(0, 0, 1, 1),
-                );
+                let color = array<vec4f, 3>(RED, GREEN, BLUE);
 
                 var vsOutput: PositionColorOutput;
                 vsOutput.position = vec4f(pos[vertexIndex], 0, 1);
@@ -59,13 +59,11 @@ export const drawTriangle = async () => {
             }
 
             @fragment fn fs(fsInput: PositionColorOutput) -> @location(0) vec4f {
-                let red = vec4f(1, 0, 0, 1);
-                let green = vec4f(0, 1, 0, 1);
                 let gridSquareSize: u32 = 20;
                 let grid = vec2u(fsInput.position.xy) / gridSquareSize;
                 let checker = (grid.x + grid.y) % 2 == 1;
 
-                return select(red, green, checker);
+                return select(RED, GREEN, checker);
             }
         `,
     });
