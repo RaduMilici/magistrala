@@ -12,12 +12,7 @@ export class MeshBuffers {
 
     constructor({
         context,
-        geometry: {
-            positionCoordinates,
-            triangleColors,
-            textureCoordinates,
-            normalCoordinates,
-        },
+        geometry: { positionCoordinates, triangleColors, textureCoordinates, normalCoordinates },
         positionLocations,
         colorLocations,
         textureCoordLocations,

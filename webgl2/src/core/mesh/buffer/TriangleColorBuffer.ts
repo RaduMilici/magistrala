@@ -18,9 +18,7 @@ export class TriangleColorBuffer extends Buffer {
     }
 
     public enableAttributes() {
-        this.context.enableVertexAttribArray(
-            this.locations.colorAttributeLocation,
-        );
+        this.context.enableVertexAttribArray(this.locations.colorAttributeLocation);
 
         this.context.vertexAttribPointer(
             this.locations.colorAttributeLocation,

@@ -33,22 +33,13 @@ export class Program {
         return glProgram;
     }
 
-    private attachShaders(
-        vertexShader: VertexShader,
-        fragmentShader: FragmentShader,
-    ) {
+    private attachShaders(vertexShader: VertexShader, fragmentShader: FragmentShader) {
         this.context.attachShader(this.glProgram, vertexShader.glShader);
         this.context.attachShader(this.glProgram, fragmentShader.glShader);
     }
 
-    private static verify(
-        context: WebGL2RenderingContext,
-        program: WebGLProgram,
-    ) {
-        const success = context.getProgramParameter(
-            program,
-            WebGL2RenderingContext.LINK_STATUS,
-        );
+    private static verify(context: WebGL2RenderingContext, program: WebGLProgram) {
+        const success = context.getProgramParameter(program, WebGL2RenderingContext.LINK_STATUS);
 
         if (!success) {
             const infoLog = context.getProgramInfoLog(program);
@@ -57,22 +48,14 @@ export class Program {
         }
     }
 
-    private static validate(
-        context: WebGL2RenderingContext,
-        program: WebGLProgram,
-    ) {
+    private static validate(context: WebGL2RenderingContext, program: WebGLProgram) {
         context.validateProgram(program);
-        const success = context.getProgramParameter(
-            program,
-            WebGL2RenderingContext.VALIDATE_STATUS,
-        );
+        const success = context.getProgramParameter(program, WebGL2RenderingContext.VALIDATE_STATUS);
 
         if (!success) {
             const infoLog = context.getProgramInfoLog(program);
             context.deleteProgram(program);
-            throw new Error(
-                `${Errors.COULD_NOT_VALIDATE_PROGRAM} - ${infoLog}`,
-            );
+            throw new Error(`${Errors.COULD_NOT_VALIDATE_PROGRAM} - ${infoLog}`);
         }
     }
 }

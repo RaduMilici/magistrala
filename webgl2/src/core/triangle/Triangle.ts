@@ -48,14 +48,10 @@ export class Triangle {
         });
     }
 
-    public static multipleFromCoordinates(
-        coordinates: Array<number>,
-    ): Array<Triangle> {
+    public static multipleFromCoordinates(coordinates: Array<number>): Array<Triangle> {
         const triangles: Array<Triangle> = [];
         for (let i = 0; i < coordinates.length; i += 9) {
-            triangles.push(
-                Triangle.fromCoordinates(coordinates.slice(i, i + 9)),
-            );
+            triangles.push(Triangle.fromCoordinates(coordinates.slice(i, i + 9)));
         }
         return triangles;
     }

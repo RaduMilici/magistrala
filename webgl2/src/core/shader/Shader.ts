@@ -31,14 +31,8 @@ export class Shader {
         return glShader;
     }
 
-    private static verify(
-        context: WebGL2RenderingContext,
-        shader: WebGLShader,
-    ) {
-        const success = context.getShaderParameter(
-            shader,
-            WebGL2RenderingContext.COMPILE_STATUS,
-        );
+    private static verify(context: WebGL2RenderingContext, shader: WebGLShader) {
+        const success = context.getShaderParameter(shader, WebGL2RenderingContext.COMPILE_STATUS);
 
         if (!success) {
             const infoLog = context.getShaderInfoLog(shader);

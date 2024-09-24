@@ -7,8 +7,6 @@ export class DirectionalLightLocations extends Locations {
 
     constructor({ context, program }: locationsConfig) {
         super({ context, program });
-        this.reverseLightUniformLocation = this.getUniformLocation(
-            UniformNames.REVERSE_LIGHT_DIRECTION,
-        );
+        this.reverseLightUniformLocation = this.getUniformLocation(UniformNames.REVERSE_LIGHT_DIRECTION);
     }
 }

@@ -12,8 +12,7 @@ export class Geometry {
 
     constructor({ triangles }: geometryConfig) {
         this.triangles = triangles;
-        const { positionCoordinates, textureCoordinates, normalCoordinates } =
-            Geometry.getVertexCoordinates(triangles);
+        const { positionCoordinates, textureCoordinates, normalCoordinates } = Geometry.getVertexCoordinates(triangles);
         this.positionCoordinates = positionCoordinates;
         this.textureCoordinates = textureCoordinates;
         this.normalCoordinates = normalCoordinates;

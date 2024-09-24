@@ -7,10 +7,7 @@ import { Errors } from '../errors';
 import { PerspectiveMatrix } from '../mesh/transforms/matrices/perspective/PerspectiveMatrix';
 import { Scene } from '../scene/Scene';
 import { rendererConfig } from './renderer_config';
-import {
-    DEFAULT_RENDERER_CONTAINER,
-    DEFAULT_RENDERER_SIZE,
-} from './renderer_default_values';
+import { DEFAULT_RENDERER_CONTAINER, DEFAULT_RENDERER_SIZE } from './renderer_default_values';
 
 export class Renderer {
     readonly canvas: Canvas;
@@ -56,10 +53,7 @@ export class Renderer {
     }
 
     clear() {
-        this.context.clear(
-            WebGL2RenderingContext.COLOR_BUFFER_BIT |
-                WebGL2RenderingContext.DEPTH_BUFFER_BIT,
-        );
+        this.context.clear(WebGL2RenderingContext.COLOR_BUFFER_BIT | WebGL2RenderingContext.DEPTH_BUFFER_BIT);
     }
 
     render(scene: Scene, camera: Camera) {

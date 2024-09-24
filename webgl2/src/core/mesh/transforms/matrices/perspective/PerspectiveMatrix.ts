@@ -10,12 +10,7 @@ const DEFAULT_PERSPECTIVE_MATRIX_SIZE: perspectiveMatrixConfig = {
 };
 
 export class PerspectiveMatrix extends Matrix4 {
-    constructor({
-        fov,
-        near,
-        far,
-        aspect,
-    }: perspectiveMatrixConfig = DEFAULT_PERSPECTIVE_MATRIX_SIZE) {
+    constructor({ fov, near, far, aspect }: perspectiveMatrixConfig = DEFAULT_PERSPECTIVE_MATRIX_SIZE) {
         const f = Math.tan(Math.PI * 0.5 - 0.5 * fov);
         const rangeInv = 1.0 / (near - far);
         // prettier-ignore

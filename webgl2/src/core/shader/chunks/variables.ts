@@ -1,8 +1,4 @@
-import {
-    AttributeNames,
-    UniformNames,
-    VaryingNames,
-} from '../../mesh/location_names';
+import { AttributeNames, UniformNames, VaryingNames } from '../../mesh/location_names';
 
 export const VERSION = '#version 300 es';
 

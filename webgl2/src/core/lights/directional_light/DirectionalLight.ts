@@ -14,9 +14,6 @@ export class DirectionalLight {
     }
 
     setUniform(reverseLightUniformLocation: WebGLUniformLocation) {
-        this.context.uniform3fv(
-            reverseLightUniformLocation,
-            this.direction.values,
-        );
+        this.context.uniform3fv(reverseLightUniformLocation, this.direction.values);
     }
 }

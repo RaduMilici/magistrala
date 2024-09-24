@@ -7,8 +7,6 @@ export class ColorLocations extends Locations {
 
     constructor({ context, program }: locationsConfig) {
         super({ context, program });
-        this.colorAttributeLocation = this.getAttributeLocation(
-            AttributeNames.COLOR,
-        );
+        this.colorAttributeLocation = this.getAttributeLocation(AttributeNames.COLOR);
     }
 }

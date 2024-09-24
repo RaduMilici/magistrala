@@ -9,11 +9,7 @@ const DEFAULT_PROJECTION_MATRIX_SIZE: projectionMatrixConfig = {
 };
 
 export class ProjectionMatrix extends Matrix4 {
-    constructor({
-        width,
-        height,
-        depth,
-    }: projectionMatrixConfig = DEFAULT_PROJECTION_MATRIX_SIZE) {
+    constructor({ width, height, depth }: projectionMatrixConfig = DEFAULT_PROJECTION_MATRIX_SIZE) {
         // prettier-ignore
         super(
       2 / width,           0,        0,  0,

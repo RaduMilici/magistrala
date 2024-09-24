@@ -17,9 +17,7 @@ export class NormalBuffer extends Buffer {
     }
 
     public enableAttributes() {
-        this.context.enableVertexAttribArray(
-            this.locations.normalAttributeLocation,
-        );
+        this.context.enableVertexAttribArray(this.locations.normalAttributeLocation);
 
         this.context.vertexAttribPointer(
             this.locations.normalAttributeLocation,

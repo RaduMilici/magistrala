@@ -34,9 +34,7 @@ export class App {
         });
     }
 
-    newFragmentShader({
-        source,
-    }: Omit<shaderConfig, 'context'>): FragmentShader {
+    newFragmentShader({ source }: Omit<shaderConfig, 'context'>): FragmentShader {
         return new FragmentShader({ source, context: this.renderer.context });
     }
 

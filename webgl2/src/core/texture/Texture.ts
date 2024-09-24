@@ -33,24 +33,14 @@ export class Texture {
     }
 
     bind() {
-        this.context.bindTexture(
-            WebGL2RenderingContext.TEXTURE_2D,
-            this.glTexture,
-        );
+        this.context.bindTexture(WebGL2RenderingContext.TEXTURE_2D, this.glTexture);
     }
 
     private setWrapMode(mode: number, value: wrapType) {
-        this.context.texParameteri(
-            WebGL2RenderingContext.TEXTURE_2D,
-            mode,
-            value,
-        );
+        this.context.texParameteri(WebGL2RenderingContext.TEXTURE_2D, mode, value);
     }
 
-    private decideWhichTextureToLoad(
-        image: HTMLImageElement | undefined,
-        src: string | undefined,
-    ) {
+    private decideWhichTextureToLoad(image: HTMLImageElement | undefined, src: string | undefined) {
         if (image !== undefined) {
             this.bindTexture(image);
         } else if (src !== undefined) {
@@ -72,10 +62,7 @@ export class Texture {
     }
 
     private bindTexture(image: HTMLImageElement) {
-        this.context.bindTexture(
-            WebGL2RenderingContext.TEXTURE_2D,
-            this.glTexture,
-        );
+        this.context.bindTexture(WebGL2RenderingContext.TEXTURE_2D, this.glTexture);
         this.context.texImage2D(
             WebGL2RenderingContext.TEXTURE_2D,
             0,
@@ -90,10 +77,7 @@ export class Texture {
     }
 
     private bindBlankTexture() {
-        this.context.bindTexture(
-            WebGL2RenderingContext.TEXTURE_2D,
-            this.glTexture,
-        );
+        this.context.bindTexture(WebGL2RenderingContext.TEXTURE_2D, this.glTexture);
         this.context.texImage2D(
             WebGL2RenderingContext.TEXTURE_2D,
             0,

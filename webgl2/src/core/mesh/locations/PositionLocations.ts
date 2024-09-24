@@ -8,11 +8,7 @@ export class PositionLocations extends Locations {
 
     constructor({ context, program }: locationsConfig) {
         super({ context, program });
-        this.matrixUniformLocation = this.getUniformLocation(
-            UniformNames.MATRIX,
-        );
-        this.positionAttributeLocation = this.getAttributeLocation(
-            AttributeNames.POSITION,
-        );
+        this.matrixUniformLocation = this.getUniformLocation(UniformNames.MATRIX);
+        this.positionAttributeLocation = this.getAttributeLocation(AttributeNames.POSITION);
     }
 }

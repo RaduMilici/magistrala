@@ -12,30 +12,20 @@ export abstract class Locations {
     }
 
     protected getUniformLocation(name: string): WebGLUniformLocation {
-        const location = this.context.getUniformLocation(
-            this.program.glProgram,
-            name,
-        );
+        const location = this.context.getUniformLocation(this.program.glProgram, name);
 
         if (location === null) {
-            throw new Error(
-                `${Errors.COULD_NOT_GET_UNIFORM_LOCATION} - ${name}`,
-            );
+            throw new Error(`${Errors.COULD_NOT_GET_UNIFORM_LOCATION} - ${name}`);
         }
 
         return location;
     }
 
     protected getAttributeLocation(name: string): GLint {
-        const location = this.context.getAttribLocation(
-            this.program.glProgram,
-            name,
-        );
+        const location = this.context.getAttribLocation(this.program.glProgram, name);
 
         if (location === -1) {
-            throw new Error(
-                `${Errors.COULD_NOT_GET_ATTRIBUTE_LOCATION} - ${name}`,
-            );
+            throw new Error(`${Errors.COULD_NOT_GET_ATTRIBUTE_LOCATION} - ${name}`);
         }
 
         return location;

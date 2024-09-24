@@ -21,9 +21,7 @@ export abstract class Buffer {
 
     protected abstract setBufferData(): void;
 
-    private static createGlBuffer(
-        context: WebGL2RenderingContext,
-    ): WebGLBuffer {
+    private static createGlBuffer(context: WebGL2RenderingContext): WebGLBuffer {
         const buffer = context.createBuffer();
 
         if (buffer === null) {

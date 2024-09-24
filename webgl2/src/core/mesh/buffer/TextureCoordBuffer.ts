@@ -7,11 +7,7 @@ export class TextureCoordBuffer extends Buffer {
     protected locations: TextureCoordLocations;
     private static readonly IS_NORMALIZED = true;
 
-    constructor({
-        context,
-        locations,
-        textureCoordinates,
-    }: textureCoordBufferConfig) {
+    constructor({ context, locations, textureCoordinates }: textureCoordBufferConfig) {
         super({ context, locations });
         this.textureCoordinates = textureCoordinates;
         this.locations = locations;
@@ -20,9 +16,7 @@ export class TextureCoordBuffer extends Buffer {
     }
 
     public enableAttributes() {
-        this.context.enableVertexAttribArray(
-            this.locations.textureCoordUniformLocation,
-        );
+        this.context.enableVertexAttribArray(this.locations.textureCoordUniformLocation);
 
         this.context.vertexAttribPointer(
             this.locations.textureCoordUniformLocation,

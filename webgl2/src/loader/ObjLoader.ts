@@ -17,16 +17,8 @@ export class ObjLoader {
             return ObjLoader.returnFromCache(path);
         }
         ObjLoader.promiseCache.set(path, fetch(path));
-        ObjLoader.textCache.set(
-            path,
-            (await ObjLoader.promiseCache.get(path)).text(),
-        );
-        ObjLoader.meshCache.set(
-            path,
-            ObjLoader.assignTextByIdentifier(
-                await ObjLoader.textCache.get(path),
-            ),
-        );
+        ObjLoader.textCache.set(path, (await ObjLoader.promiseCache.get(path)).text());
+        ObjLoader.meshCache.set(path, ObjLoader.assignTextByIdentifier(await ObjLoader.textCache.get(path)));
         return ObjLoader.assignValuesFromText(ObjLoader.meshCache.get(path));
     }
 
@@ -61,33 +53,21 @@ export class ObjLoader {
     }
 
     private static assignValuesFromText(meshData: MeshData): MeshData {
-        meshData.verticesText.forEach((text) =>
-            ObjLoader.assignVertex(text, meshData),
-        );
-        meshData.textureCoordsText.forEach((text) =>
-            ObjLoader.assignTextureCoord(text, meshData),
-        );
+        meshData.verticesText.forEach((text) => ObjLoader.assignVertex(text, meshData));
+        meshData.textureCoordsText.forEach((text) => ObjLoader.assignTextureCoord(text, meshData));
         meshData.normalsText.forEach((text) => {
             ObjLoader.assignNormals(text, meshData);
         });
-        meshData.trianglesText.forEach((text) =>
-            ObjLoader.assignTriangle(text, meshData),
-        );
+        meshData.trianglesText.forEach((text) => ObjLoader.assignTriangle(text, meshData));
         return meshData;
     }
 
-    private static assignVertex(
-        vertexCoordinates: Array<string>,
-        meshData: MeshData,
-    ) {
+    private static assignVertex(vertexCoordinates: Array<string>, meshData: MeshData) {
         const [x, y, z] = vertexCoordinates.map(parseFloat);
         meshData.vertices.push(new Vertex({ x, y, z }));
     }
 
-    private static assignTextureCoord(
-        textureCoordinates: Array<string>,
-        meshData: MeshData,
-    ) {
+    private static assignTextureCoord(textureCoordinates: Array<string>, meshData: MeshData) {
         const [x, y] = textureCoordinates.map(parseFloat);
         meshData.textureCoords.push(new Vector({ x, y }));
     }
@@ -97,26 +77,19 @@ export class ObjLoader {
         meshData.normals.push(new Vector3({ x, y, z }));
     }
 
-    private static assignTriangle(
-        triangleIndices: Array<string>,
-        meshData: MeshData,
-    ) {
+    private static assignTriangle(triangleIndices: Array<string>, meshData: MeshData) {
         if (triangleIndices.length === Triangle.VERTEX_COUNT) {
             // triangle data in the shape of ['1/1/1', '2/2/1', '3/3/1']
             ObjLoader.assignSingleTriangle(triangleIndices, meshData);
         } else {
             // quad data in the shape of ['1/4/2', '1/5/3', '3/1/8', '4/2/7']
-            ObjLoader.quadToTriangle(triangleIndices).forEach(
-                (triangleFromQuad) =>
-                    ObjLoader.assignSingleTriangle(triangleFromQuad, meshData),
+            ObjLoader.quadToTriangle(triangleIndices).forEach((triangleFromQuad) =>
+                ObjLoader.assignSingleTriangle(triangleFromQuad, meshData),
             );
         }
     }
 
-    private static assignSingleTriangle(
-        triangleIndices: Array<string>,
-        meshData: MeshData,
-    ) {
+    private static assignSingleTriangle(triangleIndices: Array<string>, meshData: MeshData) {
         const vertexIndices: vertexIndices = [];
 
         triangleIndices.forEach((index) => {
@@ -131,28 +104,21 @@ export class ObjLoader {
             });
         });
 
-        const [a, b, c] = vertexIndices.map(
-            ({ positionIndex, textureCoordIndex, normalIndex }) => {
-                const vertex = meshData.vertices[positionIndex].clone();
-                vertex.textureCoord = meshData.textureCoords[textureCoordIndex];
-                vertex.normal = meshData.normals[normalIndex];
-                return vertex;
-            },
-        );
+        const [a, b, c] = vertexIndices.map(({ positionIndex, textureCoordIndex, normalIndex }) => {
+            const vertex = meshData.vertices[positionIndex].clone();
+            vertex.textureCoord = meshData.textureCoords[textureCoordIndex];
+            vertex.normal = meshData.normals[normalIndex];
+            return vertex;
+        });
 
         meshData.triangles.push(new Triangle({ a, b, c }));
     }
 
-    private static quadToTriangle(
-        indices: Array<string>,
-    ): Array<Array<string>> {
+    private static quadToTriangle(indices: Array<string>): Array<Array<string>> {
         const triangles = [];
         const a = indices[0];
         for (let i = 0; i < indices.length / 2; i++) {
-            triangles.push([
-                a,
-                ...indices.slice(i + 1, i + Triangle.VERTEX_COUNT),
-            ]);
+            triangles.push([a, ...indices.slice(i + 1, i + Triangle.VERTEX_COUNT)]);
         }
         return triangles;
     }

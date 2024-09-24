@@ -40,10 +40,7 @@ export const compute = async () => {
     const workBuffer = device.createBuffer({
         label: 'work buffer',
         size: input.byteLength,
-        usage:
-            GPUBufferUsage.STORAGE |
-            GPUBufferUsage.COPY_SRC |
-            GPUBufferUsage.COPY_DST,
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
     });
 
     device.queue.writeBuffer(workBuffer, 0, input);
@@ -79,13 +76,7 @@ export const compute = async () => {
     computePass.dispatchWorkgroups(input.length);
     computePass.end();
 
-    encoder.copyBufferToBuffer(
-        workBuffer,
-        0,
-        resultBuffer,
-        0,
-        resultBuffer.size,
-    );
+    encoder.copyBufferToBuffer(workBuffer, 0, resultBuffer, 0, resultBuffer.size);
 
     const commandBuffer = encoder.finish();
     device.queue.submit([commandBuffer]);

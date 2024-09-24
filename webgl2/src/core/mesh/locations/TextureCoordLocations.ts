@@ -7,8 +7,6 @@ export class TextureCoordLocations extends Locations {
 
     constructor({ context, program }: locationsConfig) {
         super({ context, program });
-        this.textureCoordUniformLocation = this.getAttributeLocation(
-            AttributeNames.TEXTURE_COORD,
-        );
+        this.textureCoordUniformLocation = this.getAttributeLocation(AttributeNames.TEXTURE_COORD);
     }
 }

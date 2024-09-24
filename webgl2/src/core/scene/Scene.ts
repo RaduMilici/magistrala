@@ -26,11 +26,7 @@ export class Scene {
     render(context: WebGL2RenderingContext, { invertedMatrix }: Camera) {
         this.children.forEach((child) => {
             child.prepareForRender(invertedMatrix);
-            context.drawArrays(
-                WebGL2RenderingContext.TRIANGLES,
-                0,
-                child.vertCount,
-            );
+            context.drawArrays(WebGL2RenderingContext.TRIANGLES, 0, child.vertCount);
         });
     }
 

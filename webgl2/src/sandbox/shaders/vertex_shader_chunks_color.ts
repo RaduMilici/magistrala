@@ -1,8 +1,4 @@
-import {
-    AttributeNames,
-    UniformNames,
-    VaryingNames,
-} from '../../core/mesh/location_names';
+import { AttributeNames, UniformNames, VaryingNames } from '../../core/mesh/location_names';
 import { VERTEX_SHADER_BOILERPLATE } from '../../core/shader/chunks/variables';
 
 export const vertexShaderChunks = `${VERTEX_SHADER_BOILERPLATE}

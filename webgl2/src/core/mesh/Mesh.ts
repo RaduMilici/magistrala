@@ -23,14 +23,7 @@ export class Mesh extends Object3D {
     private meshBuffers: MeshBuffers;
     private meshLocations: MeshLocations;
 
-    constructor({
-        context,
-        geometry,
-        perspectiveMatrix,
-        vertexShader,
-        fragmentShader,
-        texture,
-    }: meshConfig) {
+    constructor({ context, geometry, perspectiveMatrix, vertexShader, fragmentShader, texture }: meshConfig) {
         super();
         this.context = context;
         this.geometry = geometry;
@@ -70,10 +63,7 @@ export class Mesh extends Object3D {
 
     private setUniformValues(cameraMatrix: Matrix4) {
         this.directionalLights.forEach((directionalLight) =>
-            directionalLight.setUniform(
-                this.meshLocations.directionalLightLocations
-                    .reverseLightUniformLocation,
-            ),
+            directionalLight.setUniform(this.meshLocations.directionalLightLocations.reverseLightUniformLocation),
         );
         const { elements } = this.perspectiveMatrix
             .multiply(cameraMatrix)
@@ -82,10 +72,6 @@ export class Mesh extends Object3D {
             .multiply(this.transforms.yRotationMatrix)
             .multiply(this.transforms.zRotationMatrix)
             .multiply(this.transforms.scaleMatrix);
-        this.context.uniformMatrix4fv(
-            this.meshLocations.positionLocations.matrixUniformLocation,
-            false,
-            elements,
-        );
+        this.context.uniformMatrix4fv(this.meshLocations.positionLocations.matrixUniformLocation, false, elements);
     }
 }

@@ -39,15 +39,9 @@ export class Transforms {
 
     set rotation(value: Vector3) {
         this._rotation = value;
-        this.xRotationMatrix = new XRotationMatrix(
-            Transforms.getSinCos(value.x),
-        );
-        this.yRotationMatrix = new YRotationMatrix(
-            Transforms.getSinCos(value.y),
-        );
-        this.zRotationMatrix = new ZRotationMatrix(
-            Transforms.getSinCos(value.z),
-        );
+        this.xRotationMatrix = new XRotationMatrix(Transforms.getSinCos(value.x));
+        this.yRotationMatrix = new YRotationMatrix(Transforms.getSinCos(value.y));
+        this.zRotationMatrix = new ZRotationMatrix(Transforms.getSinCos(value.z));
     }
 
     set scale(value: Vector3) {

@@ -7,8 +7,6 @@ export class NormalLocations extends Locations {
 
     constructor({ context, program }: locationsConfig) {
         super({ context, program });
-        this.normalAttributeLocation = this.getAttributeLocation(
-            AttributeNames.NORMAL,
-        );
+        this.normalAttributeLocation = this.getAttributeLocation(AttributeNames.NORMAL);
     }
 }
