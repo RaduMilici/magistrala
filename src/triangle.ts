@@ -3,9 +3,9 @@ import { WebGPURenderContext } from './WebGPURenderContext';
 export const drawTriangle = async () => {
     const canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
-    const webGPURenderContext = new WebGPURenderContext({ canvas, powerPreference: 'high-performance' });
 
-    await webGPURenderContext.init();
+    const webGPURenderContext = new WebGPURenderContext({ canvas, powerPreference: 'high-performance' });
+    await webGPURenderContext.initialize();
 
     const shaderModule = webGPURenderContext.device.createShaderModule({
         label: 'triangle shader module',

@@ -90,7 +90,7 @@ export class WebGPURenderContext {
      *
      * @throws Will throw an error if the adapter, device, or context cannot be obtained.
      */
-    async init(): Promise<void> {
+    async initialize(): Promise<void> {
         if (this.isInitialized) {
             console.warn(WebGPURenderContextError.AlreadyInitialized);
             return;

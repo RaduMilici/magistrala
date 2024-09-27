@@ -3,7 +3,7 @@ export enum WebGPURenderContextError {
     DeviceNotFound = 'WebGPURenderContext: Failed to request a GPU device. Ensure that your system has a compatible GPU and sufficient permissions are granted.',
     ContextNotFound = 'WebGPURenderContext: Could not get a WebGPU context from the canvas. Ensure the canvas element exists, has valid dimensions, and is not being used with another rendering context (e.g., 2D or WebGL).',
     AlreadyInitialized = 'WebGPURenderContext: Initialization was called more than once. The context is already set up and repeated initialization may cause unexpected behavior.',
-    AdapterNotInitialized = 'WebGPURenderContext: Adapter has not been initialized. Call init() first.',
-    DeviceNotInitialized = 'WebGPURenderContext: Device has not been initialized. Call init() first.',
-    ContextNotInitialized = 'WebGPURenderContext: Context has not been initialized. Call init() first.',
+    AdapterNotInitialized = 'WebGPURenderContext: Adapter has not been initialized. Call initialize() first.',
+    DeviceNotInitialized = 'WebGPURenderContext: Device has not been initialized. Call initialize() first.',
+    ContextNotInitialized = 'WebGPURenderContext: Context has not been initialized. Call initialize() first.',
 }
