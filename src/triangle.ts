@@ -37,14 +37,14 @@ export const drawTriangle = async () => {
                 @location(0) color: vec4f,
             };
 
-            const RED: vec4f = vec4f(1.0, 0.0, 0.0, 1.0);
-            const GREEN: vec4f = vec4f(0.0, 1.0, 0.0, 1.0);
-            const BLUE: vec4f = vec4f(0.0, 0.0, 1.0, 1.0);
+            const RED: vec4f =   vec4f(1, 0, 0, 1);
+            const GREEN: vec4f = vec4f(0, 1, 0, 1);
+            const BLUE: vec4f =  vec4f(0, 0, 1, 1);
 
             @vertex fn vs(
                 @builtin(vertex_index) vertexIndex: u32
             ) -> PositionColorOutput {
-                let pos = array(
+                let pos = array<vec2f, 3>(
                     vec2f( 0,  1),
                     vec2f(-1, -1),
                     vec2f( 1, -1)
