@@ -40,6 +40,7 @@ export const drawTriangle = async () => {
             const RED: vec4f =   vec4f(1, 0, 0, 1);
             const GREEN: vec4f = vec4f(0, 1, 0, 1);
             const BLUE: vec4f =  vec4f(0, 0, 1, 1);
+            const WHITE: vec4f = vec4f(1, 1, 1, 1);
 
             @vertex fn vs(
                 @builtin(vertex_index) vertexIndex: u32
@@ -63,7 +64,7 @@ export const drawTriangle = async () => {
                 let grid = vec2u(fsInput.position.xy) / gridSquareSize;
                 let checker = (grid.x + grid.y) % 2 == 1;
 
-                return select(RED, GREEN, checker);
+                return select(WHITE, fsInput.color, checker);
             }
         `,
     });
