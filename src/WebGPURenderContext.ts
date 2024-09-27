@@ -14,13 +14,10 @@ interface WebGPURenderContextConfig {
  * Manages the WebGPU adapter, device, and canvas context.
  */
 export class WebGPURenderContext {
-    /** The GPU adapter selected for WebGPU rendering. */
-    adapter: GPUAdapter | null = null;
-    /** The GPU device created from the adapter. */
-    device: GPUDevice | null = null;
-    /** The GPU canvas context used for rendering. */
-    context: GPUCanvasContext | null = null;
-
+    private _adapter: GPUAdapter | null = null;
+    private _device: GPUDevice | null = null;
+    private _context: GPUCanvasContext | null = null;
+    private _textureFormat: GPUTextureFormat | null = null;
     private readonly canvas: HTMLCanvasElement;
     private readonly powerPreference: GPUPowerPreference;
     private static readonly DefaultPowerPreference: GPUPowerPreference = 'high-performance';
@@ -34,10 +31,58 @@ export class WebGPURenderContext {
     }
 
     /**
+     * Retrieves the GPU adapter selected for WebGPU rendering.
+     * @throws Will throw an error if the WebGPU adapter has not been initialized.
+     * @returns The `GPUAdapter` used for WebGPU rendering.
+     */
+    get adapter(): GPUAdapter {
+        if (!this._adapter) {
+            throw new Error(WebGPURenderContextError.AdapterNotInitialized);
+        }
+        return this._adapter;
+    }
+
+    /**
+     * Retrieves the GPU device created from the adapter.
+     * @throws Will throw an error if the WebGPU device has not been initialized.
+     * @returns The `GPUDevice` created from the GPU adapter.
+     */
+    get device(): GPUDevice {
+        if (!this._device) {
+            throw new Error(WebGPURenderContextError.DeviceNotInitialized);
+        }
+        return this._device;
+    }
+
+    /**
+     * Retrieves the GPU canvas context used for rendering.
+     * @throws Will throw an error if the WebGPU canvas context has not been initialized.
+     * @returns The `GPUCanvasContext` used for rendering.
+     */
+    get context(): GPUCanvasContext {
+        if (!this._context) {
+            throw new Error(WebGPURenderContextError.ContextNotInitialized);
+        }
+        return this._context;
+    }
+
+    /**
+     * Retrieves the GPU texture format for the canvas.
+     * @throws Will throw an error if the WebGPU context has not been initialized.
+     * @returns The `GPUTextureFormat` used for the canvas rendering.
+     */
+    get textureFormat(): GPUTextureFormat {
+        if (!this._textureFormat) {
+            throw new Error(WebGPURenderContextError.ContextNotInitialized);
+        }
+        return this._textureFormat;
+    }
+
+    /**
      * @returns `true` if the adapter, device, and context have been initialized; `false` otherwise.
      */
     get isInitialized(): boolean {
-        return this.adapter !== null && this.device !== null && this.context !== null;
+        return this._adapter !== null && this._device !== null && this._context !== null;
     }
 
     /**
@@ -51,29 +96,31 @@ export class WebGPURenderContext {
             return;
         }
 
-        this.adapter = await navigator.gpu.requestAdapter({
+        this._adapter = await navigator.gpu.requestAdapter({
             powerPreference: this.powerPreference,
         });
 
-        if (!this.adapter) {
+        if (!this._adapter) {
             throw new Error(WebGPURenderContextError.AdapterNotFound);
         }
 
-        this.device = await this.adapter.requestDevice();
+        this._device = await this._adapter.requestDevice();
 
-        if (!this.device) {
+        if (!this._device) {
             throw new Error(WebGPURenderContextError.DeviceNotFound);
         }
 
-        this.context = this.canvas.getContext('webgpu');
+        this._context = this.canvas.getContext('webgpu');
 
-        if (!this.context) {
+        if (!this._context) {
             throw new Error(WebGPURenderContextError.ContextNotFound);
         }
 
-        this.context.configure({
-            device: this.device,
-            format: navigator.gpu.getPreferredCanvasFormat(),
+        this._textureFormat = navigator.gpu.getPreferredCanvasFormat();
+
+        this._context.configure({
+            device: this._device,
+            format: this._textureFormat,
         });
     }
 }

@@ -1,35 +1,13 @@
+import { WebGPURenderContext } from './WebGPURenderContext';
+
 export const drawTriangle = async () => {
-    const adapter = await navigator.gpu.requestAdapter({
-        powerPreference: 'high-performance',
-    });
-
-    if (!adapter) {
-        throw new Error('could not get adapter');
-    }
-
-    const device = await adapter.requestDevice();
-
-    if (!device) {
-        throw new Error('could not get device');
-    }
-
     const canvas = document.createElement('canvas');
     document.body.appendChild(canvas);
+    const webGPURenderContext = new WebGPURenderContext({ canvas, powerPreference: 'high-performance' });
 
-    const context = canvas.getContext('webgpu');
+    await webGPURenderContext.init();
 
-    if (!context) {
-        throw new Error('could not get context');
-    }
-
-    const presentationFormat = navigator.gpu.getPreferredCanvasFormat();
-
-    context.configure({
-        device,
-        format: presentationFormat,
-    });
-
-    const shaderModule = device.createShaderModule({
+    const shaderModule = webGPURenderContext.device.createShaderModule({
         label: 'triangle shader module',
         code: `
             struct PositionColorOutput {
@@ -69,7 +47,7 @@ export const drawTriangle = async () => {
         `,
     });
 
-    const renderPipeline = device.createRenderPipeline({
+    const renderPipeline = webGPURenderContext.device.createRenderPipeline({
         label: 'triangle pipeline',
         layout: 'auto',
         vertex: {
@@ -79,7 +57,7 @@ export const drawTriangle = async () => {
         fragment: {
             entryPoint: 'fs',
             module: shaderModule,
-            targets: [{ format: presentationFormat }],
+            targets: [{ format: webGPURenderContext.textureFormat }],
         },
     });
 
@@ -87,7 +65,7 @@ export const drawTriangle = async () => {
         label: 'triangle render pass',
         colorAttachments: [
             {
-                view: context.getCurrentTexture().createView(),
+                view: webGPURenderContext.context.getCurrentTexture().createView(),
                 clearValue: [0.3, 0.3, 0.3, 1],
                 loadOp: 'clear',
                 storeOp: 'store',
@@ -95,7 +73,7 @@ export const drawTriangle = async () => {
         ],
     };
 
-    const encoder = device.createCommandEncoder({
+    const encoder = webGPURenderContext.device.createCommandEncoder({
         label: 'triangle encoder',
     });
 
@@ -105,5 +83,5 @@ export const drawTriangle = async () => {
     renderPass.end();
 
     const commandBuffer = encoder.finish();
-    device.queue.submit([commandBuffer]);
+    webGPURenderContext.device.queue.submit([commandBuffer]);
 };
