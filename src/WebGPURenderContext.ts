@@ -1,4 +1,4 @@
-import { WebGPURenderContextError } from './Errors';
+import { WebGPURenderContextError } from './WebGPURenderContextError';
 
 /**
  * Configuration interface for setting up a WebGPURenderContext.

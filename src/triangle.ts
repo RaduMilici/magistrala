@@ -1,13 +1,19 @@
+import { Canvas } from './Canvas';
 import { RenderPipeline } from './RenderPipeline';
 import { Shader } from './Shader';
 import { WebGPURenderContext } from './WebGPURenderContext';
 import { testShader } from './testShader';
 
 export const drawTriangle = async () => {
-    const canvas = document.createElement('canvas');
-    document.body.appendChild(canvas);
+    const canvas = new Canvas({
+        parentSelector: 'body',
+        size: { width: 700, height: 500 },
+    });
 
-    const webGPURenderContext = new WebGPURenderContext({ canvas, powerPreference: 'high-performance' });
+    const webGPURenderContext = new WebGPURenderContext({
+        canvas: canvas.HTMLElement,
+        powerPreference: 'high-performance',
+    });
     await webGPURenderContext.initialize();
 
     const shader = new Shader({
