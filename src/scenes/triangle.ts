@@ -1,8 +1,8 @@
-import { Canvas } from './Canvas';
-import { RenderPipeline } from './RenderPipeline';
-import { Shader } from './Shader';
-import { WebGPURenderContext } from './WebGPURenderContext';
-import { testShader } from './testShader';
+import { Canvas } from '../core/Canvas';
+import { RenderPipeline } from '../core/RenderPipeline';
+import { Shader } from '../core/Shader';
+import { WebGPURenderContext } from '../core/WebGPURenderContext';
+import testShader from './shaders/triangle.wgsl';
 
 export const drawTriangle = async () => {
     const canvas = new Canvas({

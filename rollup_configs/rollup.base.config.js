@@ -1,6 +1,6 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
-import glsl from 'rollup-plugin-glsl';
+import { string } from 'rollup-plugin-string';
 
 export const rollupBaseConfig = {
     input: 'src/index.ts',
@@ -8,5 +8,11 @@ export const rollupBaseConfig = {
         dir: 'dist',
         format: 'esm',
     },
-    plugins: [nodeResolve(), typescript(), glsl({ include: '**/**/*.glsl' })],
+    plugins: [
+        nodeResolve(),
+        typescript(),
+        string({
+            include: '**/*.wgsl',
+        }),
+    ],
 };

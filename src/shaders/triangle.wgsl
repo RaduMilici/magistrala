@@ -1,4 +1,3 @@
-export const testShader = `
 struct PositionColorOutput {
     @builtin(position) position: vec4f,
     @location(0) color: vec4f,
@@ -33,4 +32,3 @@ const WHITE: vec4f = vec4f(1, 1, 1, 1);
 
     return select(WHITE, fsInput.color, checker);
 }
-`;

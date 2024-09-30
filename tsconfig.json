@@ -26,5 +26,10 @@
     /* Completeness */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */,
     "typeRoots": ["./node_modules/@webgpu/types", "./node_modules/@types"]
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.wgsl",
+    "types/**/*.d.ts"  
+  ]
 }
