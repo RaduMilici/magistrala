@@ -56,6 +56,7 @@ export const drawTriangles = async () => {
             },
         ],
     };
+
     const renderPass = encoder.beginRenderPass(renderPassDescriptor);
 
     for (let i = 0; i < TRIANGLE_COUNT; i++) {
@@ -90,7 +91,7 @@ export const drawTriangles = async () => {
 
         renderPass.setPipeline(renderPipeline.pipeline);
         renderPass.setBindGroup(0, bindGroup);
-        renderPass.draw(3);
+        renderPass.draw(3, TRIANGLE_COUNT);
     }
 
     renderPass.end();
