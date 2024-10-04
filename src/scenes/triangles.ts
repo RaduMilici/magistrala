@@ -1,12 +1,16 @@
+import { randomFloat } from 'pulsar-pathfinding';
+
 import { Canvas } from '../core/Canvas';
 import { RenderPipeline } from '../core/RenderPipeline';
 import { Shader } from '../core/Shader';
 import { WebGPURenderContext } from '../core/WebGPURenderContext';
 import { UniformBufferLayout } from '../core/uniformLayoutBuffer/UniformLayoutBuffer';
-import { UniformSchema, UniformType } from '../core/uniformLayoutBuffer/uniformLayoutBufferTypes';
+import { UniformType } from '../core/uniformLayoutBuffer/uniformLayoutBufferTypes';
 import testShader from '../shaders/spritesAttributes.wgsl';
 
 export const drawTriangles = async () => {
+    const TRIANGLE_COUNT = 115;
+
     const canvas = new Canvas({
         parentSelector: '#magistrala-app',
         size: { width: 200, height: 200 },
@@ -37,34 +41,9 @@ export const drawTriangles = async () => {
         },
     });
 
-    const bufferLayout = new UniformBufferLayout({
-        color: UniformType.Vec4,
-        scale: UniformType.Vec2,
-        offset: UniformType.Vec2,
+    const encoder = webGPURenderContext.device.createCommandEncoder({
+        label: 'triangle encoder',
     });
-    bufferLayout.setProperty('color', [0, 0, 1, 1]);
-    bufferLayout.setProperty('scale', [0.5, 0.5]);
-    bufferLayout.setProperty('offset', [-0.5, 0.5]);
-
-    const uniformBuffer = webGPURenderContext.device.createBuffer({
-        label: 'triangles buffer',
-        size: bufferLayout.size,
-        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-    });
-
-    const bindGroup = webGPURenderContext.device.createBindGroup({
-        layout: renderPipeline.pipeline.getBindGroupLayout(0),
-        entries: [
-            {
-                binding: 0,
-                resource: {
-                    buffer: uniformBuffer,
-                },
-            },
-        ],
-    });
-
-    webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, bufferLayout.data);
 
     const renderPassDescriptor: GPURenderPassDescriptor = {
         label: 'triangle render pass',
@@ -77,15 +56,43 @@ export const drawTriangles = async () => {
             },
         ],
     };
-
-    const encoder = webGPURenderContext.device.createCommandEncoder({
-        label: 'triangle encoder',
-    });
-
     const renderPass = encoder.beginRenderPass(renderPassDescriptor);
-    renderPass.setPipeline(renderPipeline.pipeline);
-    renderPass.setBindGroup(0, bindGroup);
-    renderPass.draw(3);
+
+    for (let i = 0; i < TRIANGLE_COUNT; i++) {
+        const bufferLayout = new UniformBufferLayout({
+            color: UniformType.Vec4,
+            scale: UniformType.Vec2,
+            offset: UniformType.Vec2,
+        });
+        bufferLayout.setProperty('color', [randomFloat(0, 1), randomFloat(0, 1), randomFloat(0, 1), 1]);
+        bufferLayout.setProperty('scale', [0.1, 0.1]);
+        bufferLayout.setProperty('offset', [randomFloat(-1, 1), randomFloat(-1, 1)]);
+
+        const uniformBuffer = webGPURenderContext.device.createBuffer({
+            label: 'triangles buffer',
+            size: bufferLayout.size,
+            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+        });
+
+        const bindGroup = webGPURenderContext.device.createBindGroup({
+            layout: renderPipeline.pipeline.getBindGroupLayout(0),
+            entries: [
+                {
+                    binding: 0,
+                    resource: {
+                        buffer: uniformBuffer,
+                    },
+                },
+            ],
+        });
+
+        webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, bufferLayout.data);
+
+        renderPass.setPipeline(renderPipeline.pipeline);
+        renderPass.setBindGroup(0, bindGroup);
+        renderPass.draw(3);
+    }
+
     renderPass.end();
 
     const commandBuffer = encoder.finish();
