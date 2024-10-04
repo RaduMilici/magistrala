@@ -1,4 +1,4 @@
-import { Layout, UniformSchema, UniformType, UniformTypeToSizeMap, UniformValue } from './uniformLayoutBufferTypes';
+import { Layout, UniformSchema, UniformType, UniformTypeToLengthMap, UniformValue } from './uniformLayoutBufferTypes';
 
 /**
  * Class representing a layout for a uniform buffer in WebGPU.
@@ -7,6 +7,11 @@ import { Layout, UniformSchema, UniformType, UniformTypeToSizeMap, UniformValue 
  * and allows you to set the values for each uniform in the layout.
  */
 export class UniformBufferLayout {
+    /**
+     * The total size of the uniform buffer, in float components.
+     */
+    size: number;
+
     /**
      * The underlying Float32Array buffer that stores the uniform values.
      */
@@ -18,9 +23,9 @@ export class UniformBufferLayout {
     private layout: Layout = {};
 
     /**
-     * The total size of the uniform buffer, in float components.
+     * The number of bytes per float component (4 bytes per float).
      */
-    private totalSize: number;
+    private static readonly BYTES_PER_FLOAT = 4;
 
     /**
      * Constructs a new UniformBufferLayout based on a provided schema.
@@ -30,10 +35,10 @@ export class UniformBufferLayout {
      * @param schema - The schema that defines the names and types of uniforms.
      */
     constructor(schema: UniformSchema) {
-        const { layout, totalSize } = this.getLayout(schema);
+        const { layout, length } = this.getLayout(schema);
         this.layout = layout;
-        this.totalSize = totalSize;
-        this._buffer = new Float32Array(this.totalSize);
+        this._buffer = new Float32Array(length);
+        this.size = this._buffer.length * UniformBufferLayout.BYTES_PER_FLOAT;
     }
 
     /**
@@ -61,9 +66,9 @@ export class UniformBufferLayout {
             throw new Error(`Property ${name} does not exist in the uniform buffer layout`);
         }
 
-        const expectedSize = this.getTypeSize(property.type);
-        if (values.length !== expectedSize) {
-            throw new Error(`Expected ${expectedSize} values for property ${name}, but got ${values.length}`);
+        const expectedLength = this.getTypeLength(property.type);
+        if (values.length !== expectedLength) {
+            throw new Error(`Expected ${expectedLength} values for property ${name}, but got ${values.length}`);
         }
 
         this._buffer.set(values, property.offset);
@@ -80,14 +85,14 @@ export class UniformBufferLayout {
      */
     private getLayout(schema: UniformSchema) {
         const layout: Layout = {};
-        let totalSize = 0;
+        let length = 0;
 
         for (const [name, type] of Object.entries(schema)) {
-            layout[name] = { type, offset: totalSize };
-            totalSize += this.getTypeSize(type);
+            layout[name] = { type, offset: length };
+            length += this.getTypeLength(type);
         }
 
-        return { layout, totalSize };
+        return { layout, length };
     }
 
     /**
@@ -97,11 +102,11 @@ export class UniformBufferLayout {
      * @returns The size (number of float components) for the given uniform type.
      * @throws Error if the uniform type is not recognized.
      */
-    private getTypeSize(type: UniformType): number {
-        const size = UniformTypeToSizeMap[type];
-        if (size === undefined) {
+    private getTypeLength(type: UniformType): number {
+        const length = UniformTypeToLengthMap[type];
+        if (length === undefined) {
             throw new Error(`Unknown uniform type: ${type}`);
         }
-        return size;
+        return length;
     }
 }

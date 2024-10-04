@@ -2,6 +2,8 @@ import { Canvas } from '../core/Canvas';
 import { RenderPipeline } from '../core/RenderPipeline';
 import { Shader } from '../core/Shader';
 import { WebGPURenderContext } from '../core/WebGPURenderContext';
+import { UniformBufferLayout } from '../core/uniformLayoutBuffer/UniformLayoutBuffer';
+import { UniformSchema, UniformType } from '../core/uniformLayoutBuffer/uniformLayoutBufferTypes';
 import testShader from '../shaders/spritesAttributes.wgsl';
 
 export const drawTriangles = async () => {
@@ -35,25 +37,21 @@ export const drawTriangles = async () => {
         },
     });
 
-    const uniformBufferSize =
-        4 * 4 + // colors
-        2 * 4 + // scale
-        2 * 4; // offset
+    const bufferLayout = new UniformBufferLayout({
+        color: UniformType.Vec4,
+        scale: UniformType.Vec2,
+        offset: UniformType.Vec2,
+    });
 
     const uniformBuffer = webGPURenderContext.device.createBuffer({
-        size: uniformBufferSize,
+        label: 'triangles buffer',
+        size: bufferLayout.size,
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
     });
 
-    const uniformValues = new Float32Array(uniformBufferSize / 4);
-
-    const colorOffset = 0;
-    const scaleOffset = 4;
-    const offsetOffset = 6;
-
-    uniformValues.set([0, 0, 1, 1], colorOffset);
-    uniformValues.set([0.5, 0.5], scaleOffset);
-    uniformValues.set([0.5, 0.5], offsetOffset);
+    bufferLayout.setProperty('color', [0, 0, 1, 1]);
+    bufferLayout.setProperty('scale', [1, 1]);
+    bufferLayout.setProperty('offset', [0, 0]);
 
     const bindGroup = webGPURenderContext.device.createBindGroup({
         layout: renderPipeline.pipeline.getBindGroupLayout(0),
@@ -67,7 +65,7 @@ export const drawTriangles = async () => {
         ],
     });
 
-    webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, uniformValues);
+    webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, bufferLayout.buffer);
 
     const renderPassDescriptor: GPURenderPassDescriptor = {
         label: 'triangle render pass',

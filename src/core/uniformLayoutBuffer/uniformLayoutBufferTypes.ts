@@ -41,7 +41,7 @@ export enum UniformType {
  * - `Vec3` corresponds to 3 components.
  * - `Vec4` corresponds to 4 components.
  */
-export enum UniformSize {
+export enum UniformLength {
     Float = 1,
     Vec2 = 2,
     Vec3 = 3,
@@ -52,11 +52,11 @@ export enum UniformSize {
  * A mapping between a `UniformType` and its corresponding size.
  * Maps `UniformType.Float` to `UniformSize.Float`, and similarly for vec2, vec3, and vec4.
  */
-export const UniformTypeToSizeMap: Record<UniformType, UniformSize> = {
-    [UniformType.Float]: UniformSize.Float,
-    [UniformType.Vec2]: UniformSize.Vec2,
-    [UniformType.Vec3]: UniformSize.Vec3,
-    [UniformType.Vec4]: UniformSize.Vec4,
+export const UniformTypeToLengthMap: Record<UniformType, UniformLength> = {
+    [UniformType.Float]: UniformLength.Float,
+    [UniformType.Vec2]: UniformLength.Vec2,
+    [UniformType.Vec3]: UniformLength.Vec3,
+    [UniformType.Vec4]: UniformLength.Vec4,
 };
 
 /**
