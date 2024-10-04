@@ -8,7 +8,7 @@ import testShader from '../shaders/spritesAttributes.wgsl';
 
 export const drawTriangles = async () => {
     const canvas = new Canvas({
-        parentSelector: 'body',
+        parentSelector: '#magistrala-app',
         size: { width: 200, height: 200 },
     });
 
@@ -50,8 +50,8 @@ export const drawTriangles = async () => {
     });
 
     bufferLayout.setProperty('color', [0, 0, 1, 1]);
-    bufferLayout.setProperty('scale', [1, 1]);
-    bufferLayout.setProperty('offset', [0, 0]);
+    bufferLayout.setProperty('scale', [0.5, 0.5]);
+    bufferLayout.setProperty('offset', [-0.5, 0.5]);
 
     const bindGroup = webGPURenderContext.device.createBindGroup({
         layout: renderPipeline.pipeline.getBindGroupLayout(0),

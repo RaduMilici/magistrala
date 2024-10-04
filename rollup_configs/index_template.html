@@ -6,9 +6,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Magistrala</title>
         <style>
-            body {
+            * {
                 margin: 0;
+                box-sizing: border-box;
+            }
+            body {
                 overflow: hidden;
+                background-color: darkgray;
+            }
+            #magistrala-app {
+                display: flex;
+                column-gap: 0.5rem;
+            }
+
+            #magistrala-app canvas {
+                border: 1px solid black;
             }
         </style>
     </head>

@@ -6,7 +6,7 @@ import testShader from '../shaders/triangle.wgsl';
 
 export const drawTriangle = async () => {
     const canvas = new Canvas({
-        parentSelector: 'body',
+        parentSelector: '#magistrala-app',
         size: { width: 200, height: 200 },
     });
 
