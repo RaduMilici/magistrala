@@ -42,16 +42,15 @@ export const drawTriangles = async () => {
         scale: UniformType.Vec2,
         offset: UniformType.Vec2,
     });
+    bufferLayout.setProperty('color', [0, 0, 1, 1]);
+    bufferLayout.setProperty('scale', [0.5, 0.5]);
+    bufferLayout.setProperty('offset', [-0.5, 0.5]);
 
     const uniformBuffer = webGPURenderContext.device.createBuffer({
         label: 'triangles buffer',
         size: bufferLayout.size,
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
     });
-
-    bufferLayout.setProperty('color', [0, 0, 1, 1]);
-    bufferLayout.setProperty('scale', [0.5, 0.5]);
-    bufferLayout.setProperty('offset', [-0.5, 0.5]);
 
     const bindGroup = webGPURenderContext.device.createBindGroup({
         layout: renderPipeline.pipeline.getBindGroupLayout(0),
@@ -65,7 +64,7 @@ export const drawTriangles = async () => {
         ],
     });
 
-    webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, bufferLayout.buffer);
+    webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, bufferLayout.data);
 
     const renderPassDescriptor: GPURenderPassDescriptor = {
         label: 'triangle render pass',

@@ -15,7 +15,7 @@ export class UniformBufferLayout {
     /**
      * The underlying Float32Array buffer that stores the uniform values.
      */
-    private _buffer: Float32Array;
+    private _data: Float32Array;
 
     /**
      * The layout that maps uniform names to their corresponding types and offsets in the buffer.
@@ -37,8 +37,8 @@ export class UniformBufferLayout {
     constructor(schema: UniformSchema) {
         const { layout, length } = this.getLayout(schema);
         this.layout = layout;
-        this._buffer = new Float32Array(length);
-        this.size = this._buffer.length * UniformBufferLayout.BYTES_PER_FLOAT;
+        this._data = new Float32Array(length);
+        this.size = this._data.length * UniformBufferLayout.BYTES_PER_FLOAT;
     }
 
     /**
@@ -46,8 +46,8 @@ export class UniformBufferLayout {
      *
      * @returns The Float32Array buffer containing the uniform values.
      */
-    public get buffer(): Float32Array {
-        return this._buffer;
+    public get data(): Float32Array {
+        return this._data;
     }
 
     /**
@@ -71,7 +71,7 @@ export class UniformBufferLayout {
             throw new Error(`Expected ${expectedLength} values for property ${name}, but got ${values.length}`);
         }
 
-        this._buffer.set(values, property.offset);
+        this._data.set(values, property.offset);
     }
 
     /**
