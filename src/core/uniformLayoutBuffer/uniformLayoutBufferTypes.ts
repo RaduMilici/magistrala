@@ -1,22 +1,22 @@
 /**
  * A single floating-point uniform value (e.g., float).
  */
-type UniformFloat = [number];
+export type UniformFloat = [number];
 
 /**
  * A 2-component floating-point uniform value (e.g., vec2).
  */
-type UniformVec2 = [number, number];
+export type UniformVec2 = [number, number];
 
 /**
  * A 3-component floating-point uniform value (e.g., vec3).
  */
-type UniformVec3 = [number, number, number];
+export type UniformVec3 = [number, number, number];
 
 /**
  * A 4-component floating-point uniform value (e.g., vec4).
  */
-type UniformVec4 = [number, number, number, number];
+export type UniformVec4 = [number, number, number, number];
 
 /**
  * Union type representing any valid uniform value that can be a single float,
@@ -63,7 +63,10 @@ export const UniformTypeToLengthMap: Record<UniformType, UniformLength> = {
  * Schema for defining a set of uniform types where each uniform is associated
  * with a string name and a `UniformType`.
  */
-export type UniformSchema = Record<string, UniformType>;
+export interface UniformSchema {
+    instaces: number;
+    schema: Record<string, UniformType>;
+}
 
 /**
  * Represents a uniform property, including its type and offset within a uniform buffer.

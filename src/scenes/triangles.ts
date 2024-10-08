@@ -5,11 +5,11 @@ import { RenderPipeline } from '../core/RenderPipeline';
 import { Shader } from '../core/Shader';
 import { WebGPURenderContext } from '../core/WebGPURenderContext';
 import { UniformBufferLayout } from '../core/uniformLayoutBuffer/UniformLayoutBuffer';
-import { UniformType } from '../core/uniformLayoutBuffer/uniformLayoutBufferTypes';
+import { UniformType, UniformVec2, UniformVec4 } from '../core/uniformLayoutBuffer/uniformLayoutBufferTypes';
 import testShader from '../shaders/spritesAttributes.wgsl';
 
 export const drawTriangles = async () => {
-    const TRIANGLE_COUNT = 115;
+    const TRIANGLE_COUNT = 100;
 
     const canvas = new Canvas({
         parentSelector: '#magistrala-app',
@@ -59,40 +59,49 @@ export const drawTriangles = async () => {
 
     const renderPass = encoder.beginRenderPass(renderPassDescriptor);
 
-    for (let i = 0; i < TRIANGLE_COUNT; i++) {
-        const bufferLayout = new UniformBufferLayout({
+    const bufferLayout = new UniformBufferLayout({
+        instaces: TRIANGLE_COUNT,
+        schema: {
             color: UniformType.Vec4,
             scale: UniformType.Vec2,
             offset: UniformType.Vec2,
-        });
-        bufferLayout.setProperty('color', [randomFloat(0, 1), randomFloat(0, 1), randomFloat(0, 1), 1]);
-        bufferLayout.setProperty('scale', [0.1, 0.1]);
-        bufferLayout.setProperty('offset', [randomFloat(-1, 1), randomFloat(-1, 1)]);
+        },
+    });
 
-        const uniformBuffer = webGPURenderContext.device.createBuffer({
-            label: 'triangles buffer',
-            size: bufferLayout.size,
-            usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
-        });
+    for (let i = 0; i < TRIANGLE_COUNT; i++) {
+        const rgba: UniformVec4 = [randomFloat(0, 1), randomFloat(0, 1), randomFloat(0, 1), 1];
+        bufferLayout.setProperty({ name: 'color', values: rgba, offset: i });
 
-        const bindGroup = webGPURenderContext.device.createBindGroup({
-            layout: renderPipeline.pipeline.getBindGroupLayout(0),
-            entries: [
-                {
-                    binding: 0,
-                    resource: {
-                        buffer: uniformBuffer,
-                    },
-                },
-            ],
-        });
+        const scale: UniformVec2 = [0.1, 0.1];
+        bufferLayout.setProperty({ name: 'scale', values: scale, offset: i });
 
-        webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, bufferLayout.data);
-
-        renderPass.setPipeline(renderPipeline.pipeline);
-        renderPass.setBindGroup(0, bindGroup);
-        renderPass.draw(3, TRIANGLE_COUNT);
+        const offset: UniformVec2 = [randomFloat(-1, 1), randomFloat(-1, 1)];
+        bufferLayout.setProperty({ name: 'offset', values: offset, offset: i });
     }
+
+    const uniformBuffer = webGPURenderContext.device.createBuffer({
+        label: 'triangles buffer',
+        size: bufferLayout.size,
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+    });
+
+    const bindGroup = webGPURenderContext.device.createBindGroup({
+        layout: renderPipeline.pipeline.getBindGroupLayout(0),
+        entries: [
+            {
+                binding: 0,
+                resource: {
+                    buffer: uniformBuffer,
+                },
+            },
+        ],
+    });
+
+    webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, bufferLayout.data);
+
+    renderPass.setPipeline(renderPipeline.pipeline);
+    renderPass.setBindGroup(0, bindGroup);
+    renderPass.draw(3, TRIANGLE_COUNT);
 
     renderPass.end();
 
