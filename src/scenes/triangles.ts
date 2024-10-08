@@ -96,7 +96,7 @@ export const drawTriangles = async () => {
             },
         ],
     });
-    console.log(bufferLayout.data);
+
     webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, bufferLayout.data);
 
     renderPass.setPipeline(renderPipeline.pipeline);
