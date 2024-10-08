@@ -1,4 +1,11 @@
-import { Layout, UniformSchema, UniformType, UniformTypeToLengthMap, UniformValue } from './uniformLayoutBufferTypes';
+import {
+    InstancedUniformSchema,
+    Layout,
+    UniformSchema,
+    UniformType,
+    UniformTypeToLengthMap,
+    UniformValue,
+} from './uniformLayoutBufferTypes';
 
 /**
  * Class representing a layout for a uniform buffer in WebGPU.
@@ -36,11 +43,11 @@ export class UniformBufferLayout {
      *
      * @param schema - The schema that defines the names and types of uniforms.
      */
-    constructor({ instaces = 1, schema }: UniformSchema) {
-        const { layout, length } = this.getLayout({ instaces, schema });
+    constructor({ instaces = 1, schema }: InstancedUniformSchema) {
+        const { layout, length } = this.getLayout(schema);
         this.layout = layout;
-        this._data = new Float32Array(length);
-        this.instanceLength = length / instaces;
+        this.instanceLength = length;
+        this._data = new Float32Array(this.instanceLength * instaces);
         this.size = this._data.length * UniformBufferLayout.BYTES_PER_FLOAT;
     }
 
@@ -86,7 +93,7 @@ export class UniformBufferLayout {
      * @param schema - The schema that defines the names and types of uniforms.
      * @returns An object containing the calculated layout and total buffer size.
      */
-    private getLayout({ instaces = 1, schema }: UniformSchema) {
+    private getLayout(schema: UniformSchema) {
         const layout: Layout = {};
         let length = 0;
 
@@ -95,7 +102,7 @@ export class UniformBufferLayout {
             length += this.getTypeLength(type);
         }
 
-        length *= instaces;
+        length;
 
         return { layout, length };
     }

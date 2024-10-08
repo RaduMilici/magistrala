@@ -59,13 +59,15 @@ export const UniformTypeToLengthMap: Record<UniformType, UniformLength> = {
     [UniformType.Vec4]: UniformLength.Vec4,
 };
 
+export type UniformSchema = Record<string, UniformType>;
+
 /**
  * Schema for defining a set of uniform types where each uniform is associated
  * with a string name and a `UniformType`.
  */
-export interface UniformSchema {
+export interface InstancedUniformSchema {
     instaces?: number;
-    schema: Record<string, UniformType>;
+    schema: UniformSchema;
 }
 
 /**
