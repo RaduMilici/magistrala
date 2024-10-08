@@ -39,7 +39,7 @@ export class UniformBufferLayout {
     constructor(schema: UniformSchema) {
         const { layout, length } = this.getLayout(schema);
         this.layout = layout;
-        this._data = new Float32Array(length * schema.instaces);
+        this._data = new Float32Array(length);
         this.instanceLength = length / schema.instaces;
         this.size = this._data.length * UniformBufferLayout.BYTES_PER_FLOAT;
     }
