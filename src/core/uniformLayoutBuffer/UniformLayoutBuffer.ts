@@ -36,11 +36,11 @@ export class UniformBufferLayout {
      *
      * @param schema - The schema that defines the names and types of uniforms.
      */
-    constructor(schema: UniformSchema) {
-        const { layout, length } = this.getLayout(schema);
+    constructor({ instaces = 1, schema }: UniformSchema) {
+        const { layout, length } = this.getLayout({ instaces, schema });
         this.layout = layout;
         this._data = new Float32Array(length);
-        this.instanceLength = length / schema.instaces;
+        this.instanceLength = length / instaces;
         this.size = this._data.length * UniformBufferLayout.BYTES_PER_FLOAT;
     }
 
@@ -63,7 +63,7 @@ export class UniformBufferLayout {
      * @param values - The array of values to set for the uniform. The size of the array must match the uniform type (e.g., 1 for `float`, 2 for `vec2`).
      * @throws Error if the uniform name does not exist in the layout or the value length does not match the expected size.
      */
-    public setProperty({ name, values, offset }: { name: string; values: UniformValue; offset: number }): void {
+    public setProperty({ name, values, offset = 0 }: { name: string; values: UniformValue; offset?: number }): void {
         const property = this.layout[name];
         if (!property) {
             throw new Error(`Property ${name} does not exist in the uniform buffer layout`);
@@ -86,16 +86,16 @@ export class UniformBufferLayout {
      * @param schema - The schema that defines the names and types of uniforms.
      * @returns An object containing the calculated layout and total buffer size.
      */
-    private getLayout(schema: UniformSchema) {
+    private getLayout({ instaces = 1, schema }: UniformSchema) {
         const layout: Layout = {};
         let length = 0;
 
-        for (const [name, type] of Object.entries(schema.schema)) {
+        for (const [name, type] of Object.entries(schema)) {
             layout[name] = { type, offset: length };
             length += this.getTypeLength(type);
         }
 
-        length *= schema.instaces;
+        length *= instaces;
 
         return { layout, length };
     }

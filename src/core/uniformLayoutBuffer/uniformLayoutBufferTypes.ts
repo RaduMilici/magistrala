@@ -64,7 +64,7 @@ export const UniformTypeToLengthMap: Record<UniformType, UniformLength> = {
  * with a string name and a `UniformType`.
  */
 export interface UniformSchema {
-    instaces: number;
+    instaces?: number;
     schema: Record<string, UniformType>;
 }
 
