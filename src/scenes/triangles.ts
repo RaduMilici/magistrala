@@ -7,9 +7,10 @@ import { WebGPURenderContext } from '../core/WebGPURenderContext';
 import { UniformBufferLayout } from '../core/uniformLayoutBuffer/UniformLayoutBuffer';
 import { UniformType, UniformVec2, UniformVec4 } from '../core/uniformLayoutBuffer/uniformLayoutBufferTypes';
 import testShader from '../shaders/spritesAttributes.wgsl';
+import { Torus } from './geometry/Torus';
 
-export const drawTriangles = async () => {
-    const TRIANGLE_COUNT = 100;
+export const drawToruses = async () => {
+    const SPRITE_COUNT = 25;
 
     const canvas = new Canvas({
         parentSelector: '#magistrala-app',
@@ -60,7 +61,7 @@ export const drawTriangles = async () => {
     const renderPass = encoder.beginRenderPass(renderPassDescriptor);
 
     const bufferLayout = new UniformBufferLayout({
-        instaces: TRIANGLE_COUNT,
+        instaces: SPRITE_COUNT,
         schema: {
             color: UniformType.Vec4,
             scale: UniformType.Vec2,
@@ -68,20 +69,32 @@ export const drawTriangles = async () => {
         },
     });
 
-    for (let i = 0; i < TRIANGLE_COUNT; i++) {
+    for (let i = 0; i < SPRITE_COUNT; i++) {
         const rgba: UniformVec4 = [randomFloat(0, 1), randomFloat(0, 1), randomFloat(0, 1), 1];
         bufferLayout.setProperty({ name: 'color', values: rgba, offset: i });
 
-        const scale: UniformVec2 = [0.1, 0.1];
+        const scale: UniformVec2 = [1, 1];
         bufferLayout.setProperty({ name: 'scale', values: scale, offset: i });
 
         const offset: UniformVec2 = [randomFloat(-1, 1), randomFloat(-1, 1)];
         bufferLayout.setProperty({ name: 'offset', values: offset, offset: i });
     }
 
-    const uniformBuffer = webGPURenderContext.device.createBuffer({
+    const spriteStorageBuffer = webGPURenderContext.device.createBuffer({
         label: 'triangles buffer',
         size: bufferLayout.size,
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+    });
+
+    const torus = new Torus({
+        radius: 0.1,
+        numSubdivisions: 8,
+        innerRadius: 0.05,
+    });
+
+    const vertexStorageBuffer = webGPURenderContext.device.createBuffer({
+        label: 'circle vertex storage buffer',
+        size: torus.vertexData.byteLength,
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
     });
 
@@ -91,17 +104,24 @@ export const drawTriangles = async () => {
             {
                 binding: 0,
                 resource: {
-                    buffer: uniformBuffer,
+                    buffer: spriteStorageBuffer,
+                },
+            },
+            {
+                binding: 1,
+                resource: {
+                    buffer: vertexStorageBuffer,
                 },
             },
         ],
     });
 
-    webGPURenderContext.device.queue.writeBuffer(uniformBuffer, 0, bufferLayout.data);
+    webGPURenderContext.device.queue.writeBuffer(spriteStorageBuffer, 0, bufferLayout.data);
+    webGPURenderContext.device.queue.writeBuffer(vertexStorageBuffer, 0, torus.vertexData);
 
     renderPass.setPipeline(renderPipeline.pipeline);
     renderPass.setBindGroup(0, bindGroup);
-    renderPass.draw(3, TRIANGLE_COUNT);
+    renderPass.draw(torus.numVertices, SPRITE_COUNT);
 
     renderPass.end();
 

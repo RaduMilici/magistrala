@@ -4,28 +4,33 @@ struct SpriteAttributes {
     offset: vec2f,
 }
 
+struct VertexShaderInput {
+    @builtin(vertex_index) vertexIndex: u32,
+    @builtin(instance_index) instanceIndex: u32
+}
+
 struct VertexShaderOutput {
     @builtin(position) position: vec4f,
     @location(0) color: vec4f,
 }
 
-@group(0) @binding(0) var <storage, read> spriteAttributes: array<SpriteAttributes>;
+struct Vertex {
+    position: vec2f,
+}
 
-@vertex fn vs(
-    @builtin(vertex_index) vertexIndex: u32,
-    @builtin(instance_index) instanceIndex: u32
-) -> VertexShaderOutput {
-    let pos = array<vec2f, 3>(
-        vec2f( 0,  1),
-        vec2f(-1, -1),
-        vec2f( 1, -1)
-    );
+@group(0) @binding(0) var <storage, read> spriteAttributesList: array<SpriteAttributes>;
+@group(0) @binding(1) var <storage, read> vertices: array<Vertex>;
 
+@vertex fn vs(vsInput: VertexShaderInput) -> VertexShaderOutput {
     var vsOut: VertexShaderOutput;
-    let spriteAttribute = spriteAttributes[instanceIndex];
-    let xy = pos[vertexIndex] * spriteAttribute.scale + spriteAttribute.offset;
+
+    let spriteAttribute: SpriteAttributes = spriteAttributesList[vsInput.instanceIndex];
+    let vertex: Vertex = vertices[vsInput.vertexIndex];
+
+    let xy: vec2f = vertex.position * spriteAttribute.scale + spriteAttribute.offset;
     vsOut.position = vec4f(xy, 0, 1);
     vsOut.color = spriteAttribute.color;
+    
     return vsOut;
 }
 
