@@ -96,8 +96,6 @@ export const drawToruses = async () => {
         ],
     };
 
-    const renderPass = encoder.beginRenderPass(renderPassDescriptor);
-
     const bufferLayout = new UniformBufferLayout({
         instaces: SPRITE_COUNT,
         schema: {
@@ -146,6 +144,7 @@ export const drawToruses = async () => {
     webGPURenderContext.device.queue.writeBuffer(vertexBuffer, 0, torus.vertexData);
     webGPURenderContext.device.queue.writeBuffer(indexBuffer, 0, torus.indexData);
 
+    const renderPass = encoder.beginRenderPass(renderPassDescriptor);
     renderPass.setPipeline(renderPipeline.pipeline);
     renderPass.setVertexBuffer(0, vertexBuffer);
     renderPass.setVertexBuffer(1, spriteBuffer);
