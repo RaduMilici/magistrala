@@ -34,7 +34,7 @@ export class UniformBufferLayout {
     /**
      * The number of bytes per float component (4 bytes per float).
      */
-    private static readonly BYTES_PER_FLOAT = 4;
+    static readonly BYTES_PER_FLOAT = 4;
 
     /**
      * Constructs a new UniformBufferLayout based on a provided schema.

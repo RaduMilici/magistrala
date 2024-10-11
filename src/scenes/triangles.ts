@@ -34,6 +34,44 @@ export const drawToruses = async () => {
         vertexState: {
             entryPoint: 'vs',
             module: shader.module,
+            buffers: [
+                {
+                    arrayStride: 2 * UniformBufferLayout.BYTES_PER_FLOAT + 4,
+                    attributes: [
+                        {
+                            shaderLocation: 0,
+                            offset: 0,
+                            format: 'float32x2', // position
+                        },
+                        {
+                            shaderLocation: 4,
+                            offset: 8,
+                            format: 'unorm8x4', // perVertexColor
+                        },
+                    ],
+                },
+                {
+                    arrayStride: 8 * UniformBufferLayout.BYTES_PER_FLOAT,
+                    stepMode: 'instance',
+                    attributes: [
+                        {
+                            shaderLocation: 1,
+                            offset: 0,
+                            format: 'unorm8x4', // color
+                        },
+                        {
+                            shaderLocation: 2,
+                            offset: 16,
+                            format: 'float32x2', // offset
+                        },
+                        {
+                            shaderLocation: 3,
+                            offset: 24,
+                            format: 'float32x2', // scale
+                        },
+                    ],
+                },
+            ],
         },
         fragmentState: {
             entryPoint: 'fs',
@@ -64,8 +102,8 @@ export const drawToruses = async () => {
         instaces: SPRITE_COUNT,
         schema: {
             color: UniformType.Vec4,
-            scale: UniformType.Vec2,
             offset: UniformType.Vec2,
+            scale: UniformType.Vec2,
         },
     });
 
@@ -80,48 +118,39 @@ export const drawToruses = async () => {
         bufferLayout.setProperty({ name: 'offset', values: offset, offset: i });
     }
 
-    const spriteStorageBuffer = webGPURenderContext.device.createBuffer({
+    const spriteBuffer = webGPURenderContext.device.createBuffer({
         label: 'triangles buffer',
         size: bufferLayout.size,
-        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+        usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
     });
 
     const torus = new Torus({
-        radius: 0.1,
-        numSubdivisions: 8,
-        innerRadius: 0.05,
+        radius: 0.3,
+        numSubdivisions: 10,
+        innerRadius: 0.1,
     });
 
-    const vertexStorageBuffer = webGPURenderContext.device.createBuffer({
+    const vertexBuffer = webGPURenderContext.device.createBuffer({
         label: 'circle vertex storage buffer',
         size: torus.vertexData.byteLength,
-        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+        usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
     });
 
-    const bindGroup = webGPURenderContext.device.createBindGroup({
-        layout: renderPipeline.pipeline.getBindGroupLayout(0),
-        entries: [
-            {
-                binding: 0,
-                resource: {
-                    buffer: spriteStorageBuffer,
-                },
-            },
-            {
-                binding: 1,
-                resource: {
-                    buffer: vertexStorageBuffer,
-                },
-            },
-        ],
+    const indexBuffer = webGPURenderContext.device.createBuffer({
+        label: 'index buffer',
+        size: torus.indexData.byteLength,
+        usage: GPUBufferUsage.INDEX | GPUBufferUsage.COPY_DST,
     });
 
-    webGPURenderContext.device.queue.writeBuffer(spriteStorageBuffer, 0, bufferLayout.data);
-    webGPURenderContext.device.queue.writeBuffer(vertexStorageBuffer, 0, torus.vertexData);
+    webGPURenderContext.device.queue.writeBuffer(spriteBuffer, 0, bufferLayout.data);
+    webGPURenderContext.device.queue.writeBuffer(vertexBuffer, 0, torus.vertexData);
+    webGPURenderContext.device.queue.writeBuffer(indexBuffer, 0, torus.indexData);
 
     renderPass.setPipeline(renderPipeline.pipeline);
-    renderPass.setBindGroup(0, bindGroup);
-    renderPass.draw(torus.numVertices, SPRITE_COUNT);
+    renderPass.setVertexBuffer(0, vertexBuffer);
+    renderPass.setVertexBuffer(1, spriteBuffer);
+    renderPass.setIndexBuffer(indexBuffer, 'uint32');
+    renderPass.drawIndexed(torus.numVertices, SPRITE_COUNT);
 
     renderPass.end();
 
