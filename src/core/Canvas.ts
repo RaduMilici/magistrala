@@ -10,6 +10,11 @@ interface CanvasSettings {
      * The size of the canvas, including width and height.
      */
     size?: size;
+
+    /**
+     * Additional CSS styles to be applied to the canvas element.
+     */
+    style?: Partial<CSSStyleDeclaration>;
 }
 
 /**
@@ -31,10 +36,11 @@ export class Canvas {
      * @param {CanvasSettings} settings - The settings for the canvas, including the parent selector and size.
      * @throws {Error} If the parent element cannot be found based on the provided selector.
      */
-    constructor({ parentSelector, size }: CanvasSettings) {
+    constructor({ parentSelector, size, style }: CanvasSettings) {
         this.HTMLElement = document.createElement('canvas');
         this.setSize(size);
         this.appendToParent(parentSelector);
+        Object.assign(this.HTMLElement.style, style);
     }
 
     /**

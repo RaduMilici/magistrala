@@ -18,6 +18,9 @@ export const drawTexture = async () => {
     const canvas = new Canvas({
         parentSelector: '#texture-container',
         size: { width: 200, height: 200 },
+        style: {
+            imageRendering: 'pixelated',
+        },
     });
 
     const webGPURenderContext = new WebGPURenderContext({
