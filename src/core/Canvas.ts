@@ -9,7 +9,7 @@ interface CanvasSettings {
     /**
      * The size of the canvas, including width and height.
      */
-    size: size;
+    size?: size;
 }
 
 /**
@@ -42,11 +42,14 @@ export class Canvas {
      *
      * @param {size} size - The width and height of the canvas.
      */
-    public setSize({ width, height }: size): void {
-        this.HTMLElement.width = width;
-        this.HTMLElement.height = height;
-        this.HTMLElement.style.width = `${width}px`;
-        this.HTMLElement.style.height = `${height}px`;
+    public setSize(size?: size): void {
+        if (!size) {
+            return;
+        }
+        this.HTMLElement.width = size.width;
+        this.HTMLElement.height = size.height;
+        this.HTMLElement.style.width = `${size.width}px`;
+        this.HTMLElement.style.height = `${size.height}px`;
     }
 
     /**

@@ -1,17 +1,22 @@
-import { randomFloat } from 'pulsar-pathfinding';
-
 import { Canvas } from '../../core/Canvas';
 import { RenderPipeline } from '../../core/RenderPipeline';
 import { Shader } from '../../core/Shader';
+import { MagSeclect, MagSelectOption } from '../../core/UI/Select';
 import { WebGPURenderContext } from '../../core/WebGPURenderContext';
 import { UniformBufferLayout } from '../../core/uniformLayoutBuffer/UniformLayoutBuffer';
-import { UniformType, UniformVec2, UniformVec4 } from '../../core/uniformLayoutBuffer/uniformLayoutBufferTypes';
+import { UniformType } from '../../core/uniformLayoutBuffer/uniformLayoutBufferTypes';
 import textureShader from '../../shaders/textures.wgsl';
 import { textureFData } from './textureF';
 
 export const drawTexture = async () => {
+    const textureContainer = document.createElement('div');
+    textureContainer.setAttribute('id', 'texture-container');
+    textureContainer.style.display = 'flex';
+    const appContainer = document.getElementById('magistrala-app');
+    appContainer?.appendChild(textureContainer);
+
     const canvas = new Canvas({
-        parentSelector: '#magistrala-app',
+        parentSelector: '#texture-container',
         size: { width: 200, height: 200 },
     });
 
@@ -95,46 +100,63 @@ export const drawTexture = async () => {
         { width: kTextureWidth, height: kTextureHeight },
     );
 
-    const sampler = webGPURenderContext.device.createSampler();
+    const render = (magFilter: GPUFilterMode) => {
+        const sampler = webGPURenderContext.device.createSampler({
+            magFilter,
+        });
+        const bindGroup = webGPURenderContext.device.createBindGroup({
+            label: 'texture bind group',
+            layout: textureRenderPipeline.pipeline.getBindGroupLayout(0),
+            entries: [
+                {
+                    binding: 0,
+                    resource: sampler,
+                },
+                {
+                    binding: 1,
+                    resource: texture.createView(),
+                },
+            ],
+        });
 
-    const bindGroup = webGPURenderContext.device.createBindGroup({
-        label: 'texture bind group',
-        layout: textureRenderPipeline.pipeline.getBindGroupLayout(0),
-        entries: [
-            {
-                binding: 0,
-                resource: sampler,
-            },
-            {
-                binding: 1,
-                resource: texture.createView(),
-            },
-        ],
-    });
+        const encoder = webGPURenderContext.device.createCommandEncoder({
+            label: 'texture encoder',
+        });
 
-    const encoder = webGPURenderContext.device.createCommandEncoder({
-        label: 'texture encoder',
-    });
+        const renderPassDescriptor: GPURenderPassDescriptor = {
+            label: 'texture render pass',
+            colorAttachments: [
+                {
+                    view: webGPURenderContext.context.getCurrentTexture().createView(),
+                    clearValue: [0.3, 0.3, 0.3, 1],
+                    loadOp: 'clear',
+                    storeOp: 'store',
+                },
+            ],
+        };
 
-    const renderPassDescriptor: GPURenderPassDescriptor = {
-        label: 'texture render pass',
-        colorAttachments: [
-            {
-                view: webGPURenderContext.context.getCurrentTexture().createView(),
-                clearValue: [0.3, 0.3, 0.3, 1],
-                loadOp: 'clear',
-                storeOp: 'store',
-            },
-        ],
+        const renderPass = encoder.beginRenderPass(renderPassDescriptor);
+        renderPass.setPipeline(textureRenderPipeline.pipeline);
+        renderPass.setVertexBuffer(0, positionBuffer);
+        renderPass.setBindGroup(0, bindGroup);
+        renderPass.draw(6);
+        renderPass.end();
+
+        const commandBuffer = encoder.finish();
+        webGPURenderContext.device.queue.submit([commandBuffer]);
     };
 
-    const renderPass = encoder.beginRenderPass(renderPassDescriptor);
-    renderPass.setPipeline(textureRenderPipeline.pipeline);
-    renderPass.setVertexBuffer(0, positionBuffer);
-    renderPass.setBindGroup(0, bindGroup);
-    renderPass.draw(6);
-    renderPass.end();
+    const selectOptions: MagSelectOption[] = [
+        { label: 'linear', value: 'linear' },
+        { label: 'nearest', value: 'nearest' },
+    ];
 
-    const commandBuffer = encoder.finish();
-    webGPURenderContext.device.queue.submit([commandBuffer]);
+    const selectCallback = (value: string) => {
+        render(value as GPUFilterMode);
+    };
+
+    const select = new MagSeclect({ options: selectOptions, callback: selectCallback });
+    textureContainer.appendChild(select);
+
+    render('linear');
 };
