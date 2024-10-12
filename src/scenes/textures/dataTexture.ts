@@ -6,9 +6,9 @@ import { WebGPURenderContext } from '../../core/WebGPURenderContext';
 import { UniformBufferLayout } from '../../core/uniformLayoutBuffer/UniformLayoutBuffer';
 import { UniformType } from '../../core/uniformLayoutBuffer/uniformLayoutBufferTypes';
 import textureShader from '../../shaders/textures.wgsl';
-import { textureFData } from './textureF';
+import { textureFData } from './dataTextureF';
 
-export const drawTexture = async () => {
+export const drawDataTexture = async () => {
     const textureContainer = document.createElement('div');
     textureContainer.setAttribute('id', 'texture-container');
     textureContainer.style.display = 'flex';
