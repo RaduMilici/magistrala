@@ -56,8 +56,8 @@ export class MagSeclect extends HTMLElement {
     private createLabelElement({ label, id }: { label: string; id: string }) {
         const labelElement = document.createElement('label');
         labelElement.textContent = label;
-        labelElement.setAttribute('for', id); // Associate label with select via 'for'
-        labelElement.style.display = 'block'; // Ensure it appears above the select
+        labelElement.setAttribute('for', id);
+        labelElement.style.display = 'block';
         return labelElement;
     }
 }
