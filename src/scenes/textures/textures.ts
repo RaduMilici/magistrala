@@ -1,7 +1,7 @@
 import { Canvas } from '../../core/Canvas';
 import { RenderPipeline } from '../../core/RenderPipeline';
 import { Shader } from '../../core/Shader';
-import { MagSeclect, MagSelectOption } from '../../core/UI/Select';
+import { MagSeclect, MagSelectOption } from '../../core/UI/MagSelect';
 import { WebGPURenderContext } from '../../core/WebGPURenderContext';
 import { UniformBufferLayout } from '../../core/uniformLayoutBuffer/UniformLayoutBuffer';
 import { UniformType } from '../../core/uniformLayoutBuffer/uniformLayoutBufferTypes';

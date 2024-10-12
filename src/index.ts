@@ -1,7 +1,7 @@
 import { compute } from './scenes/compute';
 import { drawTexture } from './scenes/textures/textures';
-import { drawTriangle } from './scenes/toruses';
-import { drawToruses } from './scenes/triangles';
+import { drawToruses } from './scenes/toruses';
+import { drawTriangle } from './scenes/triangle';
 
 const start = async () => {
     await drawTriangle();
