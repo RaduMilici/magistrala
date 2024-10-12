@@ -1,8 +1,11 @@
+import { randomFloat } from 'pulsar-pathfinding';
+
 export type MagSelectOption = { value: string; label: string };
 
 interface Props {
     callback: (value: string) => void;
     options: MagSelectOption[];
+    label?: string;
 }
 
 export class MagSeclect extends HTMLElement {
@@ -12,6 +15,13 @@ export class MagSeclect extends HTMLElement {
         super();
         const shadowRoot = this.attachShadow({ mode: 'open' });
         this.selectElement = document.createElement('select');
+
+        if (props.label) {
+            const selectId = `mag-select-${randomFloat(0, 1000)}`;
+            const labelElement = this.createLabelElement({ label: props.label, id: selectId });
+            shadowRoot.appendChild(labelElement);
+            this.selectElement.setAttribute('id', selectId);
+        }
 
         this.selectElement.addEventListener('change', (e: Event) => {
             props.callback((e.target as HTMLSelectElement).value);
@@ -41,6 +51,14 @@ export class MagSeclect extends HTMLElement {
             optionElement.textContent = option.label;
             this.selectElement.appendChild(optionElement);
         });
+    }
+
+    private createLabelElement({ label, id }: { label: string; id: string }) {
+        const labelElement = document.createElement('label');
+        labelElement.textContent = label;
+        labelElement.setAttribute('for', id); // Associate label with select via 'for'
+        labelElement.style.display = 'block'; // Ensure it appears above the select
+        return labelElement;
     }
 }
 
