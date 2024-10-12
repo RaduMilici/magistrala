@@ -158,5 +158,5 @@ export const drawTexture = async () => {
     const select = new MagSeclect({ options: selectOptions, callback: selectCallback });
     textureContainer.appendChild(select);
 
-    render('linear');
+    render(selectOptions[0].value as GPUFilterMode);
 };
